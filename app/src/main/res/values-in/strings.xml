@@ -112,4 +112,15 @@
     <!-- Network Map -->
     <string name="map_title">Peta Jaringan ODP &amp; Klien</string>
     <string name="map_loading">Memuat titik jaringan...</string>
+
+    <!-- Overview & Charts -->
+    <string name="overview_title">Overview GenieACS</string>
+    <string name="overview_subtitle">Rangkuman Data &amp; Statistik ONU</string>
+    <string name="chart_online_status">Status Koneksi</string>
+    <string name="chart_optical_power">Kualitas Optik (RX)</string>
+    <string name="chart_ont_vendor">Merek &amp; Model ONU</string>
+    <string name="chart_access_type">Access Type / Mode PON</string>
+    <string name="chart_map_status">Pemetaan Lapangan &amp; ODP</string>
+    <string name="chart_tag_distribution">Data Tag Terbanyak</string>
+    <string name="overview_tap_hint">Ketuk salah satu kartu untuk langsung memfilter daftar ONU di halaman utama</string>
 </resources>

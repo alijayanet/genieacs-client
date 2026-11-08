@@ -75,6 +75,35 @@ class MainActivity : AppCompatActivity() {
 
         updateServiceInstance()
         loadDevices()
+        handleIntentFilter(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIntentFilter(intent)
+    }
+
+    private fun handleIntentFilter(intent: Intent?) {
+        if (intent == null) return
+        val filter = intent.getStringExtra(OverviewActivity.EXTRA_FILTER_TYPE)
+        val search = intent.getStringExtra(OverviewActivity.EXTRA_SEARCH_QUERY)
+        val tag = intent.getStringExtra(OverviewActivity.EXTRA_SELECTED_TAG)
+
+        if (!filter.isNullOrBlank()) {
+            when (filter) {
+                "ONLINE" -> binding.chipOnline.isChecked = true
+                "OFFLINE" -> binding.chipOffline.isChecked = true
+                "BAD_RX" -> binding.chipBadRx.isChecked = true
+                else -> binding.chipAll.isChecked = true
+            }
+        }
+        if (!search.isNullOrBlank()) {
+            binding.etSearch.setText(search)
+        }
+        if (!tag.isNullOrBlank()) {
+            selectTag(tag)
+        }
     }
 
     private fun setupToolbar() {
@@ -87,6 +116,22 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnBulkAdmin.setOnClickListener {
             showBulkAdminDialog()
+        }
+
+        binding.btnOverview.setOnClickListener {
+            startActivity(Intent(this, OverviewActivity::class.java))
+        }
+
+        binding.cardTotal.setOnClickListener {
+            startActivity(Intent(this, OverviewActivity::class.java))
+        }
+
+        binding.cardOnline.setOnClickListener {
+            binding.chipOnline.isChecked = true
+        }
+
+        binding.cardOffline.setOnClickListener {
+            binding.chipOffline.isChecked = true
         }
 
         binding.btnOpenMap.setOnClickListener {
@@ -122,6 +167,7 @@ class MainActivity : AppCompatActivity() {
     private fun showServerMenu() {
         val currentThemeTitle = if (prefs.themeMode == AppPreferences.THEME_DARK) getString(R.string.theme_light) else getString(R.string.theme_dark)
         val options = arrayOf(
+            "📊 Overview & Charts",
             "${getString(R.string.menu_switch_theme)}: $currentThemeTitle",
             getString(R.string.menu_switch_lang),
             getString(R.string.menu_bulk_admin),
@@ -133,15 +179,16 @@ class MainActivity : AppCompatActivity() {
             .setTitle(prefs.serverUrl)
             .setItems(options) { _, which ->
                 when (which) {
-                    0 -> toggleTheme()
-                    1 -> showLanguageDialog()
-                    2 -> showBulkAdminDialog()
-                    3 -> showServerDialog()
-                    4 -> {
+                    0 -> startActivity(Intent(this, OverviewActivity::class.java))
+                    1 -> toggleTheme()
+                    2 -> showLanguageDialog()
+                    3 -> showBulkAdminDialog()
+                    4 -> showServerDialog()
+                    5 -> {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://genieacs-client.alijaya.com/privacy.html"))
                         startActivity(intent)
                     }
-                    5 -> {
+                    6 -> {
                         prefs.clearSession()
                         startActivity(Intent(this, LoginActivity::class.java))
                         finish()

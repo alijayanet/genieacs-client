@@ -75,6 +75,17 @@
                     android:contentDescription="@string/menu_bulk_admin" />
 
                 <ImageButton
+                    android:id="@+id/btnOverview"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="2dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_chart"
+                    app:tint="@color/white"
+                    android:contentDescription="Overview Charts" />
+
+                <ImageButton
                     android:id="@+id/btnOpenMap"
                     android:layout_width="44dp"
                     android:layout_height="44dp"

@@ -112,4 +112,15 @@
     <!-- Network Map -->
     <string name="map_title">ODP &amp; Client Network Map</string>
     <string name="map_loading">Loading network locations...</string>
+
+    <!-- Overview & Charts -->
+    <string name="overview_title">GenieACS Overview</string>
+    <string name="overview_subtitle">ONU Data &amp; Statistics Summary</string>
+    <string name="chart_online_status">Connection Status</string>
+    <string name="chart_optical_power">Optical Quality (RX)</string>
+    <string name="chart_ont_vendor">ONU Brands &amp; Models</string>
+    <string name="chart_access_type">Access Type / PON Mode</string>
+    <string name="chart_map_status">Field &amp; ODP Mapping</string>
+    <string name="chart_tag_distribution">Customer Tag Distribution</string>
+    <string name="overview_tap_hint">Tap any card to filter ONU list on main screen</string>
 </resources>

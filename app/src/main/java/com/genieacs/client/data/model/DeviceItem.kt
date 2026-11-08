@@ -19,7 +19,8 @@ data class DeviceItem(
     val lng: Double? = null,
     val odpName: String? = null,
     val odpLat: Double? = null,
-    val odpLng: Double? = null
+    val odpLng: Double? = null,
+    val ponMode: String? = null
 ) {
     val isMapped: Boolean get() = lat != null && lng != null
 }
@@ -105,6 +106,7 @@ data class DeviceDetail(
     val odpName: String? = null,
     val odpLat: Double? = null,
     val odpLng: Double? = null,
+    val ponMode: String? = null,
     
     // Admin Account (Web GUI)
     var adminUser: String = "admin",

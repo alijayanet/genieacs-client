@@ -231,7 +231,8 @@ class GenieAcsNbiService(
                 "InternetGatewayDevice.WANDevice.1.X_HW_GponInterfaceConfig.RxPower",
                 "InternetGatewayDevice.WANDevice.1.X_HW_DEBUG.SMP.OPTIC.RxPower",
                 "InternetGatewayDevice.WANDevice.1.X_HW_DEBUG.SMP.OPTIC.RxOpticalPower",
-                "Device.Optical.Interface.1.RxPower"
+                "Device.Optical.Interface.1.RxPower",
+                "InternetGatewayDevice.WANDevice.1.WANCommonInterfaceConfig.WANAccessType"
             )
             val proj = URLEncoder.encode(fastProjectionFields.joinToString(","), "UTF-8")
             val url = "${baseUrl.trimEnd('/')}/devices?projection=$proj"
@@ -1466,6 +1467,23 @@ class GenieAcsNbiService(
 
         val rxPower = parseRxPower(rxStr)
 
+        // Access Type / PON Mode (GPON, EPON, Ethernet)
+        val rawPonMode = findVpByTokens(
+            vpObj = vp,
+            exactPriority = listOf("getponmode", "ponMode", "pon_mode", "pon_type", "AccessType"),
+            tokens = listOf("ponmode", "accesstype")
+        ) ?: getNestedString(obj, "InternetGatewayDevice", "WANDevice", "1", "WANCommonInterfaceConfig", "WANAccessType")
+
+        val ponMode = when {
+            rawPonMode?.contains("GPON", true) == true -> "GPON"
+            rawPonMode?.contains("EPON", true) == true -> "EPON"
+            rawPonMode?.contains("Ethernet", true) == true -> "Ethernet"
+            productClass.contains("GPON", true) || tags.any { it.contains("GPON", true) } -> "GPON"
+            productClass.contains("EPON", true) || tags.any { it.contains("EPON", true) } -> "EPON"
+            !rawPonMode.isNullOrBlank() -> rawPonMode
+            else -> "GPON"
+        }
+
         return DeviceItem(
             id = id,
             serialNumber = serialNumber,
@@ -1482,7 +1500,8 @@ class GenieAcsNbiService(
             lng = geo.lng,
             odpName = geo.odpName,
             odpLat = geo.odpLat,
-            odpLng = geo.odpLng
+            odpLng = geo.odpLng,
+            ponMode = ponMode
         )
     }
 

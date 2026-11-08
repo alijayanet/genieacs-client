@@ -42,6 +42,11 @@
             android:name=".ui.NetworkMapActivity"
             android:exported="false"
             android:parentActivityName=".ui.MainActivity" />
+
+        <activity
+            android:name=".ui.OverviewActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity" />
     </application>
 
 </manifest>
