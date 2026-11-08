@@ -15,9 +15,9 @@
 
 | File / Metode | Ukuran | Tautan Unduh |
 | :--- | :--- | :--- |
-| **Direct APK File** | `5.78 MB` | [**Download Genieacs.apk (Direct)**](https://genieacs-client.alijaya.com/Genieacs.apk) |
+| **Direct APK File** | `5.78 MB` | [**Download genieacs-client.apk (Direct)**](https://genieacs-client.alijaya.com/genieacs-client.apk) |
 | **Web Download Landing Page** | - | [**genieacs-client.alijaya.com/download.html**](https://genieacs-client.alijaya.com/download.html) *(Dilengkapi QR Code scan kamera HP)* |
-| **File di Repositori Ini** | `5.78 MB` | [`./Genieacs.apk`](./Genieacs.apk) |
+| **File di Repositori Ini** | `5.78 MB` | [`./genieacs-client.apk`](./genieacs-client.apk) |
 
 ---
 
