@@ -1,0 +1,115 @@
+<resources>
+    <string name="app_name">GenieACS</string>
+    <string name="app_subtitle">Klien Manajemen Seluler</string>
+    <string name="app_footer">GenieACS Mobile Client • Universal TR-069 NBI Connector</string>
+    <string name="privacy_policy_terms">Kebijakan Privasi &amp; Ketentuan Layanan</string>
+    
+    <!-- Navigation & Common -->
+    <string name="devices">Perangkat</string>
+    <string name="search_hint">Cari tag (#), username, serial, model, ODP...</string>
+    <string name="filter_all">Semua</string>
+    <string name="filter_online">Online</string>
+    <string name="filter_offline">Offline</string>
+    <string name="filter_bad_rx">Redaman Kritis</string>
+    <string name="back">Kembali</string>
+    <string name="save">Simpan</string>
+    <string name="cancel">Batal</string>
+    <string name="close">Tutup</string>
+    <string name="loading">Memuat...</string>
+    
+    <!-- Main Activity -->
+    <string name="status_not_connected">Belum Terhubung</string>
+    <string name="stat_total">Total</string>
+    <string name="stat_online">Online</string>
+    <string name="stat_offline">Offline</string>
+    <string name="empty_title">Belum Ada Modem Terdaftar</string>
+    <string name="empty_desc">Pastikan server GenieACS Anda aktif dan port 7557 NBI dapat diakses dari jaringan ini.</string>
+    <string name="btn_connect_now">Hubungkan Sekarang</string>
+    <string name="menu_bulk_admin">Ubah Password Admin Massal</string>
+    <string name="menu_network_map">Peta Jaringan</string>
+    <string name="menu_server_settings">Pengaturan Server</string>
+    <string name="menu_logout">Ganti / Keluar Server (Logout)</string>
+    <string name="menu_switch_theme">Ganti Tema (Gelap/Terang)</string>
+    <string name="menu_switch_lang">Ganti Bahasa (ID/EN)</string>
+    
+    <!-- Login Screen -->
+    <string name="login_title">Login Server GenieACS</string>
+    <string name="login_desc">Masukkan URL server beserta Username &amp; Password server GenieACS Anda untuk masuk.</string>
+    <string name="server_url_nbi">URL Server NBI</string>
+    <string name="preset_servers">Pilihan Cepat Server:</string>
+    <string name="nbi_credentials">Kredensial Autentikasi NBI (Port 7557)</string>
+    <string name="server_username">Username Server</string>
+    <string name="server_password">Password Server</string>
+    <string name="gemini_api_key_label">Google Gemini API Key (Asisten Suara)</string>
+    <string name="gemini_api_key_desc">Opsional: Masukkan API key Gemini AI untuk asisten suara cerdas dan diagnosa modem otomatis.</string>
+    <string name="btn_connect">Hubungkan ke Server GenieACS</string>
+    
+    <!-- Server Config Dialog -->
+    <string name="server_settings">Pengaturan Server NBI</string>
+    <string name="server_settings_desc">Masukkan URL server GenieACS NBI port 7557 langsung tanpa modul backend tambahan.</string>
+    <string name="server_url_label">URL Server GenieACS (Port NBI 7557)</string>
+    <string name="server_url_hint">http://192.168.8.89:7557</string>
+    <string name="auth_optional_label">Autentikasi HTTP (Wajib)</string>
+    <string name="username_hint">Username Server</string>
+    <string name="password_hint">Password Server</string>
+    <string name="app_theme_label">Tema Tampilan Aplikasi</string>
+    <string name="theme_light">☀️ Mode Terang</string>
+    <string name="theme_dark">🌙 Mode Gelap</string>
+    <string name="app_language_label">Bahasa Aplikasi / Language</string>
+    <string name="lang_system">🌐 Ikuti Sistem HP</string>
+    <string name="lang_en">🇬🇧 English</string>
+    <string name="lang_id">🇮🇩 Bahasa Indonesia</string>
+    <string name="btn_test_connection">Tes Koneksi</string>
+    <string name="btn_save_connect">Simpan &amp; Hubungkan</string>
+    
+    <!-- Device Detail -->
+    <string name="device_detail_title">Detail Perangkat</string>
+    <string name="section_general">Informasi Umum</string>
+    <string name="label_serial">Nomor Serial</string>
+    <string name="label_model">Model / Tipe Perangkat</string>
+    <string name="label_manufacturer">Pabrikan</string>
+    <string name="label_hardware_version">Versi Hardware</string>
+    <string name="label_software_version">Versi Software</string>
+    <string name="label_last_inform">Waktu Inform Terakhir</string>
+    <string name="label_tags">Tags GenieACS:</string>
+    <string name="btn_view_on_map">Lihat / Pasang Titik di Peta</string>
+    
+    <!-- Optical Info -->
+    <string name="optical_info">Informasi Optik &amp; Sinyal</string>
+    <string name="rx_power_label">Rx Optical Power (Redaman)</string>
+    <string name="tx_power_label">Tx Optical Power</string>
+    
+    <!-- Network & WAN -->
+    <string name="network_info">Informasi Jaringan &amp; WAN</string>
+    <string name="pppoe_user_label">Username PPPoE</string>
+    <string name="wan_ip_label">IP Address WAN</string>
+    <string name="mac_label">MAC Address</string>
+    <string name="btn_add_wan">Tambah Sambungan WAN Baru</string>
+    
+    <!-- WiFi Settings -->
+    <string name="wifi_settings">Pengaturan WiFi</string>
+    <string name="ssid_label">Nama WiFi (SSID 2.4G / 5G)</string>
+    <string name="password_label">Password WiFi (WPA Key)</string>
+    <string name="btn_commit_wifi">Simpan &amp; Terapkan ke Modem</string>
+    
+    <!-- Connected Devices & Actions -->
+    <string name="connected_devices">Perangkat Klien Terhubung</string>
+    <string name="section_actions">Tindakan Cepat</string>
+    <string name="action_reboot">Restart Modem</string>
+    <string name="action_refresh">Refresh Parameter</string>
+    <string name="action_reset">Reset Pabrik</string>
+    
+    <!-- Bulk Admin -->
+    <string name="bulk_admin_title">Ubah Password Admin Massal</string>
+    <string name="bulk_admin_desc">Ganti password web login modem untuk seluruh perangkat atau modem tertentu secara serempak.</string>
+    <string name="bulk_admin_new_pass">Password Baru Admin</string>
+    <string name="btn_bulk_apply">Terapkan ke Modem Terpilih</string>
+    
+    <!-- Voice Assistant -->
+    <string name="voice_assistant_title">Asisten Suara GenieACS</string>
+    <string name="voice_assistant_hint">Tekan tombol mikrofon dan bicaralah...</string>
+    
+    <!-- Network Map -->
+    <string name="map_title">Peta Jaringan ODP &amp; Klien</string>
+    <string name="map_loading">Memuat titik jaringan...</string>
+</resources>

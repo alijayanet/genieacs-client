@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_card"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="20dp">
+
+    <!-- Top Handle / Indicator -->
+    <View
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="8dp"
+        android:background="#D1D5DB" />
+
+    <!-- Title & Status Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_genieacs_logo"
+            android:contentDescription="Logo" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="@string/voice_assistant_title"
+            android:textColor="@color/genie_text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/btnVoiceSettings"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="6dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_server"
+            app:tint="@color/genie_text_muted"
+            android:contentDescription="Settings" />
+
+        <ImageButton
+            android:id="@+id/btnClose"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_back"
+            app:tint="@color/genie_text_muted"
+            android:contentDescription="Close" />
+    </LinearLayout>
+
+    <!-- Mic Listening Area (Positioned Higher Up) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical">
+
+        <!-- Mic Circle Button -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabMic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_mic"
+            app:backgroundTint="@color/genie_blue"
+            app:tint="@color/white"
+            app:fabSize="normal"
+            app:elevation="4dp"
+            android:contentDescription="Mic" />
+
+        <TextView
+            android:id="@+id/tvVoiceStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Tekan tombol mic dan katakan perintah..."
+            android:textColor="@color/genie_text_secondary"
+            android:textSize="13sp" />
+
+        <!-- Speech recognized bubble -->
+        <TextView
+            android:id="@+id/tvRecognizedSpeech"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_badge_tag"
+            android:padding="8dp"
+            android:text="Mendengarkan..."
+            android:textAlignment="center"
+            android:textColor="@color/genie_text_primary"
+            android:textSize="13sp"
+            android:textStyle="italic"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- Visual Card Assist (Konfirmasi & Bantuan Teks Sandi) -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardAssistResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="6dp"
+        app:cardBackgroundColor="@color/genie_card_bg"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        app:strokeColor="@color/genie_border"
+        app:strokeWidth="1dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="14dp">
+
+            <TextView
+                android:id="@+id/tvCardTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hasil / Konfirmasi Perintah"
+                android:textColor="@color/genie_text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvCardMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Pesan hasil eksekusi"
+                android:textColor="@color/genie_text_secondary"
+                android:textSize="13sp" />
+
+            <!-- Editable Password / Sandi Area (Bantuan Text untuk Sandi Rumit) -->
+            <LinearLayout
+                android:id="@+id/layoutPasswordAssist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bantuan Teks Sandi (Bisa diedit jika rumit):"
+                    android:textColor="@color/genie_text_secondary"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:passwordToggleEnabled="true"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etAssistPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textSize="14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageButton
+                        android:id="@+id/btnCopyPassword"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="8dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_copy"
+                        android:contentDescription="Copy" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Editable SSID Area (jika ganti SSID) -->
+            <LinearLayout
+                android:id="@+id/layoutSsidAssist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nama WiFi (SSID)"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAssistSsid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <!-- Commit Button inside Assist Card -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCardCommit"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/btn_commit_wifi"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:backgroundTint="@color/genie_blue"
+                app:cornerRadius="8dp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

@@ -1,0 +1,999 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/genie_bg">
+
+    <!-- Top App Bar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/genie_dark"
+        app:elevation="4dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/genie_dark"
+            app:navigationIcon="@drawable/ic_back">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvDetailTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/device_detail_title"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvDetailSubtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ZTE F663NV3A"
+                        android:textColor="#8B949E"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/btnRefreshDevice"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_refresh"
+                    android:contentDescription="Refresh" />
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="12dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Card 1: Device Summary & Status Banner -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="@color/genie_card_bg"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/genie_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvDetailModel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ZTE F663NV3A"
+                                android:textColor="@color/genie_text_primary"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvDetailSerial"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="SN: ZTEGCB97B6A8"
+                                android:textColor="@color/genie_text_secondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvDetailStatusBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minHeight="24dp"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:background="@drawable/bg_badge_online"
+                            android:paddingStart="12dp"
+                            android:paddingTop="3dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="3dp"
+                            android:text="● Online"
+                            android:textColor="@color/status_online"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/genie_divider" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvDetailLastInform"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            android:text="Inform terakhir: 2 menit lalu"
+                            android:textColor="@color/genie_text_muted"
+                            android:textSize="11sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnDetailSummon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:paddingTop="0dp"
+                            android:paddingBottom="0dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="⚡ Summon Live"
+                            android:textAllCaps="false"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            app:backgroundTint="#F59E0B"
+                            app:cornerRadius="50dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 2: WiFi Settings (SSID & Password Edit + Commit) -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="@color/genie_card_bg"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/genie_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_wifi"
+                            app:tint="@color/genie_blue"
+                            android:contentDescription="WiFi" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:text="@string/wifi_settings"
+                            android:textColor="@color/genie_text_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Pilih SSID untuk mengaktifkan atau mengubah nama dan password secara terpisah"
+                        android:textColor="@color/genie_text_muted"
+                        android:textSize="11sp" />
+
+                    <!-- Multi-SSID Chip Selector -->
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:scrollbars="none">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupWlan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:singleSelection="true"
+                            app:selectionRequired="true" />
+                    </HorizontalScrollView>
+
+                    <!-- Toggle Enable / Disable Switch -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/bg_badge_tag"
+                        android:padding="12dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvWlanStatusTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Status WiFi (SSID Terpilih)"
+                                android:textColor="@color/genie_text_primary"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvWlanStatusDesc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Aktifkan atau matikan pemancaran sinyal SSID ini"
+                                android:textColor="@color/genie_text_muted"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchWlanEnable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true" />
+                    </LinearLayout>
+
+                    <!-- Hide SSID Switch -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/bg_badge_tag"
+                        android:padding="12dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Sembunyikan SSID (Hide SSID)"
+                                android:textColor="@color/genie_text_primary"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Nama WiFi tidak muncul saat discan orang lain"
+                                android:textColor="@color/genie_text_muted"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchWlanHide"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false" />
+                    </LinearLayout>
+
+                    <!-- Section 1: SSID Name & Dedicated Save Button -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="@string/ssid_label"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etSsid"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:textSize="14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSaveSsid"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="8dp"
+                        android:text="💾 Simpan Nama SSID"
+                        android:textAllCaps="false"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/genie_blue"
+                        app:cornerRadius="8dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginBottom="12dp"
+                        android:background="@color/genie_divider" />
+
+                    <!-- Section 2: Security Mode Dropdown & Password -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Keamanan &amp; Sandi WiFi"
+                        android:textColor="@color/genie_text_primary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <!-- Security Mode Dropdown -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutSecurityMode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="Mode Keamanan (Security Mode)"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/actvSecurityMode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:textSize="13sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Open System Note -->
+                    <TextView
+                        android:id="@+id/tvOpenSystemNote"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_badge_info"
+                        android:padding="12dp"
+                        android:text="🔓 Mode Open System: WiFi terbuka tanpa memerlukan password."
+                        android:textColor="@color/status_info"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <!-- Password Input Container -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutWlanPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="@string/password_label"
+                        app:passwordToggleEnabled="true"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textSize="14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSavePassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="8dp"
+                        android:text="🔑 Simpan Keamanan &amp; Password"
+                        android:textAllCaps="false"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="#238636"
+                        app:cornerRadius="8dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 3: Optical Power & Signal -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="@color/genie_card_bg"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/genie_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/optical_info"
+                        android:textColor="@color/genie_text_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:background="@drawable/bg_badge_tag"
+                            android:padding="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rx_power_label"
+                                android:textColor="@color/genie_text_muted"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/tvDetailRxPower"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="-21.4 dBm"
+                                android:textColor="@color/signal_good"
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="6dp"
+                            android:background="@drawable/bg_badge_tag"
+                            android:padding="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tx_power_label"
+                                android:textColor="@color/genie_text_muted"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/tvDetailTxPower"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="2.3 dBm"
+                                android:textColor="@color/genie_text_primary"
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 4: Network & PPPoE WAN -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="@color/genie_card_bg"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/genie_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/network_info"
+                        android:textColor="@color/genie_text_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pppoe_user_label"
+                            android:textColor="@color/genie_text_secondary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvDetailPppoe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="user@isp"
+                            android:textColor="@color/genie_text_primary"
+                            android:textStyle="bold"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/wan_ip_label"
+                            android:textColor="@color/genie_text_secondary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvDetailIp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10.10.10.25"
+                            android:textColor="@color/genie_text_primary"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mac_label"
+                            android:textColor="@color/genie_text_secondary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvDetailMac"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="AA:BB:CC:DD:EE:FF"
+                            android:textColor="@color/genie_text_primary"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <!-- Button Tambah / Konfigurasi WAN -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnOpenAddWan"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="14dp"
+                        android:text="@string/btn_add_wan"
+                        android:textColor="@color/genie_blue"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="8dp"
+                        app:strokeColor="@color/genie_blue"
+                        app:strokeWidth="1.5dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 4.5: Lokasi Peta & ODP -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="@color/genie_card_bg"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/genie_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Pemetaan Titik &amp; ODP"
+                            android:textColor="@color/genie_text_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvDetailMapStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minHeight="24dp"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:background="@drawable/bg_badge_unmapped"
+                            android:paddingStart="10dp"
+                            android:paddingTop="3dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="3dp"
+                            android:text="Belum Terpetakan"
+                            android:textColor="@color/genie_text_muted"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:text="Koneksi ODP:"
+                            android:textColor="@color/genie_text_secondary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvDetailOdp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/genie_text_primary"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:text="Koordinat GPS:"
+                            android:textColor="@color/genie_text_secondary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvDetailCoords"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/genie_text_primary"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutDetailTags"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_tags"
+                            android:textColor="@color/genie_text_secondary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvDetailTags"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/genie_blue"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnViewOnMap"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="14dp"
+                        android:text="@string/btn_view_on_map"
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        app:icon="@drawable/ic_map"
+                        app:iconGravity="textStart"
+                        app:backgroundTint="@color/genie_blue"
+                        app:cornerRadius="8dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 5: Connected Clients -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="@color/genie_card_bg"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/genie_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/tvConnectedTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Perangkat Klien Terhubung (0)"
+                        android:textColor="@color/genie_text_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/layoutConnectedClients"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical" />
+
+                    <TextView
+                        android:id="@+id/tvNoClients"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Tidak ada klien terdeteksi aktif saat ini."
+                        android:textColor="@color/genie_text_muted"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 5.5: Akun Administrator Web ONU (Superuser) -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="@color/genie_card_bg"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/genie_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Akun Administrator Web ONU (Superuser)"
+                        android:textColor="@color/genie_text_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Ubah username &amp; password administrator untuk login web modem."
+                        android:textColor="@color/genie_text_muted"
+                        android:textSize="11sp" />
+
+                    <!-- Username Admin -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="Username Admin"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDetailAdminUser"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:textSize="13sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Password Admin with Copy Button -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Password Admin"
+                            app:passwordToggleEnabled="true"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etDetailAdminPassword"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPassword"
+                                android:textSize="13sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnCopyAdminPassword"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="52dp"
+                            android:layout_height="56dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="4dp"
+                            android:padding="0dp"
+                            app:icon="@drawable/ic_copy"
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            app:iconTint="@color/genie_text_secondary"
+                            app:strokeColor="@color/genie_border"
+                            app:cornerRadius="8dp"
+                            android:contentDescription="Salin Password Admin" />
+                    </LinearLayout>
+
+                    <!-- Single Save Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSaveAdminAccount"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="14dp"
+                        android:text="Simpan Akun Administrator"
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/genie_blue"
+                        app:cornerRadius="8dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 6: Modem Actions (Reboot, Sync) -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="@color/genie_card_bg"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/genie_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/section_actions"
+                        android:textColor="@color/genie_text_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnReboot"
+                            android:layout_width="0dp"
+                            android:layout_height="46dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:text="@string/action_reboot"
+                            android:textAllCaps="false"
+                            android:textStyle="bold"
+                            app:icon="@drawable/ic_reboot"
+                            app:iconGravity="textStart"
+                            app:backgroundTint="#D73A49"
+                            app:cornerRadius="8dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnRefreshParams"
+                            android:layout_width="0dp"
+                            android:layout_height="46dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="6dp"
+                            android:text="@string/action_refresh"
+                            android:textAllCaps="false"
+                            android:textStyle="bold"
+                            app:icon="@drawable/ic_refresh"
+                            app:iconGravity="textStart"
+                            app:backgroundTint="@color/genie_dark"
+                            app:cornerRadius="8dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBarDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

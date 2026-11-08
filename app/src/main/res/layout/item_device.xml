@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    app:cardBackgroundColor="@color/genie_card_bg"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="1dp"
+    app:strokeColor="@color/genie_border"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <!-- Header: Model / ProductClass & Status Badge -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvModel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="ZTE F663NV3A"
+                android:textColor="@color/genie_text_primary"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:maxLines="1" />
+
+            <!-- Online / Offline Badge -->
+            <TextView
+                android:id="@+id/tvStatusBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="24dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:background="@drawable/bg_badge_online"
+                android:paddingStart="10dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="3dp"
+                android:text="● Online"
+                android:textColor="@color/status_online"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Serial Number -->
+        <TextView
+            android:id="@+id/tvSerial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="SN: ZTEGCB97B6A8"
+            android:textColor="@color/genie_text_muted"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/genie_divider" />
+
+        <!-- Details Grid: PPPoE, WiFi SSID, Rx Optical Power -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <!-- PPPoE Username -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.1"
+                android:layout_marginEnd="6dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Username PPPoE"
+                    android:textColor="@color/genie_text_muted"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tvPppoe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="user@isp"
+                    android:textColor="@color/genie_text_primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:ellipsize="end"
+                    android:maxLines="1" />
+            </LinearLayout>
+
+            <!-- SSID -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:layout_marginEnd="6dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SSID WiFi"
+                    android:textColor="@color/genie_text_muted"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tvSsid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="MyWiFi"
+                    android:textColor="@color/genie_text_primary"
+                    android:textSize="12sp"
+                    android:ellipsize="end"
+                    android:maxLines="1" />
+            </LinearLayout>
+
+            <!-- Rx Power (dBm) -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.9"
+                android:gravity="end"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Power (Rx)"
+                    android:textColor="@color/genie_text_muted"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tvRxPower"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="-21.4 dBm"
+                    android:textColor="@color/signal_good"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Tags Display from GenieACS _tags -->
+        <TextView
+            android:id="@+id/tvDeviceTags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="11sp"
+            android:textColor="@color/genie_blue"
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:visibility="gone" />
+
+        <!-- Footer: Last Inform & Map indicator -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvLastInform"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Inform: 2 menit lalu"
+                android:textColor="@color/genie_text_muted"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/tvMapBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="22dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:background="@drawable/bg_badge_mapped"
+                android:paddingStart="8dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="3dp"
+                android:text="📍 Terpetakan"
+                android:textColor="@color/status_info"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnQuickSummon"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_marginStart="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:text="⚡ Summon"
+                android:textAllCaps="false"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                app:backgroundTint="#F59E0B"
+                app:cornerRadius="50dp" />
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

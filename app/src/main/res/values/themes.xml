@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme styled after GenieACS official theme with DayNight support -->
+    <style name="Theme.GenieACSMobile" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color -->
+        <item name="colorPrimary">@color/genie_blue</item>
+        <item name="colorPrimaryVariant">@color/genie_blue_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        
+        <!-- Secondary / Accent color -->
+        <item name="colorSecondary">@color/genie_cyan</item>
+        <item name="colorSecondaryVariant">@color/genie_blue</item>
+        <item name="colorOnSecondary">@color/white</item>
+        
+        <!-- Status bar color -->
+        <item name="android:statusBarColor">@color/genie_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+        
+        <!-- Background -->
+        <item name="android:windowBackground">@color/genie_bg</item>
+    </style>
+</resources>

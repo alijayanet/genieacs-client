@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download GenieACS Mobile Client APK - Alijaya Network</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --accent: #10b981;
+      --text: #f9fafb;
+      --text-muted: #9ca3af;
+      --badge-bg: rgba(59, 130, 246, 0.12);
+      --badge-border: rgba(59, 130, 246, 0.3);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 50px;
+    }
+    .container {
+      max-width: 640px;
+      width: 100%;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 32px 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+    .logo-container {
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 18px;
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
+    }
+    .logo-icon {
+      font-size: 42px;
+    }
+    .badge {
+      display: inline-block;
+      background: var(--badge-bg);
+      color: #60a5fa;
+      border: 1px solid var(--badge-border);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 50px;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .meta-item {
+      text-align: center;
+    }
+    .meta-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .meta-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 2px;
+    }
+    .btn-download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 16px 24px;
+      border-radius: 14px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 18px rgba(37, 99, 235, 0.4);
+      margin-bottom: 24px;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-download:hover {
+      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.5);
+    }
+    .btn-download:active {
+      transform: translateY(0);
+    }
+    .qr-section {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      display: inline-block;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    }
+    .qr-img {
+      display: block;
+      width: 180px;
+      height: 180px;
+    }
+    .qr-hint {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .copy-link-box {
+      display: flex;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    .copy-link-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 10px 14px;
+      color: var(--text-muted);
+      font-size: 13px;
+      outline: none;
+    }
+    .btn-copy {
+      background: #1f2937;
+      color: #ffffff;
+      border: none;
+      padding: 0 16px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-copy:hover {
+      background: #374151;
+    }
+    .features-card {
+      text-align: left;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+    }
+    .features-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .features-list {
+      list-style: none;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .features-list li {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .features-list li span.icon {
+      color: var(--accent);
+      font-weight: bold;
+    }
+    .guide-card {
+      text-align: left;
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 14px;
+      padding: 16px 18px;
+      font-size: 12px;
+      color: #d1fae5;
+      margin-bottom: 24px;
+    }
+    .guide-title {
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 6px;
+      color: #34d399;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .footer-links {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+    .footer-links a {
+      color: #60a5fa;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      background: #10b981;
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="card">
+      
+      <div class="logo-container">
+        <span class="logo-icon">📡</span>
+      </div>
+
+      <span class="badge">Official Mobile Release</span>
+      <h1>GenieACS Mobile Client</h1>
+      <p class="subtitle">Aplikasi monitoring & manajemen TR-069 ONU untuk teknisi lapangan ISP</p>
+
+      <div class="meta-grid">
+        <div class="meta-item">
+          <div class="meta-label">Versi</div>
+          <div class="meta-value">v1.0.0</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Ukuran</div>
+          <div class="meta-value">5.8 MB</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Sistem</div>
+          <div class="meta-value">Android 7.0+</div>
+        </div>
+      </div>
+
+      <!-- Tombol Download Langsung -->
+      <a href="Genieacs.apk" download="Genieacs.apk" class="btn-download" id="downloadBtn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span>Download Genieacs.apk (Direct)</span>
+      </a>
+
+      <!-- QR Code untuk Scan HP Teknisi -->
+      <div class="qr-section">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://genieacs-client.alijaya.com/Genieacs.apk" alt="QR Code Download" class="qr-img">
+      </div>
+      <p class="qr-hint">📲 Arahkan kamera HP teknisi ke QR code untuk unduh seketika</p>
+
+      <!-- Salin Tautan -->
+      <div class="copy-link-box">
+        <input type="text" readonly value="https://genieacs-client.alijaya.com/Genieacs.apk" id="downloadUrlInput" class="copy-link-input">
+        <button class="btn-copy" onclick="copyLink()">Salin Link</button>
+      </div>
+
+      <!-- Fitur Utama -->
+      <div class="features-card">
+        <div class="features-title">✨ Fitur Unggulan Aplikasi:</div>
+        <ul class="features-list">
+          <li><span class="icon">✓</span> <b>Multi-Vendor Universal:</b> Monitoring redaman optik (RX Power) realtime untuk Huawei, ZTE, Fiberhome, VSOL, C-Data, XPON, dll.</li>
+          <li><span class="icon">✓</span> <b>Peta Topologi Teknisi:</b> Pemetaan ODP & posisi pelanggan akurat dengan navigasi GPS lapangan.</li>
+          <li><span class="icon">✓</span> <b>Manajemen WiFi Cepat:</b> Ganti nama SSID & kata sandi 2.4G / 5G dalam 1 klik tanpa masuk WebGUI modem.</li>
+          <li><span class="icon">✓</span> <b>Konfigurasi Remote:</b> Buat WAN PPPoE/Bridge, pantau IP publik, restart, dan reboot jarak jauh.</li>
+          <li><span class="icon">✓</span> <b>Mode Gelap & Bilingual:</b> Tampilan Dark/Light mode serta dukungan bahasa Indonesia & Inggris.</li>
+        </ul>
+      </div>
+
+      <!-- Panduan Pemasangan -->
+      <div class="guide-card">
+        <div class="guide-title">ℹ️ Panduan Instalasi di HP Android:</div>
+        <p>1. Setelah menekan tombol <b>Download</b>, jika browser memunculkan peringatan <i>"File might be harmful / File mungkin berbahaya"</i>, pilih <b>Download anyway / Tetap download</b>.</p>
+        <p style="margin-top: 6px;">2. Buka file hasil unduhan lalu pilih <b>Install</b>. Aktifkan izin <i>"Install unknown apps"</i> jika diminta oleh sistem Android.</p>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer-links">
+        <a href="privacy.html">Kebijakan Privasi</a> •
+        <a href="terms.html">Ketentuan Layanan</a> •
+        <a href="https://genieacs-client.alijaya.com">Alijaya Server</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="toast" id="toast">✓ Tautan berhasil disalin!</div>
+
+  <script>
+    function copyLink() {
+      const copyText = document.getElementById("downloadUrlInput");
+      copyText.select();
+      copyText.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(copyText.value).then(() => {
+        showToast();
+      }).catch(() => {
+        document.execCommand("copy");
+        showToast();
+      });
+    }
+
+    function showToast() {
+      const toast = document.getElementById("toast");
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2500);
+    }
+  </script>
+
+</body>
+</html>

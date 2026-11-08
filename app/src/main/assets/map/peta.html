@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Peta Jaringan ODP & Klien - GenieACS</title>
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <style>
+    :root {
+      --bg-dark: #0d1117;
+      --card-bg: rgba(22, 27, 34, 0.94);
+      --card-border: rgba(48, 54, 61, 0.85);
+      --primary: #58a6ff;
+      --accent: #38bdf8;
+      --odp-cyan: #06b6d4;
+      --danger: #f85149;
+      --warning: #d29922;
+      --success: #3fb950;
+      --text-main: #f0f6fc;
+      --text-muted: #8b949e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #map {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      background: #0d1117;
+      z-index: 1;
+    }
+
+    /* TOP SEARCH & STATS OVERLAY */
+    .top-controls {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .search-bar-row {
+      display: flex;
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .search-input-box {
+      flex: 1;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      height: 42px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      backdrop-filter: blur(8px);
+    }
+
+    .search-input-box input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-size: 14px;
+      width: 100%;
+      margin-left: 8px;
+    }
+
+    .search-input-box input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .btn-icon {
+      width: 42px;
+      height: 42px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      cursor: pointer;
+      pointer-events: auto;
+      font-size: 16px;
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-icon:active {
+      transform: scale(0.95);
+      background: #21262d;
+    }
+
+    /* STATS CHIPS */
+    .stats-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      pointer-events: auto;
+      padding-bottom: 4px;
+    }
+
+    .stat-chip {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      backdrop-filter: blur(8px);
+    }
+
+    .stat-chip.active {
+      border-color: var(--primary);
+      background: rgba(88, 166, 255, 0.2);
+    }
+
+    .stat-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* FLOATING BOTTOM CONTROLS */
+    .bottom-controls {
+      position: absolute;
+      bottom: 20px;
+      right: 16px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .fab-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.5);
+      font-size: 20px;
+      cursor: pointer;
+      border: none;
+    }
+
+    .fab-btn:active {
+      transform: scale(0.93);
+    }
+
+    .fab-btn.gps {
+      background: var(--card-bg);
+      color: var(--primary);
+      border: 1px solid var(--card-border);
+    }
+
+    /* INTERACTIVE DRAGGABLE PIN PICKER (LEAFLET DIVICON) */
+    .leaflet-picker-pin {
+      background: transparent !important;
+      border: none !important;
+    }
+
+    .picker-marker-container {
+      position: relative;
+      width: 44px;
+      height: 54px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .picker-marker-container:active {
+      cursor: grabbing;
+    }
+
+    .picker-pin-wrapper {
+      animation: pinBounce 1.2s infinite ease-in-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .picker-pin-head {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(239, 68, 68, 0.65);
+      border: 3px solid #fff;
+    }
+
+    .picker-pin-icon {
+      transform: rotate(45deg);
+      font-size: 20px;
+    }
+
+    .picker-ground-shadow {
+      width: 20px;
+      height: 6px;
+      background: rgba(0, 0, 0, 0.65);
+      border-radius: 50%;
+      margin-top: 4px;
+      animation: shadowPulse 1.2s infinite ease-in-out;
+    }
+
+    .picker-pin-tooltip {
+      position: absolute;
+      top: -26px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(13, 17, 23, 0.95);
+      border: 1px solid var(--primary);
+      color: #58a6ff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+      pointer-events: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    @keyframes pinBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes shadowPulse {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(0.6); opacity: 0.2; }
+    }
+
+    /* PICKER SHEET MODAL (BOTTOM) */
+    #picker-sheet {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card-bg);
+      border-top: 1px solid var(--card-border);
+      border-radius: 20px 20px 0 0;
+      padding: 16px 20px 24px;
+      z-index: 2000;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 -10px 30px rgba(0,0,0,0.7);
+      backdrop-filter: blur(16px);
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .picker-sheet-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .picker-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .picker-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .picker-select, .picker-input {
+      background: #0d1117;
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      width: 100%;
+    }
+
+    .picker-btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .btn-save-loc {
+      flex: 1;
+      background: #238636;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-save-loc:active {
+      background: #2ea043;
+    }
+
+    .btn-cancel-loc {
+      background: #21262d;
+      color: var(--text-muted);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    /* GPS BUTTON INSIDE PICKER SHEET */
+    .btn-picker-gps {
+      background: rgba(88, 166, 255, 0.15);
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-picker-gps:active {
+      background: rgba(88, 166, 255, 0.3);
+      transform: scale(0.98);
+    }
+
+    /* ANIMATED FLOWING FIBER OPTIC CABLES */
+    @keyframes flowCablePulse {
+      0% {
+        stroke-dashoffset: 32;
+      }
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    .flowing-cable {
+      stroke-dasharray: 8, 8 !important;
+      animation: flowCablePulse 1s linear infinite !important;
+      transition: stroke-width 0.2s, stroke-opacity 0.2s;
+    }
+
+    .flowing-cable-good {
+      stroke-dasharray: 8, 8 !important;
+      animation: flowCablePulse 1s linear infinite !important;
+      transition: stroke-width 0.2s, stroke-opacity 0.2s;
+    }
+
+    .flowing-cable-warn {
+      stroke-dasharray: 8, 8 !important;
+      animation: flowCablePulse 1.3s linear infinite !important;
+      transition: stroke-width 0.2s, stroke-opacity 0.2s;
+    }
+
+    .flowing-cable-danger {
+      stroke-dasharray: 6, 6 !important;
+      animation: flowCablePulse 0.6s linear infinite !important;
+      transition: stroke-width 0.2s, stroke-opacity 0.2s;
+    }
+
+    .flowing-cable:hover, .flowing-cable-good:hover, .flowing-cable-warn:hover, .flowing-cable-danger:hover {
+      stroke-width: 5px !important;
+      stroke-opacity: 1 !important;
+      filter: drop-shadow(0 0 6px currentColor);
+    }
+
+    .flowing-cable-offline {
+      stroke-dasharray: 4, 6 !important;
+      stroke-opacity: 0.35 !important;
+      animation: none !important;
+    }
+
+    .cable-tooltip {
+      background: rgba(13, 17, 23, 0.95) !important;
+      border: 1px solid rgba(56, 189, 248, 0.5) !important;
+      color: #f0f6fc !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      border-radius: 6px !important;
+      padding: 4px 8px !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    /* CUSTOM SVG MARKER STYLES */
+    .client-marker-pin {
+      position: relative;
+      cursor: grab;
+    }
+    .client-marker-pin:active {
+      cursor: grabbing;
+    }
+
+    .pin-body {
+      width: 32px;
+      height: 32px;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    .pin-body.good {
+      background: radial-gradient(circle, #3fb950 0%, #238636 100%);
+    }
+
+    .pin-body.warn {
+      background: radial-gradient(circle, #d29922 0%, #9e6a03 100%);
+    }
+
+    .pin-body.danger {
+      background: radial-gradient(circle, #f85149 0%, #da3633 100%);
+      animation: dangerPulse 1.5s infinite;
+    }
+
+    .pin-body.offline {
+      background: radial-gradient(circle, #6e7681 0%, #484f58 100%);
+      border-color: #8b949e;
+    }
+
+    .pin-icon-inner {
+      transform: rotate(45deg);
+      font-size: 14px;
+      color: white;
+    }
+
+    .pin-rx-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(13, 17, 23, 0.96);
+      color: #f0f6fc;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1.5px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(88, 166, 255, 0.4);
+      white-space: nowrap;
+      max-width: 130px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+      pointer-events: none;
+      letter-spacing: 0.2px;
+    }
+
+    .pin-rx-badge.good {
+      border-color: rgba(63, 185, 80, 0.7);
+    }
+    .pin-rx-badge.warn {
+      border-color: rgba(210, 153, 34, 0.8);
+    }
+    .pin-rx-badge.danger {
+      border-color: rgba(248, 81, 73, 0.8);
+    }
+    .pin-rx-badge.offline {
+      border-color: rgba(110, 118, 129, 0.6);
+      color: #8b949e;
+    }
+
+    .odp-marker-box {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(135deg, #06b6d4, #0284c7);
+      border: 2px solid #ffffff;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.5);
+      cursor: pointer;
+    }
+
+    .odp-label-badge {
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0284c7;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 4px;
+      border: 1px solid #ffffff;
+      white-space: nowrap;
+    }
+
+    @keyframes dangerPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(248, 81, 73, 0.8); }
+      50% { box-shadow: 0 0 0 10px rgba(248, 81, 73, 0); }
+    }
+
+    /* LEAFLET POPUP OVERRIDES */
+    .leaflet-popup-content-wrapper {
+      background: rgba(22, 27, 34, 0.96) !important;
+      color: var(--text-main) !important;
+      border: 1px solid var(--card-border) !important;
+      border-radius: 14px !important;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6) !important;
+      padding: 6px !important;
+    }
+
+    .leaflet-popup-tip {
+      background: rgba(22, 27, 34, 0.96) !important;
+    }
+
+    .popup-container {
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 220px;
+    }
+
+    .popup-header {
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 6px;
+    }
+
+    .popup-user {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .popup-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .popup-body {
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .popup-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .popup-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .btn-popup {
+      flex: 1;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .btn-popup.route {
+      background: #1f6feb;
+      color: #fff;
+    }
+
+    .btn-popup.edit {
+      background: #30363d;
+      color: #c9d1d9;
+    }
+
+    /* SEARCH RESULTS DROPDOWN */
+    #search-results-dropdown {
+      position: absolute;
+      top: 56px;
+      left: 12px;
+      right: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      max-height: 240px;
+      overflow-y: auto;
+      z-index: 1200;
+      display: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      backdrop-filter: blur(12px);
+    }
+
+    .search-item {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(48, 54, 61, 0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .search-item:active {
+      background: rgba(88, 166, 255, 0.15);
+    }
+
+    .search-item-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .search-item-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MAP CONTAINER -->
+  <div id="map"></div>
+
+  <!-- TOP SEARCH & STATS CONTROLS -->
+  <div class="top-controls">
+    <div class="search-bar-row">
+      <div class="search-input-box">
+        <span>🔍</span>
+        <input type="text" id="inputSearch" placeholder="Cari Pelanggan / PPPoE / ODP..." autocomplete="off">
+      </div>
+      <button class="btn-icon" id="btnToggleLayer" title="Ganti Tampilan Peta">🗺️</button>
+      <button class="btn-icon" id="btnOpenPicker" title="Pasang Titik Pelanggan">📍</button>
+    </div>
+
+    <!-- Stats Filter Row -->
+    <div class="stats-row">
+      <div class="stat-chip active" id="chipFilterAll" onclick="filterMarkers('all')">
+        <span class="stat-dot" style="background: #58a6ff;"></span>
+        Semua: <span id="countTotal">0</span>
+      </div>
+      <div class="stat-chip" id="chipFilterGood" onclick="filterMarkers('good')">
+        <span class="stat-dot" style="background: #3fb950;"></span>
+        Bagus: <span id="countGood">0</span>
+      </div>
+      <div class="stat-chip" id="chipFilterWarn" onclick="filterMarkers('warn')">
+        <span class="stat-dot" style="background: #d29922;"></span>
+        Waspada: <span id="countWarn">0</span>
+      </div>
+      <div class="stat-chip" id="chipFilterBad" onclick="filterMarkers('bad')">
+        <span class="stat-dot" style="background: #f85149;"></span>
+        Kritis / LOS: <span id="countBad">0</span>
+      </div>
+      <div class="stat-chip" id="chipFilterUnmapped" onclick="filterMarkers('unmapped')">
+        <span class="stat-dot" style="background: #8b949e;"></span>
+        Belum Ada Titik: <span id="countUnmapped">0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Results Dropdown -->
+  <div id="search-results-dropdown"></div>
+
+  <!-- FLOATING BOTTOM CONTROLS -->
+  <div class="bottom-controls">
+    <button class="fab-btn gps" id="btnGps" title="Lokasi HP Saya">🎯</button>
+    <button class="fab-btn" id="btnCenterMap" title="Pusatkan Peta">🧭</button>
+  </div>
+
+  <!-- PICKER BOTTOM SHEET MODAL -->
+  <div id="picker-sheet">
+    <div class="picker-sheet-title">
+      <span id="pickerSheetTitle">📍 Geser Pin Merah ke Atap Rumah</span>
+      <span style="cursor: pointer; font-size: 18px;" onclick="closePickerMode()">✕</span>
+    </div>
+
+    <!-- Gunakan GPS HP Button -->
+    <button class="btn-picker-gps" id="btnUseMyGps" onclick="useGpsForPickerPin()">
+      <span>🎯</span> Gunakan Lokasi HP Saya Sekarang
+    </button>
+
+    <div class="picker-form-group">
+      <label class="picker-label">Pilih Pelanggan / ONU:</label>
+      <select class="picker-select" id="selectDevice"></select>
+    </div>
+
+    <div class="picker-form-group">
+      <label class="picker-label">Koneksi ODP (Opsional):</label>
+      <div style="display: flex; gap: 8px;">
+        <select class="picker-select" id="selectOdp" style="flex: 1;"></select>
+        <button class="btn-cancel-loc" style="padding: 0 10px;" onclick="promptNewOdp()">+ ODP</button>
+      </div>
+    </div>
+
+    <!-- Smart Nearest ODP Box -->
+    <div id="nearestOdpBox" style="display: none; background: rgba(6, 182, 212, 0.12); border: 1px dashed #06b6d4; border-radius: 8px; padding: 8px 12px; margin-bottom: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div style="font-size: 10px; color: #38bdf8; font-weight: bold; text-transform: uppercase;">💡 Rekomendasi ODP Terdekat:</div>
+          <div id="nearestOdpText" style="font-size: 12px; font-weight: 700; color: #fff;">-</div>
+        </div>
+        <button type="button" id="btnApplyNearestOdp" style="background: #06b6d4; color: #fff; border: none; border-radius: 6px; padding: 5px 10px; font-size: 11px; font-weight: bold; cursor: pointer;">Pakai ODP Ini</button>
+      </div>
+    </div>
+
+    <!-- Live Cable Distance Box -->
+    <div id="pickerCableBox" style="display: none; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 8px 12px; margin-bottom: 8px;">
+      <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: bold;">Panjang Kabel ke ODP Terpilih:</div>
+      <div id="pickerCableText" style="font-size: 13px; font-weight: bold; color: #38bdf8; margin-top: 2px;">-</div>
+    </div>
+
+    <div class="picker-form-group">
+      <label class="picker-label">Titik Koordinat (Bisa digeser di peta / klik peta):</label>
+      <input type="text" class="picker-input" id="inputCoords" readonly value="-7.000000, 110.000000">
+    </div>
+
+    <div class="picker-btn-row">
+      <button class="btn-cancel-loc" onclick="closePickerMode()">Batal</button>
+      <button class="btn-save-loc" id="btnSaveLocation" onclick="saveSelectedLocation()">
+        <span>💾</span> Simpan Titik Lokasi
+      </button>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    // --- Global State ---
+    let map;
+    let currentTileLayer;
+    let isSatellite = true;
+
+    // Tile Layers
+    const satelliteLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+      maxZoom: 20,
+      attribution: 'Google Hybrid Satelit'
+    });
+
+    const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: 'OpenStreetMap'
+    });
+
+    let allDevices = [];
+    let odpCatalog = {};
+    let clientMarkers = {}; // deviceId -> marker
+    let odpMarkers = {};    // odpName -> marker
+    let cablePolylines = []; // array of polylines
+
+    // Real Draggable Leaflet Picker Marker
+    let isPickerMode = false;
+    let pickerMarker = null;
+    let pickerPreviewLine = null;
+    let suggestedNearestOdpName = null;
+    let activeOdpCoverageCircle = null;
+    let currentFilter = 'all';
+
+    // User's Phone GPS Location
+    let userPhoneGps = null;
+    let userGpsCircle = null;
+    let userGpsMarker = null;
+
+    // Initialize Map
+    function initMap() {
+      // Default center in Indonesia
+      map = L.map('map', {
+        center: [-7.005145, 110.438125],
+        zoom: 15,
+        zoomControl: false,
+        attributionControl: false
+      });
+
+      satelliteLayer.addTo(map);
+      currentTileLayer = satelliteLayer;
+
+      // Click on map to place or move picker marker instantly!
+      map.on('click', function (e) {
+        if (isPickerMode && pickerMarker) {
+          pickerMarker.setLatLng(e.latlng);
+          updatePickerCoords(e.latlng.lat, e.latlng.lng);
+        }
+      });
+
+      // Layer Toggle
+      document.getElementById('btnToggleLayer').addEventListener('click', toggleMapLayer);
+
+      // Picker Toggle
+      document.getElementById('btnOpenPicker').addEventListener('click', function () {
+        openPickerMode();
+      });
+
+      // GPS Button
+      document.getElementById('btnGps').addEventListener('click', function () {
+        requestPhoneGps();
+      });
+
+      // Center Button
+      document.getElementById('btnCenterMap').addEventListener('click', function () {
+        fitAllMarkers();
+      });
+
+      // Search Handler
+      initSearch();
+
+      // Automatically request GPS once map loads so phone location is ready
+      setTimeout(() => {
+        requestPhoneGps(false);
+      }, 500);
+    }
+
+    function toggleMapLayer() {
+      if (isSatellite) {
+        map.removeLayer(satelliteLayer);
+        streetLayer.addTo(map);
+        currentTileLayer = streetLayer;
+        isSatellite = false;
+        document.getElementById('btnToggleLayer').innerText = '🛰️';
+      } else {
+        map.removeLayer(streetLayer);
+        satelliteLayer.addTo(map);
+        currentTileLayer = satelliteLayer;
+        isSatellite = true;
+        document.getElementById('btnToggleLayer').innerText = '🗺️';
+      }
+    }
+
+    // Called from Android Kotlin to populate/refresh all devices
+    function renderMapDevices(devicesJson) {
+      try {
+        allDevices = typeof devicesJson === 'string' ? JSON.parse(devicesJson) : devicesJson;
+      } catch (e) {
+        console.error("Failed to parse devices json", e);
+        return;
+      }
+
+      // Clear existing markers & cables
+      clearAllMapLayers();
+
+      odpCatalog = {};
+      let totalCount = allDevices.length;
+      let goodCount = 0;
+      let warnCount = 0;
+      let badCount = 0;
+      let unmappedCount = 0;
+
+      // 1. First Pass: Collect ODPs
+      allDevices.forEach(dev => {
+        if (dev.odpName) {
+          if (!odpCatalog[dev.odpName]) {
+            odpCatalog[dev.odpName] = {
+              name: dev.odpName,
+              lat: dev.odpLat || null,
+              lng: dev.odpLng || null,
+              clients: []
+            };
+          }
+          odpCatalog[dev.odpName].clients.push(dev);
+        }
+      });
+
+      // 2. Render ODP Markers
+      Object.values(odpCatalog).forEach(odp => {
+        if (odp.lat && odp.lng) {
+          const odpIcon = L.divIcon({
+            className: 'odp-marker-wrapper',
+            html: `
+              <div style="position: relative;">
+                <div class="odp-label-badge">${odp.name} (${odp.clients.length})</div>
+                <div class="odp-marker-box">
+                  <span style="font-size: 16px;">📦</span>
+                </div>
+              </div>
+            `,
+            iconSize: [34, 34],
+            iconAnchor: [17, 17]
+          });
+
+          const m = L.marker([odp.lat, odp.lng], { 
+            icon: odpIcon,
+            draggable: true
+          });
+          m.on('click', function () {
+            showOdpCoverage(odp.lat, odp.lng);
+          });
+          m.on('dragend', function (e) {
+            const newPos = e.target.getLatLng();
+            if (confirm(`Pindahkan titik ODP "${odp.name}" ke (${newPos.lat.toFixed(6)}, ${newPos.lng.toFixed(6)})?\nIni akan memperbarui posisi ODP ke server GenieACS.`)) {
+              odp.lat = newPos.lat;
+              odp.lng = newPos.lng;
+              odp.clients.forEach(dev => {
+                if (window.AndroidBridge && window.AndroidBridge.saveDeviceLocation) {
+                  window.AndroidBridge.saveDeviceLocation(dev.id, dev.lat, dev.lng, odp.name, newPos.lat, newPos.lng);
+                }
+              });
+            } else {
+              m.setLatLng([odp.lat, odp.lng]);
+            }
+          });
+
+          const clientListHtml = odp.clients.length > 0
+            ? odp.clients.map(c => `
+                <div style="font-size:11px; color:var(--text-muted); padding:2px 0; border-bottom:1px solid rgba(48,54,61,0.3); display:flex; justify-content:space-between;">
+                  <span>• ${c.pppoeUsername || c.serialNumber}</span>
+                  <span style="font-weight:bold; color:${c.isOnline ? '#3fb950' : '#f85149'};">${c.rxPower != null ? c.rxPower.toFixed(1) + ' dBm' : (c.isOnline ? 'Online' : 'Offline')}</span>
+                </div>
+              `).join('')
+            : '<div style="font-size:11px; color:var(--text-muted); padding:4px 0;">Belum ada pelanggan terhubung</div>';
+
+          m.bindPopup(`
+            <div class="popup-container">
+              <div class="popup-header">
+                <div class="popup-user" style="color: #06b6d4;">📦 ODP: ${odp.name}</div>
+                <div class="popup-sub">${odp.lat.toFixed(6)}, ${odp.lng.toFixed(6)}</div>
+              </div>
+              <div class="popup-body">
+                <div style="font-size:12px; font-weight:700; margin-bottom:4px;">
+                  Terhubung: <span style="color:#38bdf8;">${odp.clients.length} Pelanggan</span>
+                </div>
+                <div style="max-height:85px; overflow-y:auto; margin-top:4px;">
+                  ${clientListHtml}
+                </div>
+              </div>
+              <div class="popup-actions">
+                <button class="btn-popup route" onclick="openRoute(${odp.lat}, ${odp.lng}, 'ODP ${odp.name}')">🚗 Rute ODP</button>
+                <button class="btn-popup" style="background: rgba(6, 182, 212, 0.2); border-color: rgba(6, 182, 212, 0.5); color: #06b6d4;" onclick="showOdpCoverage(${odp.lat}, ${odp.lng})">🎯 Radius 200m</button>
+              </div>
+            </div>
+          `);
+          m.addTo(map);
+          odpMarkers[odp.name] = m;
+        }
+      });
+
+      // 3. Render Client Markers & Animated Flowing Cables
+      const bounds = [];
+
+      allDevices.forEach(dev => {
+        // Stats counting
+        if (dev.rxPower != null) {
+          if (dev.rxPower >= -24.0) goodCount++;
+          else if (dev.rxPower >= -27.0) warnCount++;
+          else badCount++;
+        } else {
+          if (dev.isOnline) goodCount++; else badCount++;
+        }
+
+        if (!dev.lat || !dev.lng) {
+          unmappedCount++;
+          return;
+        }
+
+        bounds.push([dev.lat, dev.lng]);
+
+        // Determine Signal Status & Pin Class (Color coding based on Rx quality)
+        let pinClass = 'good';
+        let rxTooltip = dev.rxPower != null ? `${dev.rxPower.toFixed(1)} dBm` : (dev.isOnline ? 'Online' : 'Offline');
+
+        if (!dev.isOnline) {
+          pinClass = 'offline';
+        } else if (dev.rxPower != null) {
+          if (dev.rxPower < -27.0) pinClass = 'danger';
+          else if (dev.rxPower < -24.0) pinClass = 'warn';
+        }
+
+        // Determine ONU Badge Label: Customer Name priority -> Fallback PPPoE -> Serial Number
+        const custName = (dev.customerName && dev.customerName !== '-' && dev.customerName.trim() !== '') ? dev.customerName.trim() : '';
+        const pppoeName = (dev.pppoeUsername && dev.pppoeUsername !== '-' && dev.pppoeUsername.trim() !== '') ? dev.pppoeUsername.trim() : '';
+        const badgeLabel = custName || pppoeName || dev.serialNumber || 'ONU';
+
+        const clientIcon = L.divIcon({
+          className: 'client-marker-pin',
+          html: `
+            <div class="pin-rx-badge ${pinClass}" title="${badgeLabel} (${rxTooltip})">${badgeLabel}</div>
+            <div class="pin-body ${pinClass}">
+              <div class="pin-icon-inner">🏠</div>
+            </div>
+          `,
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+          popupAnchor: [0, -32]
+        });
+
+        // Draggable = true so technicians can move it directly by dragging!
+        const marker = L.marker([dev.lat, dev.lng], { 
+          icon: clientIcon,
+          draggable: true
+        });
+        marker.devData = dev;
+
+        // Direct Drag-and-Drop update for existing pins!
+        marker.on('dragend', function (e) {
+          const newPos = e.target.getLatLng();
+          if (confirm(`Pindahkan titik pelanggan "${dev.pppoeUsername || dev.id}" ke posisi baru?\n(${newPos.lat.toFixed(6)}, ${newPos.lng.toFixed(6)})`)) {
+            if (window.AndroidBridge && window.AndroidBridge.saveDeviceLocation) {
+              window.AndroidBridge.saveDeviceLocation(dev.id, newPos.lat, newPos.lng, dev.odpName || '', dev.odpLat || 0, dev.odpLng || 0);
+            }
+          } else {
+            marker.setLatLng([dev.lat, dev.lng]); // Reset back
+          }
+        });
+
+        marker.bindPopup(createClientPopup(dev));
+        marker.addTo(map);
+        clientMarkers[dev.id] = marker;
+
+        // 4. Render Animated Flowing Fiber Optic Cable to ODP
+        if (dev.odpName && odpCatalog[dev.odpName] && odpCatalog[dev.odpName].lat) {
+          const o = odpCatalog[dev.odpName];
+          const distMeters = Math.round(map.distance([dev.lat, dev.lng], [o.lat, o.lng]));
+          const slackMeters = Math.round(distMeters * 1.15);
+
+          let cableColor = '#3fb950'; // Green: Bagus (Optimal)
+          let cableClass = 'flowing-cable-good';
+
+          if (!dev.isOnline) {
+            cableColor = '#64748b'; // Gray: Offline
+            cableClass = 'flowing-cable-offline';
+          } else if (dev.rxPower != null) {
+            if (dev.rxPower < -27.0) {
+              cableColor = '#f85149'; // Red: Kritis / Bad Rx
+              cableClass = 'flowing-cable-danger';
+            } else if (dev.rxPower < -24.0) {
+              cableColor = '#d29922'; // Yellow: Warning
+              cableClass = 'flowing-cable-warn';
+            }
+          }
+
+          // Base background cable line
+          const bgLine = L.polyline([[o.lat, o.lng], [dev.lat, dev.lng]], {
+            color: cableColor,
+            weight: 3.5,
+            opacity: dev.isOnline ? 0.35 : 0.15,
+            interactive: false
+          });
+
+          // Foreground animated flow (flowing fiber light stream)
+          const polyline = L.polyline([[o.lat, o.lng], [dev.lat, dev.lng]], {
+            className: cableClass,
+            color: cableColor,
+            weight: dev.isOnline ? 2.5 : 1.5,
+            opacity: dev.isOnline ? 0.95 : 0.4
+          });
+
+          polyline.bindTooltip(`Kabel ODP ${o.name} ➔ ${dev.pppoeUsername || dev.id}: <b>${distMeters} m</b> (slack ~${slackMeters}m) | Rx: ${dev.rxPower != null ? dev.rxPower.toFixed(1) + ' dBm' : '-'} (${dev.isOnline ? 'Online' : 'Offline'})`, {
+            sticky: true,
+            className: 'cable-tooltip'
+          });
+
+          bgLine.addTo(map);
+          polyline.addTo(map);
+          cablePolylines.push(bgLine, polyline);
+        }
+      });
+
+      // Update counters in UI
+      document.getElementById('countTotal').innerText = totalCount;
+      document.getElementById('countGood').innerText = goodCount;
+      document.getElementById('countWarn').innerText = warnCount;
+      document.getElementById('countBad').innerText = badCount;
+      document.getElementById('countUnmapped').innerText = unmappedCount;
+
+      // Fit map if bounds exist and not in picker mode
+      if (bounds.length > 0 && !isPickerMode) {
+        map.fitBounds(bounds, { padding: [50, 50], maxZoom: 18 });
+      } else if (bounds.length === 0 && userPhoneGps && !isPickerMode) {
+        // If no devices mapped yet, center to technician's phone!
+        map.setView(userPhoneGps, 17);
+      }
+    }
+
+    function createClientPopup(dev) {
+      const rxBadge = dev.rxPower != null ? `${dev.rxPower.toFixed(2)} dBm` : '-';
+      let rxColor = '#3fb950';
+      if (dev.rxPower != null) {
+        if (dev.rxPower < -27.0) rxColor = '#f85149';
+        else if (dev.rxPower < -24.0) rxColor = '#d29922';
+      }
+      const statusText = dev.isOnline ? '<span style="color:#3fb950; font-weight:bold;">Online 🟢</span>' : '<span style="color:#f85149; font-weight:bold;">Offline 🔴</span>';
+
+      let cableDistanceHtml = '<span style="color:var(--text-muted);">-</span>';
+      let odpText = 'Belum dihubungkan ke ODP';
+
+      if (dev.odpName) {
+        odpText = dev.odpName;
+        if (odpCatalog[dev.odpName] && odpCatalog[dev.odpName].lat && dev.lat && dev.lng) {
+          const o = odpCatalog[dev.odpName];
+          const directDist = Math.round(map.distance([dev.lat, dev.lng], [o.lat, o.lng]));
+          const slackDist = Math.round(directDist * 1.15);
+          cableDistanceHtml = `<span style="color:#38bdf8; font-weight:700;">📏 ${directDist} meter</span> <span style="font-size:10px; color:var(--text-muted);">(est. slack: ~${slackDist}m)</span>`;
+        } else {
+          cableDistanceHtml = `<span style="color:var(--text-muted); font-size:11px;">Titik ODP belum diisi</span>`;
+        }
+      }
+
+      const custName = (dev.customerName && dev.customerName !== '-' && dev.customerName.trim() !== '') ? dev.customerName.trim() : '';
+      const pppoeName = (dev.pppoeUsername && dev.pppoeUsername !== '-' && dev.pppoeUsername.trim() !== '') ? dev.pppoeUsername.trim() : '';
+      const headerTitle = custName || pppoeName || 'Pelanggan';
+      const subTitle = (custName && pppoeName && custName !== pppoeName)
+        ? `PPPoE: ${pppoeName} | SN: ${dev.serialNumber}`
+        : `SN: ${dev.serialNumber} | SSID: ${dev.ssid}`;
+
+      return `
+        <div class="popup-container">
+          <div class="popup-header">
+            <div class="popup-user">👤 ${headerTitle}</div>
+            <div class="popup-sub">${subTitle}</div>
+          </div>
+          <div class="popup-body">
+            <div class="popup-row">
+              <span style="color:var(--text-muted);">Status:</span>
+              <span>${statusText}</span>
+            </div>
+            <div class="popup-row">
+              <span style="color:var(--text-muted);">Redaman Rx:</span>
+              <span style="font-weight:700; color:${rxColor};">${rxBadge}</span>
+            </div>
+            <div class="popup-row">
+              <span style="color:var(--text-muted);">ODP:</span>
+              <span style="color:#06b6d4; font-weight:700;">📦 ${odpText}</span>
+            </div>
+            <div class="popup-row">
+              <span style="color:var(--text-muted);">Panjang Kabel:</span>
+              <span>${cableDistanceHtml}</span>
+            </div>
+            <div class="popup-row">
+              <span style="color:var(--text-muted);">Inform:</span>
+              <span>${dev.lastInform || '-'}</span>
+            </div>
+          </div>
+          <div class="popup-actions">
+            <button class="btn-popup route" onclick="openRoute(${dev.lat}, ${dev.lng}, '${dev.pppoeUsername || dev.serialNumber}')">🚗 Rute</button>
+            <button class="btn-popup" style="background: rgba(245, 158, 11, 0.2); border-color: rgba(245, 158, 11, 0.5); color: #f59e0b;" onclick="triggerSummon('${dev.id}', '${dev.pppoeUsername || dev.serialNumber}')">⚡ Summon</button>
+            <button class="btn-popup edit" onclick="editDeviceLocation('${dev.id}')">✏️ Geser</button>
+            <button class="btn-popup edit" onclick="openDetail('${dev.id}')">ℹ️ Detail</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function triggerSummon(deviceId, label) {
+      if (window.AndroidBridge && window.AndroidBridge.summonDevice) {
+        window.AndroidBridge.summonDevice(deviceId);
+      } else {
+        alert("⚡ Mengirim summon ke " + label);
+      }
+    }
+
+    function clearAllMapLayers() {
+      Object.values(clientMarkers).forEach(m => map.removeLayer(m));
+      Object.values(odpMarkers).forEach(m => map.removeLayer(m));
+      cablePolylines.forEach(p => map.removeLayer(p));
+      if (activeOdpCoverageCircle) {
+        map.removeLayer(activeOdpCoverageCircle);
+        activeOdpCoverageCircle = null;
+      }
+      if (pickerPreviewLine) {
+        map.removeLayer(pickerPreviewLine);
+        pickerPreviewLine = null;
+      }
+      clientMarkers = {};
+      odpMarkers = {};
+      cablePolylines = [];
+    }
+
+    function showOdpCoverage(lat, lng) {
+      if (activeOdpCoverageCircle) {
+        map.removeLayer(activeOdpCoverageCircle);
+      }
+      activeOdpCoverageCircle = L.circle([lat, lng], {
+        radius: 200, // 200m standard FTTH dropcore range limit
+        color: '#06b6d4',
+        weight: 1.5,
+        dashArray: '5, 5',
+        fillColor: '#06b6d4',
+        fillOpacity: 0.08
+      }).addTo(map);
+    }
+
+    function fitAllMarkers() {
+      const allLatLngs = [];
+      Object.values(clientMarkers).forEach(m => allLatLngs.push(m.getLatLng()));
+      Object.values(odpMarkers).forEach(m => allLatLngs.push(m.getLatLng()));
+      if (allLatLngs.length > 0) {
+        map.fitBounds(allLatLngs, { padding: [40, 40], maxZoom: 18 });
+      } else if (userPhoneGps) {
+        map.flyTo(userPhoneGps, 18);
+      }
+    }
+
+    // --- Search Implementation ---
+    function initSearch() {
+      const input = document.getElementById('inputSearch');
+      const dropdown = document.getElementById('search-results-dropdown');
+
+      input.addEventListener('input', function () {
+        const query = input.value.trim().toLowerCase();
+        if (!query) {
+          dropdown.style.display = 'none';
+          return;
+        }
+
+        const matches = allDevices.filter(d => 
+          (d.customerName && d.customerName.toLowerCase().includes(query)) ||
+          (d.pppoeUsername && d.pppoeUsername.toLowerCase().includes(query)) ||
+          (d.serialNumber && d.serialNumber.toLowerCase().includes(query)) ||
+          (d.ssid && d.ssid.toLowerCase().includes(query)) ||
+          (d.odpName && d.odpName.toLowerCase().includes(query))
+        ).slice(0, 10);
+
+        if (matches.length === 0) {
+          dropdown.innerHTML = `<div class="search-item"><span class="search-item-desc">Tidak ada hasil cocok</span></div>`;
+          dropdown.style.display = 'block';
+          return;
+        }
+
+        dropdown.innerHTML = matches.map(d => {
+          const itemTitle = d.customerName 
+            ? `${d.customerName} (${d.pppoeUsername || d.serialNumber})`
+            : (d.pppoeUsername || d.serialNumber);
+          return `
+          <div class="search-item" onclick="focusDevice('${d.id}')">
+            <div>
+              <div class="search-item-title">👤 ${itemTitle}</div>
+              <div class="search-item-desc">SSID: ${d.ssid} | ODP: ${d.odpName || '-'} | ${d.lat ? '📍 Terpetakan' : '⚠️ Belum Ada Titik'}</div>
+            </div>
+            <div style="font-size: 11px; font-weight: bold; color: ${d.isOnline ? '#3fb950' : '#f85149'};">
+              ${d.isOnline ? 'Online' : 'Offline'}
+            </div>
+          </div>
+        `}).join('');
+
+        dropdown.style.display = 'block';
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.style.display = 'none';
+        }
+      });
+    }
+
+    function focusDevice(deviceId) {
+      document.getElementById('search-results-dropdown').style.display = 'none';
+      const dev = allDevices.find(d => d.id === deviceId);
+      if (!dev) return;
+
+      if (dev.lat && dev.lng) {
+        map.flyTo([dev.lat, dev.lng], 19, { animate: true, duration: 1.2 });
+        setTimeout(() => {
+          if (clientMarkers[dev.id]) {
+            clientMarkers[dev.id].openPopup();
+          }
+        }, 1300);
+      } else {
+        // Device is unmapped, offer to place pin immediately!
+        if (confirm(`Pelanggan "${dev.pppoeUsername || dev.id}" belum memiliki titik lokasi di peta.\n\nApakah ingin memasang titik lokasinya sekarang?`)) {
+          openPickerMode(dev.id);
+        }
+      }
+    }
+
+    // --- TRUE DRAGGABLE PIN PICKER (LEAFLET PIN) ---
+    function openPickerMode(preselectDeviceId = null) {
+      isPickerMode = true;
+      document.getElementById('picker-sheet').style.display = 'flex';
+
+      // Determine Start Position for the Pin
+      let startPos = map.getCenter();
+      if (preselectDeviceId) {
+        const dev = allDevices.find(d => d.id === preselectDeviceId);
+        if (dev && dev.lat && dev.lng) {
+          startPos = L.latLng(dev.lat, dev.lng);
+        } else if (userPhoneGps) {
+          startPos = userPhoneGps;
+        }
+      } else if (userPhoneGps) {
+        startPos = userPhoneGps;
+      }
+
+      // Create or update Draggable Picker Marker on the map
+      if (!pickerMarker) {
+        const pickerDivIcon = L.divIcon({
+          className: 'leaflet-picker-pin',
+          html: `
+            <div class="picker-marker-container">
+              <div class="picker-pin-wrapper">
+                <div class="picker-pin-head">
+                  <span class="picker-pin-icon">🏠</span>
+                </div>
+                <div class="picker-ground-shadow"></div>
+              </div>
+              <div class="picker-pin-tooltip">Geser Pin Saya</div>
+            </div>
+          `,
+          iconSize: [44, 54],
+          iconAnchor: [22, 54]
+        });
+
+        pickerMarker = L.marker(startPos, {
+          draggable: true,
+          icon: pickerDivIcon,
+          zIndexOffset: 3000
+        }).addTo(map);
+
+        pickerMarker.on('drag', function (e) {
+          const pos = e.target.getLatLng();
+          updatePickerCoords(pos.lat, pos.lng);
+        });
+
+        pickerMarker.on('dragend', function (e) {
+          const pos = e.target.getLatLng();
+          updatePickerCoords(pos.lat, pos.lng);
+        });
+      } else {
+        pickerMarker.setLatLng(startPos);
+        if (!map.hasLayer(pickerMarker)) {
+          pickerMarker.addTo(map);
+        }
+      }
+
+      map.panTo(startPos);
+      updatePickerCoords(startPos.lat, startPos.lng);
+
+      // Populate Device Select
+      const selectDev = document.getElementById('selectDevice');
+      selectDev.innerHTML = allDevices.map(d => {
+        const isSelected = (preselectDeviceId && d.id === preselectDeviceId);
+        const mappedTag = d.lat ? '📍' : '⚠️';
+        return `<option value="${d.id}" ${isSelected ? 'selected' : ''}>${mappedTag} ${d.pppoeUsername || d.serialNumber} (${d.ssid})</option>`;
+      }).join('');
+
+      // Populate ODP Select
+      populateOdpSelect();
+
+      if (preselectDeviceId) {
+        const dev = allDevices.find(d => d.id === preselectDeviceId);
+        if (dev && dev.odpName) {
+          selectDev.value = dev.id;
+          document.getElementById('selectOdp').value = dev.odpName;
+        }
+      }
+
+      // When user changes device selection, if it has coords, jump to it
+      selectDev.onchange = function () {
+        const selId = selectDev.value;
+        const dev = allDevices.find(d => d.id === selId);
+        if (dev && dev.lat && dev.lng) {
+          const pos = L.latLng(dev.lat, dev.lng);
+          pickerMarker.setLatLng(pos);
+          map.panTo(pos);
+          updatePickerCoords(pos.lat, pos.lng);
+        }
+        if (dev && dev.odpName) {
+          document.getElementById('selectOdp').value = dev.odpName;
+        }
+        if (pickerMarker) {
+          const p = pickerMarker.getLatLng();
+          updatePickerOdpAndCable(p.lat, p.lng);
+        }
+      };
+
+      document.getElementById('selectOdp').onchange = function () {
+        if (pickerMarker) {
+          const p = pickerMarker.getLatLng();
+          updatePickerOdpAndCable(p.lat, p.lng);
+        }
+      };
+
+      document.getElementById('btnApplyNearestOdp').onclick = function () {
+        if (suggestedNearestOdpName) {
+          document.getElementById('selectOdp').value = suggestedNearestOdpName;
+          if (pickerMarker) {
+            const p = pickerMarker.getLatLng();
+            updatePickerOdpAndCable(p.lat, p.lng);
+          }
+        }
+      };
+    }
+
+    function updatePickerCoords(lat, lng) {
+      document.getElementById('inputCoords').value = lat.toFixed(6) + ', ' + lng.toFixed(6);
+      updatePickerOdpAndCable(lat, lng);
+    }
+
+    function updatePickerOdpAndCable(lat, lng) {
+      const pinPos = L.latLng(lat, lng);
+      const odpNames = Object.keys(odpCatalog);
+
+      // 1. Calculate nearest ODP
+      let nearestOdp = null;
+      let minDistance = Infinity;
+
+      odpNames.forEach(name => {
+        const o = odpCatalog[name];
+        if (o && o.lat != null && o.lng != null && o.lat !== 0 && o.lng !== 0) {
+          const d = map.distance(pinPos, [o.lat, o.lng]);
+          if (d < minDistance) {
+            minDistance = d;
+            nearestOdp = o;
+          }
+        }
+      });
+
+      const nearestBox = document.getElementById('nearestOdpBox');
+      const nearestText = document.getElementById('nearestOdpText');
+      if (nearestOdp && minDistance < 50000) {
+        suggestedNearestOdpName = nearestOdp.name;
+        const dMeters = Math.round(minDistance);
+        nearestText.innerText = `${nearestOdp.name} (📏 ${dMeters} meter)`;
+        nearestBox.style.display = 'block';
+      } else {
+        suggestedNearestOdpName = null;
+        nearestBox.style.display = 'none';
+      }
+
+      // 2. Calculate live cable distance to currently selected ODP
+      const selOdpName = document.getElementById('selectOdp').value;
+      const cableBox = document.getElementById('pickerCableBox');
+      const cableText = document.getElementById('pickerCableText');
+
+      if (selOdpName && odpCatalog[selOdpName] && odpCatalog[selOdpName].lat) {
+        const o = odpCatalog[selOdpName];
+        const directDist = Math.round(map.distance(pinPos, [o.lat, o.lng]));
+        const slackDist = Math.round(directDist * 1.15);
+
+        cableText.innerHTML = `📏 <b>${directDist} meter</b> <span style="font-size:11px; color:var(--text-muted); font-weight:normal;">(est. slack 15%: ~${slackDist}m)</span>`;
+        cableBox.style.display = 'block';
+
+        // Draw / update live preview dashed line on map
+        if (pickerPreviewLine) {
+          pickerPreviewLine.setLatLngs([[o.lat, o.lng], pinPos]);
+        } else {
+          pickerPreviewLine = L.polyline([[o.lat, o.lng], pinPos], {
+            color: '#38bdf8',
+            weight: 2.5,
+            dashArray: '6, 8',
+            opacity: 0.9
+          }).addTo(map);
+        }
+      } else {
+        cableBox.style.display = 'none';
+        if (pickerPreviewLine) {
+          map.removeLayer(pickerPreviewLine);
+          pickerPreviewLine = null;
+        }
+      }
+    }
+
+    function populateOdpSelect() {
+      const selectOdp = document.getElementById('selectOdp');
+      const odpNames = Object.keys(odpCatalog);
+      let opts = '<option value="">-- Tanpa ODP / Belum Ditentukan --</option>';
+      odpNames.forEach(name => {
+        opts += `<option value="${name}">📦 ODP: ${name}</option>`;
+      });
+      selectOdp.innerHTML = opts;
+    }
+
+    function promptNewOdp() {
+      const name = prompt("Masukkan Nama / Kode ODP Baru (contoh: ODP-CLP-01):");
+      if (name && name.trim()) {
+        const cleanName = name.trim().toUpperCase().replace(/[^A-Z0-9\-_]/g, '-');
+        let oLat = null;
+        let oLng = null;
+        if (pickerMarker && confirm(`Apakah titik ODP "${cleanName}" ingin diletakkan di posisi pin saat ini?`)) {
+          const p = pickerMarker.getLatLng();
+          oLat = p.lat;
+          oLng = p.lng;
+        }
+        if (!odpCatalog[cleanName]) {
+          odpCatalog[cleanName] = { name: cleanName, lat: oLat, lng: oLng, clients: [] };
+        } else if (oLat && oLng) {
+          odpCatalog[cleanName].lat = oLat;
+          odpCatalog[cleanName].lng = oLng;
+        }
+        populateOdpSelect();
+        document.getElementById('selectOdp').value = cleanName;
+        if (pickerMarker) {
+          const p = pickerMarker.getLatLng();
+          updatePickerOdpAndCable(p.lat, p.lng);
+        }
+      }
+    }
+
+    function editDeviceLocation(deviceId) {
+      openPickerMode(deviceId);
+    }
+
+    function closePickerMode() {
+      isPickerMode = false;
+      document.getElementById('picker-sheet').style.display = 'none';
+      if (pickerMarker) {
+        map.removeLayer(pickerMarker);
+        pickerMarker = null;
+      }
+      if (pickerPreviewLine) {
+        map.removeLayer(pickerPreviewLine);
+        pickerPreviewLine = null;
+      }
+      document.getElementById('nearestOdpBox').style.display = 'none';
+      document.getElementById('pickerCableBox').style.display = 'none';
+    }
+
+    function saveSelectedLocation() {
+      const devId = document.getElementById('selectDevice').value;
+      const odpName = document.getElementById('selectOdp').value;
+
+      if (!pickerMarker) {
+        alert("Marker penunjuk titik belum siap!");
+        return;
+      }
+
+      const pos = pickerMarker.getLatLng();
+      const lat = pos.lat;
+      const lng = pos.lng;
+
+      if (!devId) {
+        alert("Pilih pelanggan terlebih dahulu!");
+        return;
+      }
+
+      // Check if ODP has location
+      let odpLat = null;
+      let odpLng = null;
+      if (odpName && odpCatalog[odpName]) {
+        odpLat = odpCatalog[odpName].lat;
+        odpLng = odpCatalog[odpName].lng;
+      }
+
+      closePickerMode();
+
+      // Trigger Kotlin bridge
+      if (window.AndroidBridge && window.AndroidBridge.saveDeviceLocation) {
+        window.AndroidBridge.saveDeviceLocation(devId, lat, lng, odpName, odpLat || 0, odpLng || 0);
+      } else {
+        alert(`Titik berhasil disimpan:\nPelanggan: ${devId}\nLat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}\nODP: ${odpName || '-'}`);
+      }
+    }
+
+    // --- Phone GPS Request & Button Handlers ---
+    function requestPhoneGps(centerMap = true) {
+      if (window.AndroidBridge && window.AndroidBridge.requestGps) {
+        window.AndroidBridge.requestGps();
+      } else if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (pos) {
+          setCurrentGpsLocation(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy || 10, centerMap);
+        }, function (err) {
+          console.warn("GPS error:", err);
+        }, { enableHighAccuracy: true });
+      }
+    }
+
+    function useGpsForPickerPin() {
+      if (userPhoneGps) {
+        if (pickerMarker) {
+          pickerMarker.setLatLng(userPhoneGps);
+          map.flyTo(userPhoneGps, 19);
+          updatePickerCoords(userPhoneGps.lat, userPhoneGps.lng);
+        }
+      } else {
+        requestPhoneGps(true);
+      }
+    }
+
+    // Called from Android Kotlin when GPS coordinates arrive from hardware
+    function setCurrentGpsLocation(lat, lng, accuracy = 15, centerMap = true) {
+      userPhoneGps = L.latLng(lat, lng);
+
+      // Render or move Pulsing Blue Dot for User's Phone
+      if (!userGpsMarker) {
+        userGpsMarker = L.circleMarker([lat, lng], {
+          radius: 9,
+          fillColor: '#38bdf8',
+          color: '#ffffff',
+          weight: 3,
+          fillOpacity: 1
+        }).addTo(map);
+
+        userGpsCircle = L.circle([lat, lng], {
+          radius: accuracy || 20,
+          color: '#38bdf8',
+          fillColor: '#38bdf8',
+          weight: 1,
+          fillOpacity: 0.15
+        }).addTo(map);
+
+        userGpsMarker.bindPopup("<b>📍 Posisi HP Anda Sekarang</b>");
+      } else {
+        userGpsMarker.setLatLng([lat, lng]);
+        userGpsCircle.setLatLng([lat, lng]);
+        userGpsCircle.setRadius(accuracy || 20);
+      }
+
+      // If user is currently in picker mode, place the draggable picker right at their GPS position!
+      if (isPickerMode && pickerMarker) {
+        pickerMarker.setLatLng(userPhoneGps);
+        updatePickerCoords(lat, lng);
+      }
+
+      if (centerMap) {
+        map.flyTo([lat, lng], 19, { animate: true });
+      }
+    }
+
+    // --- Actions called from popup ---
+    function openRoute(lat, lng, label) {
+      if (window.AndroidBridge && window.AndroidBridge.openGoogleMapsRoute) {
+        window.AndroidBridge.openGoogleMapsRoute(lat, lng, label);
+      } else {
+        window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`, '_blank');
+      }
+    }
+
+    function openDetail(deviceId) {
+      if (window.AndroidBridge && window.AndroidBridge.openDeviceDetail) {
+        window.AndroidBridge.openDeviceDetail(deviceId);
+      }
+    }
+
+    // --- Filter Handlers ---
+    function filterMarkers(type) {
+      currentFilter = type;
+      document.querySelectorAll('.stat-chip').forEach(c => c.classList.remove('active'));
+
+      if (type === 'all') document.getElementById('chipFilterAll').classList.add('active');
+      else if (type === 'good') document.getElementById('chipFilterGood').classList.add('active');
+      else if (type === 'warn') document.getElementById('chipFilterWarn').classList.add('active');
+      else if (type === 'bad') document.getElementById('chipFilterBad').classList.add('active');
+      else if (type === 'unmapped') document.getElementById('chipFilterUnmapped').classList.add('active');
+
+      if (type === 'unmapped') {
+        const unmapped = allDevices.filter(d => !d.lat || !d.lng);
+        const dropdown = document.getElementById('search-results-dropdown');
+        if (unmapped.length === 0) {
+          dropdown.innerHTML = `<div class="search-item"><span class="search-item-desc">Semua perangkat sudah terpetakan! 🎉</span></div>`;
+        } else {
+          dropdown.innerHTML = `
+            <div style="padding: 8px 12px; background: rgba(88,166,255,0.1); font-size:11px; font-weight:bold; color:var(--primary);">
+              DAFTAR PELANGGAN BELUM ADA TITIK (${unmapped.length}):
+            </div>
+          ` + unmapped.map(d => `
+            <div class="search-item" onclick="openPickerMode('${d.id}')">
+              <div>
+                <div class="search-item-title">${d.pppoeUsername || d.serialNumber}</div>
+                <div class="search-item-desc">SSID: ${d.ssid} | Klik untuk pasang titik 📍</div>
+              </div>
+              <button class="btn-popup edit" style="padding:4px 8px;">Pasang Titik</button>
+            </div>
+          `).join('');
+        }
+        dropdown.style.display = 'block';
+        return;
+      }
+
+      // Filter visible client markers
+      Object.values(clientMarkers).forEach(m => {
+        const d = m.devData;
+        let match = false;
+        if (type === 'all') match = true;
+        else if (type === 'good') match = d.isOnline && (d.rxPower == null || d.rxPower >= -24.0);
+        else if (type === 'warn') match = d.isOnline && d.rxPower != null && d.rxPower < -24.0 && d.rxPower >= -27.0;
+        else if (type === 'bad') match = !d.isOnline || (d.rxPower != null && d.rxPower < -27.0);
+
+        if (match) {
+          if (!map.hasLayer(m)) m.addTo(map);
+        } else {
+          if (map.hasLayer(m)) map.removeLayer(m);
+        }
+      });
+    }
+
+    // Run on Load
+    window.addEventListener('DOMContentLoaded', initMap);
+  </script>
+</body>
+</html>

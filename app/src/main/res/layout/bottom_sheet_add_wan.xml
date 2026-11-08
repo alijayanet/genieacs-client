@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/genie_card_bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="28dp">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🌐 Tambah / Konfigurasi WAN"
+                    android:textColor="@color/genie_text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDeviceTargetSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Koneksi TR-069 PPPoE, VLAN &amp; Port Binding"
+                    android:textColor="@color/genie_text_secondary"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btnCloseSheet"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="6dp"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                app:tint="@color/genie_text_secondary" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/genie_divider" />
+
+        <!-- 1. Target Instance (Add WAN Baru vs Edit Existing WAN) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PILIH AKSI WAN:"
+            android:textColor="@color/genie_text_muted"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/rgWanTarget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rbNewWan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="➕ Tambah Instance WAN Baru (AddObject)"
+                android:textColor="@color/genie_text_primary"
+                android:textSize="13sp" />
+
+            <RadioButton
+                android:id="@+id/rbEditWan1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="⚙️ Konfigurasi / Timpa WAN 1 (Default)"
+                android:textColor="@color/genie_text_primary"
+                android:textSize="13sp" />
+
+            <RadioButton
+                android:id="@+id/rbEditWan2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="⚙️ Konfigurasi / Timpa WAN 2"
+                android:textColor="@color/genie_text_primary"
+                android:textSize="13sp"
+                android:visibility="gone" />
+        </RadioGroup>
+
+        <!-- 2. Connection Type -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="TIPE KONEKSI (CONNECTION TYPE):"
+            android:textColor="@color/genie_text_muted"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/rgConnType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rbPppoe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="PPPoE (Router Mode)"
+                android:textColor="@color/genie_text_primary"
+                android:textSize="13sp" />
+
+            <RadioButton
+                android:id="@+id/rbBridgePpp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bridge Slot PPP (PPPoE_Bridged)"
+                android:textColor="@color/genie_text_primary"
+                android:textSize="13sp" />
+
+            <RadioButton
+                android:id="@+id/rbBridgeIp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bridge Slot IP (IP_Bridged)"
+                android:textColor="@color/genie_text_primary"
+                android:textSize="13sp" />
+
+            <RadioButton
+                android:id="@+id/rbIpoe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DHCP / IPoE (IP_Routed)"
+                android:textColor="@color/genie_text_primary"
+                android:textSize="13sp" />
+        </RadioGroup>
+
+        <!-- 3. PPPoE Credentials Section -->
+        <LinearLayout
+            android:id="@+id/layoutPppoeInputs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPppoeUsername"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:hint="PPPoE Username">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPppoeUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPppoePassword"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="PPPoE Password"
+                app:endIconMode="password_toggle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPppoePassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <!-- 4. VLAN Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="VLAN Tagging (802.1Q)"
+                    android:textColor="@color/genie_text_primary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Aktifkan jika OLT / Mikrotik memakai VLAN ID"
+                    android:textColor="@color/genie_text_muted"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchVlan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilVlanId"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:hint="VLAN ID (contoh: 100, 200, 300)"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etVlanId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- 5. Service List -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="SERVICE LIST:"
+            android:textColor="@color/genie_text_muted"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupService"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipInternet"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="INTERNET" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipTr069Internet"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TR069,INTERNET" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipOther"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Other" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- 6. Port Binding -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="PORT BINDING (DIALIRKAN INTERNET):"
+            android:textColor="@color/genie_text_muted"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cbLan1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="LAN 1"
+                android:textSize="12sp" />
+
+            <CheckBox
+                android:id="@+id/cbLan2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="LAN 2"
+                android:textSize="12sp" />
+
+            <CheckBox
+                android:id="@+id/cbLan3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="LAN 3"
+                android:textSize="12sp" />
+
+            <CheckBox
+                android:id="@+id/cbLan4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="LAN 4"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cbWlan1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="SSID 1"
+                android:textSize="12sp" />
+
+            <CheckBox
+                android:id="@+id/cbWlan2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="SSID 2"
+                android:textSize="12sp" />
+
+            <CheckBox
+                android:id="@+id/cbWlan3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="SSID 3"
+                android:textSize="12sp" />
+
+            <CheckBox
+                android:id="@+id/cbWlan4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="SSID 4"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- 7. Progress & Action Button -->
+        <ProgressBar
+            android:id="@+id/pbWanLoading"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancelWan"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:text="Batal"
+                app:cornerRadius="8dp"
+                android:textColor="@color/genie_text_secondary" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSubmitWan"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="2"
+                android:backgroundTint="@color/genie_blue"
+                android:text="🚀 Terapkan WAN"
+                app:cornerRadius="8dp"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

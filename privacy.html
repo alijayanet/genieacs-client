@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy & Terms of Service - GenieACS Mobile</title>
+  <style>
+    :root {
+      --bg-color: #0d1117;
+      --card-bg: #161b22;
+      --border-color: #30363d;
+      --text-main: #f0f6fc;
+      --text-muted: #8b949e;
+      --primary: #58a6ff;
+      --primary-hover: #1f6feb;
+      --accent: #3fb950;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 24px 16px 60px;
+    }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .logo-badge {
+      display: inline-block;
+      background: rgba(88, 166, 255, 0.15);
+      color: var(--primary);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      border: 1px solid rgba(88, 166, 255, 0.3);
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .switchers-bar {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    .btn-toggle {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .btn-toggle.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+    h2 {
+      font-size: 20px;
+      color: var(--primary);
+      margin-top: 24px;
+      margin-bottom: 12px;
+      border-left: 4px solid var(--primary);
+      padding-left: 10px;
+    }
+    h2:first-of-type {
+      margin-top: 0;
+    }
+    h3 {
+      font-size: 16px;
+      color: #ffffff;
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+    p, li {
+      color: #c9d1d9;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    ul {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+    .highlight-box {
+      background: rgba(88, 166, 255, 0.08);
+      border-left: 4px solid var(--primary);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    .footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .lang-section {
+      display: none;
+    }
+    .lang-section.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div class="logo-badge">GenieACS Mobile Client • Alijaya Network</div>
+      <h1>Privacy Policy & Terms of Service</h1>
+      <p class="subtitle">Effective Date: November 6, 2026 | Last Updated: November 6, 2026</p>
+      
+      <!-- Language Switcher -->
+      <div class="switchers-bar">
+        <button class="btn-toggle active" id="btnLangEn" onclick="switchLang('en')">🇬🇧 English</button>
+        <button class="btn-toggle" id="btnLangId" onclick="switchLang('id')">🇮🇩 Bahasa Indonesia</button>
+      </div>
+
+      <!-- Section Switcher -->
+      <div class="switchers-bar">
+        <button class="btn-toggle active" id="btnTabPrivacy" onclick="switchTab('privacy')">🔒 Privacy Policy</button>
+        <button class="btn-toggle" id="btnTabTerms" onclick="switchTab('terms')">📜 Terms of Service</button>
+      </div>
+    </div>
+
+    <!-- ==================== ENGLISH SECTION ==================== -->
+    <div id="content-en" class="lang-section active">
+
+      <!-- PRIVACY POLICY EN -->
+      <div id="en-privacy" class="card tab-pane">
+        <h2>1. Introduction</h2>
+        <p>This Privacy Policy explains how <strong>GenieACS Mobile Client</strong> ("we", "our", or "the App"), developed by <strong>Alijaya Network</strong>, handles information when you use our mobile application to connect to your TR-069 CWMP / GenieACS server.</p>
+        <div class="highlight-box">
+          <strong>Privacy Commitment:</strong> GenieACS Mobile Client is a direct client management tool. We do NOT collect, sell, or monetize your network data. All TR-069 communication occurs directly between your mobile device and your configured GenieACS NBI server.
+        </div>
+
+        <h2>2. Data We Process & Permissions</h2>
+        <h3>A. Server Connection & Credentials</h3>
+        <p>To communicate with your GenieACS server via port 7557 NBI, you provide your server URL, username, and password. This credential information is stored <strong>locally and securely on your device</strong> using Android private app storage. It is never transmitted to any third-party server.</p>
+
+        <h3>B. Location Data (ACCESS_FINE_LOCATION & ACCESS_COARSE_LOCATION)</h3>
+        <ul>
+          <li><strong>Purpose:</strong> Location permissions are requested exclusively when you open the Network Map (Peta Jaringan). It enables field technicians to view their real-time GPS position relative to ODP (Optical Distribution Points) and client ONUs, and to launch route navigation via Google Maps.</li>
+          <li><strong>Storage:</strong> Real-time user GPS coordinates are processed on your device only and are NOT uploaded or stored in any remote tracking database.</li>
+        </ul>
+
+        <h3>C. Audio & Microphone (RECORD_AUDIO)</h3>
+        <ul>
+          <li><strong>Purpose:</strong> Audio permission is required only if you activate the optional Voice Assistant feature.</li>
+          <li><strong>Usage:</strong> Speech input is converted to text on-device to query your modem status or ask troubleshooting questions. Audio recordings are never retained or archived.</li>
+        </ul>
+
+        <h3>D. Network Data (INTERNET & ACCESS_NETWORK_STATE)</h3>
+        <p>Used to send HTTP/HTTPS REST API requests to your GenieACS NBI server to retrieve and update modem parameters (e.g. WiFi SSID/Password, Optical Rx/Tx Power, PPPoE WAN status, and Reboot commands).</p>
+
+        <h2>3. Third-Party Services</h2>
+        <ul>
+          <li><strong>Google Gemini AI (Optional):</strong> If you configure a Gemini API key for the voice assistant, text queries are processed according to Google Cloud and Gemini API privacy terms.</li>
+          <li><strong>OpenStreetMap / Leaflet:</strong> Map tile layers are rendered from public OpenStreetMap servers. No personal data is shared with tile providers.</li>
+        </ul>
+
+        <h2>4. Data Retention & Deletion</h2>
+        <p>Since all credentials, cached device info, and user preferences reside solely on your device, you have complete control over your data. You may delete all stored data at any time by:</p>
+        <ul>
+          <li>Logging out from the app menu (Clears session and credentials).</li>
+          <li>Clearing the app storage in Android <em>Settings &gt; Apps &gt; GenieACS &gt; Storage &gt; Clear Data</em>.</li>
+          <li>Uninstalling the application.</li>
+        </ul>
+
+        <h2>5. Children's Privacy</h2>
+        <p>GenieACS Mobile Client is a technical network management utility intended for ISP administrators and field technicians. It is not directed at or intended for children under 13 years of age.</p>
+
+        <h2>6. Contact Information</h2>
+        <p>If you have any questions, concerns, or inquiries regarding this Privacy Policy, please contact us:</p>
+        <ul>
+          <li><strong>Developer:</strong> Alijaya Network</li>
+          <li><strong>Email:</strong> <a href="mailto:support@alijaya.com">support@alijaya.com</a></li>
+          <li><strong>Website:</strong> <a href="https://alijaya.com" target="_blank">https://alijaya.com</a></li>
+        </ul>
+      </div>
+
+      <!-- TERMS OF SERVICE EN -->
+      <div id="en-terms" class="card tab-pane" style="display:none;">
+        <h2>1. Acceptance of Terms</h2>
+        <p>By downloading, installing, or using the <strong>GenieACS Mobile Client</strong>, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the application.</p>
+
+        <h2>2. Permitted Use & Responsibilities</h2>
+        <ul>
+          <li>You represent that you have authorized administrative access to the GenieACS server and the network equipment (ONT/ONU/CPE) you manage through this application.</li>
+          <li>You are responsible for safeguarding your server credentials and API keys.</li>
+          <li>You agree not to use the application to perform unauthorized penetration testing, denial of service, or compromise network equipment without owner permission.</li>
+        </ul>
+
+        <h2>3. TR-069 Operations & Equipment Safety</h2>
+        <p>The application allows authorized users to execute TR-069 CWMP actions including WiFi configuration, WAN provisioning, device rebooting, and factory resets. You acknowledge that executing provisioning commands or factory resets on active subscriber modems may temporarily interrupt subscriber internet service. You assume full operational responsibility for commands triggered through the app.</p>
+
+        <h2>4. Disclaimer of Warranties</h2>
+        <p>The application is provided "AS IS" and "AS AVAILABLE" without warranties of any kind, whether express or implied. Alijaya Network does not warrant that the application will be uninterrupted, error-free, or compatible with all third-party ONT hardware firmware revisions.</p>
+
+        <h2>5. Limitation of Liability</h2>
+        <p>To the maximum extent permitted by applicable law, Alijaya Network shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use the application, including network outages or data loss.</p>
+
+        <h2>6. Changes to Terms</h2>
+        <p>We reserve the right to modify these Terms at any time. Continued use of the application following any changes constitutes acceptance of the new terms.</p>
+      </div>
+
+    </div>
+
+    <!-- ==================== INDONESIAN SECTION ==================== -->
+    <div id="content-id" class="lang-section">
+
+      <!-- PRIVACY POLICY ID -->
+      <div id="id-privacy" class="card tab-pane">
+        <h2>1. Pendahuluan</h2>
+        <p>Kebijakan Privasi ini menjelaskan bagaimana <strong>GenieACS Mobile Client</strong> ("kami" atau "Aplikasi"), yang dikembangkan oleh <strong>Alijaya Network</strong>, mengelola data saat Anda menggunakan aplikasi seluler untuk terhubung ke server TR-069 CWMP / GenieACS Anda.</p>
+        <div class="highlight-box">
+          <strong>Komitmen Privasi:</strong> GenieACS Mobile Client adalah alat klien manajemen langsung. Kami TIDAK mengumpulkan, menjual, atau memonetisasi data jaringan Anda. Seluruh komunikasi TR-069 berlangsung langsung antara perangkat HP Anda dan server GenieACS NBI Anda sendiri.
+        </div>
+
+        <h2>2. Data yang Diproses & Izin Aplikasi</h2>
+        <h3>A. Kredensial & Sambungan Server</h3>
+        <p>Untuk berkomunikasi dengan server GenieACS Anda melalui port 7557 NBI, Anda memasukkan URL server, username, dan password. Informasi ini disimpan <strong>secara lokal dan aman di perangkat HP Anda</strong> menggunakan penyimpanan internal aplikasi Android. Data ini tidak pernah dikirimkan ke server pihak ketiga mana pun.</p>
+
+        <h3>B. Lokasi Pengguna (ACCESS_FINE_LOCATION & ACCESS_COARSE_LOCATION)</h3>
+        <ul>
+          <li><strong>Tujuan:</strong> Izin lokasi hanya diminta ketika Anda membuka halaman Peta Jaringan (ODP & Klien). Ini memungkinkan teknisi lapangan melihat posisi GPS mereka saat ini terhadap titik ODP dan modem pelanggan, serta membuka navigasi rute ke lokasi pelanggan via Google Maps.</li>
+          <li><strong>Penyimpanan:</strong> Titik GPS hanya diproses secara lokal di HP Anda dan TIDAK diunggah ke server pelacakan eksternal.</li>
+        </ul>
+
+        <h3>C. Mikrofon & Audio (RECORD_AUDIO)</h3>
+        <ul>
+          <li><strong>Tujuan:</strong> Izin audio hanya digunakan jika Anda mengaktifkan fitur Asisten Suara (Voice Assistant).</li>
+          <li><strong>Penggunaan:</strong> Suara diproses menjadi teks langsung di perangkat untuk mengecek status modem atau konsultasi teknis. Rekaman suara tidak pernah disimpan atau diarsipkan.</li>
+        </ul>
+
+        <h3>D. Akses Jaringan (INTERNET & ACCESS_NETWORK_STATE)</h3>
+        <p>Digunakan untuk mengirim permintaan REST API HTTP/HTTPS ke server GenieACS NBI Anda guna membaca dan memperbarui parameter modem (seperti nama WiFi/SSID, password, daya terima optik Rx/Tx, status PPPoE, dan perintah restart modem).</p>
+
+        <h2>3. Layanan Pihak Ketiga</h2>
+        <ul>
+          <li><strong>Google Gemini AI (Opsional):</strong> Jika Anda memasukkan API key Gemini untuk asisten suara, pemrosesan teks mengikuti ketentuan privasi Google Cloud & Gemini API.</li>
+          <li><strong>OpenStreetMap / Leaflet:</strong> Peta jaringan menggunakan tile peta publik OpenStreetMap tanpa membagikan data identitas pribadi Anda.</li>
+        </ul>
+
+        <h2>4. Retensi dan Penghapusan Data</h2>
+        <p>Karena seluruh kredensial, cache, dan data konfigurasi berada di HP Anda, Anda memiliki kendali penuh atas data Anda. Anda dapat menghapus seluruh data kapan saja dengan cara:</p>
+        <ul>
+          <li>Keluar / Logout dari menu aplikasi (menghapus sesi dan kredensial tersimpan).</li>
+          <li>Membersihkan data aplikasi melalui <em>Pengaturan HP &gt; Aplikasi &gt; GenieACS &gt; Penyimpanan &gt; Hapus Data</em>.</li>
+          <li>Menghapus (uninstall) aplikasi dari perangkat Anda.</li>
+        </ul>
+
+        <h2>5. Privasi Anak-Anak</h2>
+        <p>Aplikasi ini adalah utilitas teknis jaringan profesional untuk administrator ISP dan teknisi jaringan, dan tidak ditujukan untuk anak-anak di bawah usia 13 tahun.</p>
+
+        <h2>6. Kontak Pengembang</h2>
+        <p>Jika Anda memiliki pertanyaan mengenai Kebijakan Privasi ini, silakan hubungi kami:</p>
+        <ul>
+          <li><strong>Pengembang:</strong> Alijaya Network</li>
+          <li><strong>Email:</strong> <a href="mailto:support@alijaya.com">support@alijaya.com</a></li>
+          <li><strong>Website:</strong> <a href="https://alijaya.com" target="_blank">https://alijaya.com</a></li>
+        </ul>
+      </div>
+
+      <!-- TERMS OF SERVICE ID -->
+      <div id="id-terms" class="card tab-pane" style="display:none;">
+        <h2>1. Persetujuan Ketentuan</h2>
+        <p>Dengan mengunduh, memasang, atau menggunakan aplikasi <strong>GenieACS Mobile Client</strong>, Anda menyetujui Ketentuan Layanan ini. Jika Anda tidak menyetujui ketentuan ini, harap jangan gunakan aplikasi.</p>
+
+        <h2>2. Penggunaan yang Diizinkan</h2>
+        <ul>
+          <li>Anda menyatakan bahwa Anda memiliki hak dan wewenang administratif yang sah terhadap server GenieACS dan perangkat modem ONT/ONU yang Anda kelola melalui aplikasi ini.</li>
+          <li>Anda bertanggung jawab menjaga kerahasiaan kredensial login server dan API key Anda.</li>
+          <li>Dilarang menggunakan aplikasi untuk merusak atau mengakses perangkat jaringan tanpa izin sah pemilik jaringan.</li>
+        </ul>
+
+        <h2>3. Operasional TR-069 & Tanggung Jawab Teknis</h2>
+        <p>Aplikasi menyediakan fungsi manajemen TR-069 seperti pengaturan WiFi, konfigurasi WAN PPPoE, restart modem, dan reset pabrik. Anda memahami bahwa melakukan konfigurasi atau reset pada modem pelanggan dapat mempengaruhi konektivitas internet pelanggan. Anda bertanggung jawab penuh atas setiap perintah teknis yang dieksekusi.</p>
+
+        <h2>4. Penafian Jaminan (Disclaimer)</h2>
+        <p>Aplikasi disediakan sebagaimana adanya ("AS IS") tanpa jaminan apa pun, baik tersurat maupun tersirat. Alijaya Network tidak menjamin aplikasi bebas dari bug atau selalu kompatibel dengan seluruh versi firmware modem pihak ketiga.</p>
+
+        <h2>5. Batasan Tanggung Jawab</h2>
+        <p>Alijaya Network tidak bertanggung jawab atas kerugian langsung atau tidak langsung akibat gangguan jaringan, kehilangan data, atau kesalahan konfigurasi yang timbul dari penggunaan aplikasi ini.</p>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <p>&copy; 2026 <strong>Alijaya Network</strong>. All rights reserved.</p>
+      <p style="margin-top: 4px;">GenieACS Mobile Management Client • TR-069 CWMP Universal Connector</p>
+    </div>
+  </div>
+
+  <script>
+    let currentLang = 'en';
+    let currentTab = 'privacy';
+
+    function switchLang(lang) {
+      currentLang = lang;
+      document.getElementById('btnLangEn').classList.toggle('active', lang === 'en');
+      document.getElementById('btnLangId').classList.toggle('active', lang === 'id');
+      
+      document.getElementById('content-en').classList.toggle('active', lang === 'en');
+      document.getElementById('content-id').classList.toggle('active', lang === 'id');
+      
+      updateTabs();
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      document.getElementById('btnTabPrivacy').classList.toggle('active', tab === 'privacy');
+      document.getElementById('btnTabTerms').classList.toggle('active', tab === 'terms');
+      updateTabs();
+    }
+
+    function updateTabs() {
+      const isPrivacy = currentTab === 'privacy';
+      document.getElementById('en-privacy').style.display = isPrivacy ? 'block' : 'none';
+      document.getElementById('en-terms').style.display = isPrivacy ? 'none' : 'block';
+      
+      document.getElementById('id-privacy').style.display = isPrivacy ? 'block' : 'none';
+      document.getElementById('id-terms').style.display = isPrivacy ? 'none' : 'block';
+    }
+
+    // Check URL parameters (e.g. ?lang=id or ?tab=terms)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('lang') === 'id') switchLang('id');
+    if (urlParams.get('tab') === 'terms') switchTab('terms');
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GenieACS Official Dark Theme Branding & Colors -->
+    <color name="genie_dark">#161B22</color>
+    <color name="genie_dark_surface">#0D1117</color>
+    <color name="genie_blue">#388BFD</color>
+    <color name="genie_blue_dark">#1F6FEB</color>
+    <color name="genie_blue_light">#16253B</color>
+    <color name="genie_cyan">#58A6FF</color>
+    
+    <!-- Neutral / Backgrounds for Dark Mode -->
+    <color name="genie_bg">#0D1117</color>
+    <color name="genie_card_bg">#161B22</color>
+    <color name="genie_border">#30363D</color>
+    <color name="genie_divider">#21262D</color>
+    <color name="genie_text_primary">#F0F6FC</color>
+    <color name="genie_text_secondary">#8B949E</color>
+    <color name="genie_text_muted">#6E7681</color>
+    
+    <!-- Status Colors for Dark Mode -->
+    <color name="status_online">#3FB950</color>
+    <color name="status_online_bg">#1B382B</color>
+    <color name="status_offline">#F85149</color>
+    <color name="status_offline_bg">#3C1E22</color>
+    <color name="status_warning">#D29922</color>
+    <color name="status_warning_bg">#3B2E16</color>
+    <color name="status_info">#58A6FF</color>
+    <color name="status_info_bg">#16253B</color>
+    
+    <!-- Signal (Optical Rx Power) Colors for Dark Mode -->
+    <color name="signal_good">#3FB950</color>
+    <color name="signal_warning">#E3B341</color>
+    <color name="signal_bad">#F85149</color>
+    
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+</resources>

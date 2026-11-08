@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GenieACS Official Branding & Colors -->
+    <color name="genie_dark">#24292E</color>
+    <color name="genie_dark_surface">#1F2428</color>
+    <color name="genie_blue">#0875BA</color>
+    <color name="genie_blue_dark">#06598E</color>
+    <color name="genie_blue_light">#E1F0FA</color>
+    <color name="genie_cyan">#00A0E9</color>
+    
+    <!-- Neutral / Backgrounds -->
+    <color name="genie_bg">#F6F8FA</color>
+    <color name="genie_card_bg">#FFFFFF</color>
+    <color name="genie_border">#E1E4E8</color>
+    <color name="genie_divider">#EAECEF</color>
+    <color name="genie_text_primary">#24292E</color>
+    <color name="genie_text_secondary">#586069</color>
+    <color name="genie_text_muted">#6A737D</color>
+    
+    <!-- Status Colors -->
+    <color name="status_online">#0E9F6E</color>
+    <color name="status_online_bg">#DEF7EC</color>
+    <color name="status_offline">#E02424</color>
+    <color name="status_offline_bg">#FDE8E8</color>
+    <color name="status_warning">#B45309</color>
+    <color name="status_warning_bg">#FEF3C7</color>
+    <color name="status_info">#1D4ED8</color>
+    <color name="status_info_bg">#EFF6FF</color>
+    
+    <!-- Signal (Optical Rx Power) Colors -->
+    <color name="signal_good">#28A745</color>
+    <color name="signal_warning">#DBAB09</color>
+    <color name="signal_bad">#D73A49</color>
+    
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+</resources>

@@ -1,0 +1,115 @@
+<resources>
+    <string name="app_name">GenieACS</string>
+    <string name="app_subtitle">Mobile Management Client</string>
+    <string name="app_footer">GenieACS Mobile Client • Universal TR-069 NBI Connector</string>
+    <string name="privacy_policy_terms">Privacy Policy &amp; Terms of Service</string>
+    
+    <!-- Navigation & Common -->
+    <string name="devices">Devices</string>
+    <string name="search_hint">Search tag (#), username, serial, model, ODP...</string>
+    <string name="filter_all">All</string>
+    <string name="filter_online">Online</string>
+    <string name="filter_offline">Offline</string>
+    <string name="filter_bad_rx">Critical Rx</string>
+    <string name="back">Back</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="loading">Loading...</string>
+    
+    <!-- Main Activity -->
+    <string name="status_not_connected">Not Connected</string>
+    <string name="stat_total">Total</string>
+    <string name="stat_online">Online</string>
+    <string name="stat_offline">Offline</string>
+    <string name="empty_title">No Modems Registered</string>
+    <string name="empty_desc">Ensure your GenieACS server is running and NBI port 7557 is accessible from this network.</string>
+    <string name="btn_connect_now">Connect Now</string>
+    <string name="menu_bulk_admin">Bulk Admin Password</string>
+    <string name="menu_network_map">Network Map</string>
+    <string name="menu_server_settings">Server Settings</string>
+    <string name="menu_logout">Change / Logout Server</string>
+    <string name="menu_switch_theme">Switch Theme (Dark/Light)</string>
+    <string name="menu_switch_lang">Switch Language (ID/EN)</string>
+    
+    <!-- Login Screen -->
+    <string name="login_title">GenieACS Server Login</string>
+    <string name="login_desc">Enter your GenieACS server URL, username, and password to connect.</string>
+    <string name="server_url_nbi">Server NBI URL</string>
+    <string name="preset_servers">Quick Server Presets:</string>
+    <string name="nbi_credentials">NBI Authentication Credentials (Port 7557)</string>
+    <string name="server_username">Server Username</string>
+    <string name="server_password">Server Password</string>
+    <string name="gemini_api_key_label">Google Gemini API Key (Voice Assistant)</string>
+    <string name="gemini_api_key_desc">Optional: Enter your Gemini AI key for intelligent voice assistant and modem diagnostics.</string>
+    <string name="btn_connect">Connect to GenieACS Server</string>
+    
+    <!-- Server Config Dialog -->
+    <string name="server_settings">NBI Server Settings</string>
+    <string name="server_settings_desc">Enter your GenieACS NBI server URL (port 7557) directly without extra backend modules.</string>
+    <string name="server_url_label">GenieACS Server URL (NBI Port 7557)</string>
+    <string name="server_url_hint">http://192.168.8.89:7557</string>
+    <string name="auth_optional_label">HTTP Authentication (Required)</string>
+    <string name="username_hint">Server Username</string>
+    <string name="password_hint">Server Password</string>
+    <string name="app_theme_label">App Display Theme</string>
+    <string name="theme_light">☀️ Light Mode</string>
+    <string name="theme_dark">🌙 Dark Mode</string>
+    <string name="app_language_label">App Language / Bahasa</string>
+    <string name="lang_system">🌐 System Default</string>
+    <string name="lang_en">🇬🇧 English</string>
+    <string name="lang_id">🇮🇩 Bahasa Indonesia</string>
+    <string name="btn_test_connection">Test Connection</string>
+    <string name="btn_save_connect">Save &amp; Connect</string>
+    
+    <!-- Device Detail -->
+    <string name="device_detail_title">Device Details</string>
+    <string name="section_general">General Information</string>
+    <string name="label_serial">Serial Number</string>
+    <string name="label_model">Model / Product Class</string>
+    <string name="label_manufacturer">Manufacturer</string>
+    <string name="label_hardware_version">Hardware Version</string>
+    <string name="label_software_version">Software Version</string>
+    <string name="label_last_inform">Last Inform Time</string>
+    <string name="label_tags">GenieACS Tags:</string>
+    <string name="btn_view_on_map">View / Pin on Map</string>
+    
+    <!-- Optical Info -->
+    <string name="optical_info">Optical &amp; Signal Info</string>
+    <string name="rx_power_label">Rx Optical Power (Attenuation)</string>
+    <string name="tx_power_label">Tx Optical Power</string>
+    
+    <!-- Network & WAN -->
+    <string name="network_info">Network &amp; WAN Info</string>
+    <string name="pppoe_user_label">PPPoE Username</string>
+    <string name="wan_ip_label">WAN IP Address</string>
+    <string name="mac_label">MAC Address</string>
+    <string name="btn_add_wan">Add New WAN Connection</string>
+    
+    <!-- WiFi Settings -->
+    <string name="wifi_settings">WiFi Settings</string>
+    <string name="ssid_label">WiFi Name (SSID 2.4G / 5G)</string>
+    <string name="password_label">WiFi Password (WPA Key)</string>
+    <string name="btn_commit_wifi">Save &amp; Apply to Modem</string>
+    
+    <!-- Connected Devices & Actions -->
+    <string name="connected_devices">Connected Client Devices</string>
+    <string name="section_actions">Quick Actions</string>
+    <string name="action_reboot">Reboot Modem</string>
+    <string name="action_refresh">Refresh Parameters</string>
+    <string name="action_reset">Factory Reset</string>
+    
+    <!-- Bulk Admin -->
+    <string name="bulk_admin_title">Bulk Admin Password Change</string>
+    <string name="bulk_admin_desc">Change modem web login password across all or selected modems simultaneously.</string>
+    <string name="bulk_admin_new_pass">New Admin Password</string>
+    <string name="btn_bulk_apply">Apply to Selected Modems</string>
+    
+    <!-- Voice Assistant -->
+    <string name="voice_assistant_title">GenieACS Voice Assistant</string>
+    <string name="voice_assistant_hint">Tap microphone and speak...</string>
+    
+    <!-- Network Map -->
+    <string name="map_title">ODP &amp; Client Network Map</string>
+    <string name="map_loading">Loading network locations...</string>
+</resources>
