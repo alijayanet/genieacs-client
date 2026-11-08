@@ -266,7 +266,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Filter Chips: Semua, Online, Offline, Redaman Kritis -->
+        <!-- Filter Chips: Semua, Online, Offline, Kritis -->
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -313,25 +313,6 @@
             </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
 
-        <!-- Tag Filter Chips: Dynamically populated from GenieACS _tags -->
-        <HorizontalScrollView
-            android:id="@+id/scrollTagsFilter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/genie_bg"
-            android:scrollbars="none"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="10dp"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroupTags"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:singleSelection="true" />
-        </HorizontalScrollView>
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Main Content: SwipeRefresh + RecyclerView -->

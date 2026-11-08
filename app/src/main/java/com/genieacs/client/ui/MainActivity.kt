@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
     private var allDevices: List<DeviceItem> = emptyList()
     private var currentFilter: FilterType = FilterType.ALL
     private var searchQuery: String = ""
-    private var selectedTagFilter: String? = null
 
     enum class FilterType {
         ALL, ONLINE, OFFLINE, BAD_RX
@@ -312,7 +311,6 @@ class MainActivity : AppCompatActivity() {
                 if (!cachedList.isNullOrEmpty()) {
                     allDevices = cachedList
                     updateStats(cachedList)
-                    setupTagChips(cachedList)
                     applyFilterAndSearch()
                 }
             } catch (_: Exception) {
@@ -336,7 +334,6 @@ class MainActivity : AppCompatActivity() {
             res.onSuccess { list ->
                 allDevices = list
                 updateStats(list)
-                setupTagChips(list)
                 applyFilterAndSearch()
                 try {
                     prefs.cachedDevicesJson = com.google.gson.Gson().toJson(list)
@@ -363,68 +360,9 @@ class MainActivity : AppCompatActivity() {
         binding.tvOfflineCount.text = offline.toString()
     }
 
-    private fun setupTagChips(devices: List<DeviceItem>) {
-        val userTags = devices.flatMap { it.tags }
-            .filterNot { it.startsWith("LOC:", true) || it.startsWith("LOC_", true) || it.startsWith("LOC-", true) }
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
-            .distinct()
-            .sorted()
-
-        if (userTags.isEmpty()) {
-            binding.scrollTagsFilter.visibility = View.GONE
-            selectedTagFilter = null
-            return
-        }
-
-        binding.scrollTagsFilter.visibility = View.VISIBLE
-        binding.chipGroupTags.removeAllViews()
-
-        // 1. Chip "🏷️ Semua Tag"
-        val allTagsChip = Chip(this, null, com.google.android.material.R.style.Widget_MaterialComponents_Chip_Choice).apply {
-            id = View.generateViewId()
-            text = "🏷️ Semua Tag"
-            isCheckable = true
-            isChecked = (selectedTagFilter == null)
-            setOnClickListener {
-                selectedTagFilter = null
-                applyFilterAndSearch()
-            }
-        }
-        binding.chipGroupTags.addView(allTagsChip)
-
-        // 2. Dynamic Tag Chips from GenieACS _tags
-        for (tag in userTags) {
-            val count = devices.count { dev -> dev.tags.any { it.equals(tag, ignoreCase = true) } }
-            val chip = Chip(this, null, com.google.android.material.R.style.Widget_MaterialComponents_Chip_Choice).apply {
-                id = View.generateViewId()
-                text = "🏷️ $tag ($count)"
-                isCheckable = true
-                isChecked = selectedTagFilter.equals(tag, ignoreCase = true)
-                setOnClickListener {
-                    selectedTagFilter = if (isChecked) tag else null
-                    if (selectedTagFilter == null) {
-                        allTagsChip.isChecked = true
-                    }
-                    applyFilterAndSearch()
-                }
-            }
-            binding.chipGroupTags.addView(chip)
-        }
-    }
-
     private fun selectTag(tag: String) {
-        selectedTagFilter = tag
-        for (i in 0 until binding.chipGroupTags.childCount) {
-            val child = binding.chipGroupTags.getChildAt(i) as? Chip ?: continue
-            val chipText = child.text.toString()
-            if (chipText.contains(tag, ignoreCase = true) && !chipText.contains("Semua Tag", ignoreCase = true)) {
-                child.isChecked = true
-            } else {
-                child.isChecked = false
-            }
-        }
-        applyFilterAndSearch()
+        binding.etSearch.setText(tag)
+        binding.etSearch.setSelection(binding.etSearch.text?.length ?: 0)
     }
 
     private fun applyFilterAndSearch() {
@@ -438,15 +376,7 @@ class MainActivity : AppCompatActivity() {
             FilterType.BAD_RX -> filtered.filter { it.rxPower != null && it.rxPower < -27.0 }
         }
 
-        // 2. Tag Filter Chip
-        if (!selectedTagFilter.isNullOrBlank()) {
-            val targetTag = selectedTagFilter!!
-            filtered = filtered.filter { dev ->
-                dev.tags.any { it.equals(targetTag, ignoreCase = true) }
-            }
-        }
-
-        // 3. Search Query (PPPoE, SN, Product, Manufacturer, SSID, ID, ODP, and Tags)
+        // 2. Search Query (PPPoE, SN, Product, Manufacturer, SSID, ID, ODP, and Tags)
         if (searchQuery.isNotBlank()) {
             val q = searchQuery.lowercase()
             val isTagOnlySearch = q.startsWith("tag:") || q.startsWith("#")
@@ -478,12 +408,10 @@ class MainActivity : AppCompatActivity() {
         if (filtered.isEmpty() && allDevices.isNotEmpty()) {
             binding.layoutEmpty.visibility = View.VISIBLE
             val filterReason = buildString {
-                if (!selectedTagFilter.isNullOrBlank()) append("tag '$selectedTagFilter'")
                 if (searchQuery.isNotBlank()) {
-                    if (isNotEmpty()) append(" & ")
                     append("pencarian '$searchQuery'")
                 }
-                if (isEmpty()) append("filter yang dipilih")
+                if (isEmpty()) append("filter status yang dipilih")
             }
             binding.tvEmptyMessage.text = "Tidak ada perangkat yang cocok dengan $filterReason."
             binding.btnConnectNow.visibility = View.GONE

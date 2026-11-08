@@ -10,7 +10,7 @@
     <string name="filter_all">All</string>
     <string name="filter_online">Online</string>
     <string name="filter_offline">Offline</string>
-    <string name="filter_bad_rx">Critical Rx</string>
+    <string name="filter_bad_rx">Critical</string>
     <string name="back">Back</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
