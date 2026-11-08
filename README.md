@@ -111,4 +111,4 @@ Pastikan Anda telah menginstal **Android Studio** (Ladybug/Koala) dengan **JDK 1
 ## 👤 Pengembang & Kontak
 - **Pengembang**: ALIJAYA JURAGAN PULSA / Alijaya Network
 - **Repositori**: [https://github.com/alijayanet/genieacs-client](https://github.com/alijayanet/genieacs-client)
-- **Server Hub**: [https://genieacs-client.alijaya.com](https://genieacs-client.alijaya.com)
+
