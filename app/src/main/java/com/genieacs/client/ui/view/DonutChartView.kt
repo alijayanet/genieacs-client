@@ -7,6 +7,8 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.ContextCompat
+import com.genieacs.client.R
 import kotlin.math.min
 
 class DonutChartView @JvmOverloads constructor(
@@ -36,15 +38,15 @@ class DonutChartView @JvmOverloads constructor(
         strokeCap = Paint.Cap.ROUND
     }
 
+    private var customColorsSet = false
+
     private val primaryTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textAlign = Paint.Align.CENTER
-        color = Color.WHITE
         isFakeBoldText = true
     }
 
     private val secondaryTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textAlign = Paint.Align.CENTER
-        color = Color.parseColor("#94A3B8")
     }
 
     private val rect = RectF()
@@ -58,6 +60,16 @@ class DonutChartView @JvmOverloads constructor(
         emptyArcPaint.strokeWidth = strokeThickness
         primaryTextPaint.textSize = 20f * density
         secondaryTextPaint.textSize = 10f * density
+
+        applyThemeColors()
+    }
+
+    private fun applyThemeColors() {
+        if (!customColorsSet) {
+            primaryTextPaint.color = ContextCompat.getColor(context, R.color.genie_text_primary)
+            secondaryTextPaint.color = ContextCompat.getColor(context, R.color.genie_text_secondary)
+            emptyArcPaint.color = ContextCompat.getColor(context, R.color.genie_divider)
+        }
     }
 
     fun setData(
@@ -73,6 +85,7 @@ class DonutChartView @JvmOverloads constructor(
     }
 
     fun setTextColor(primaryColor: Int, secondaryColor: Int) {
+        customColorsSet = true
         primaryTextPaint.color = primaryColor
         secondaryTextPaint.color = secondaryColor
         invalidate()
@@ -80,6 +93,7 @@ class DonutChartView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        applyThemeColors()
 
         val w = width.toFloat()
         val h = height.toFloat()
