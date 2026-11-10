@@ -1,4 +1,4 @@
-package com.genieacs.client.data.network
+package com.tr069.client.data.network
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject

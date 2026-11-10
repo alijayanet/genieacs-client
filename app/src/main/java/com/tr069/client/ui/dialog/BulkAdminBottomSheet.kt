@@ -1,4 +1,4 @@
-package com.genieacs.client.ui.dialog
+package com.tr069.client.ui.dialog
 
 import android.os.Bundle
 import android.text.Editable
@@ -10,11 +10,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.genieacs.client.data.model.DeviceItem
-import com.genieacs.client.data.network.GenieAcsNbiService
-import com.genieacs.client.data.pref.AppPreferences
-import com.genieacs.client.databinding.BottomSheetBulkAdminBinding
-import com.genieacs.client.ui.adapter.BulkDeviceAdapter
+import com.tr069.client.data.model.DeviceItem
+import com.tr069.client.data.network.GenieAcsNbiService
+import com.tr069.client.data.pref.AppPreferences
+import com.tr069.client.databinding.BottomSheetBulkAdminBinding
+import com.tr069.client.ui.adapter.BulkDeviceAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

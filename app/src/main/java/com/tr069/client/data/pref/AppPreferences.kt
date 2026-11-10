@@ -1,4 +1,4 @@
-package com.genieacs.client.data.pref
+package com.tr069.client.data.pref
 
 import android.content.Context
 import android.content.SharedPreferences

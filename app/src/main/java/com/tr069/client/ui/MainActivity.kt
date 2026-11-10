@@ -1,4 +1,4 @@
-package com.genieacs.client.ui
+package com.tr069.client.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -12,15 +12,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
-import com.genieacs.client.R
-import com.genieacs.client.data.model.DeviceItem
-import com.genieacs.client.data.network.GenieAcsNbiService
-import com.genieacs.client.data.pref.AppPreferences
-import com.genieacs.client.databinding.ActivityMainBinding
-import com.genieacs.client.ui.adapter.DeviceAdapter
-import com.genieacs.client.ui.dialog.BulkAdminBottomSheet
-import com.genieacs.client.ui.dialog.ServerConfigDialog
-import com.genieacs.client.ui.dialog.VoiceAssistBottomSheet
+import com.tr069.client.R
+import com.tr069.client.data.model.DeviceItem
+import com.tr069.client.data.network.GenieAcsNbiService
+import com.tr069.client.data.pref.AppPreferences
+import com.tr069.client.databinding.ActivityMainBinding
+import com.tr069.client.ui.adapter.DeviceAdapter
+import com.tr069.client.ui.dialog.BulkAdminBottomSheet
+import com.tr069.client.ui.dialog.ServerConfigDialog
+import com.tr069.client.ui.dialog.VoiceAssistBottomSheet
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 
@@ -149,7 +149,7 @@ class MainActivity : AppCompatActivity() {
             AppPreferences.THEME_DARK
         }
         prefs.themeMode = newTheme
-        com.genieacs.client.GenieAcsApp.applyTheme(newTheme)
+        com.tr069.client.Tr069App.applyTheme(newTheme)
         updateThemeToggleIcon()
         val themeName = if (newTheme == AppPreferences.THEME_DARK) "Mode Gelap (Dark Mode)" else "Mode Terang (Light Mode)"
         Toast.makeText(this, "Tema diubah ke $themeName", Toast.LENGTH_SHORT).show()
@@ -217,7 +217,7 @@ class MainActivity : AppCompatActivity() {
                     else -> AppPreferences.LANG_SYSTEM
                 }
                 prefs.language = selectedLang
-                com.genieacs.client.GenieAcsApp.applyLanguage(selectedLang)
+                com.tr069.client.Tr069App.applyLanguage(selectedLang)
                 dialog.dismiss()
             }
             .show()

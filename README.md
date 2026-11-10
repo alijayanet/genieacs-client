@@ -1,4 +1,4 @@
-# GenieACS Mobile Client (Android)
+# TR-069 Mobile Client (Android)
 
 <p align="center">
   <img src="https://img.shields.io/badge/Release-v1.0.0-blue?style=for-the-badge&logo=android" alt="Release v1.0.0">
@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/Protocol-TR--069_ACS-orange?style=for-the-badge" alt="TR-069 ACS">
 </p>
 
-**GenieACS Mobile Client** adalah aplikasi Android open-source yang dirancang khusus bagi *Network Engineer*, *ISP Administrator*, dan teknisi lapangan untuk memonitor, mengelola, serta mendiagnosis perangkat pelanggan (**CPE / ONU / ONT**) secara realtime langsung dari smartphone melalui server **GenieACS (TR-069)**.
+**TR-069 Mobile Client** adalah aplikasi Android open-source yang dirancang khusus bagi *Network Engineer*, *ISP Administrator*, dan teknisi lapangan untuk memonitor, mengelola, serta mendiagnosis perangkat pelanggan (**CPE / ONU / ONT**) secara realtime langsung dari smartphone melalui server **GenieACS (TR-069)**.
 
 ---
 
@@ -15,9 +15,9 @@
 
 | File / Metode | Ukuran | Tautan Unduh |
 | :--- | :--- | :--- |
-| **Direct APK File** | `5.78 MB` | [**Download genieacs-client.apk (Direct)**](https://genieacs-client.alijaya.com/genieacs-client.apk) |
+| **Direct APK File** | `5.90 MB` | [**Download TR069-client.apk (Direct)**](https://genieacs-client.alijaya.com/TR069-client.apk) |
 | **Web Download Landing Page** | - | [**genieacs-client.alijaya.com/download.html**](https://genieacs-client.alijaya.com/download.html) *(Dilengkapi QR Code scan kamera HP)* |
-| **File di Repositori Ini** | `5.78 MB` | [`./genieacs-client.apk`](./genieacs-client.apk) |
+| **File di Repositori Ini** | `5.90 MB` | [`./TR069-client.apk`](./TR069-client.apk) |
 
 ---
 

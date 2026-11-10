@@ -11,5 +11,6 @@ local.properties
 *.log
 *.aab
 *.apk
+!TR069-client.apk
 !genieacs-client.apk
 !Genieacs.apk

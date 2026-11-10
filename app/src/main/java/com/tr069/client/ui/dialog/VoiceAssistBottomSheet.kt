@@ -1,4 +1,4 @@
-package com.genieacs.client.ui.dialog
+package com.tr069.client.ui.dialog
 
 import android.Manifest
 import android.content.ClipData
@@ -19,13 +19,13 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import com.genieacs.client.R
-import com.genieacs.client.data.model.DeviceItem
-import com.genieacs.client.data.network.GeminiAiService
-import com.genieacs.client.data.network.GenieAcsNbiService
-import com.genieacs.client.data.pref.AppPreferences
-import com.genieacs.client.databinding.BottomSheetVoiceAssistBinding
-import com.genieacs.client.ui.NetworkMapActivity
+import com.tr069.client.R
+import com.tr069.client.data.model.DeviceItem
+import com.tr069.client.data.network.GeminiAiService
+import com.tr069.client.data.network.GenieAcsNbiService
+import com.tr069.client.data.pref.AppPreferences
+import com.tr069.client.databinding.BottomSheetVoiceAssistBinding
+import com.tr069.client.ui.NetworkMapActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 import java.util.Locale

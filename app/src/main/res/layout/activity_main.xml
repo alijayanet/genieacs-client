@@ -34,7 +34,7 @@
                     android:id="@+id/ivGenieLogo"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/ic_genieacs_logo"
+                    android:src="@drawable/ic_tr069_logo"
                     android:contentDescription="GenieACS" />
 
                 <LinearLayout
@@ -47,7 +47,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="GenieACS"
+                        android:text="TR-069 Client"
                         android:textColor="@color/white"
                         android:textStyle="bold"
                         android:textSize="18sp" />
@@ -347,7 +347,7 @@
                 <ImageView
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:src="@drawable/ic_genieacs_logo"
+                    android:src="@drawable/ic_tr069_logo"
                     android:alpha="0.4"
                     android:contentDescription="Empty" />
 

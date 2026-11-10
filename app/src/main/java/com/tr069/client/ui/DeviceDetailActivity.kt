@@ -1,4 +1,4 @@
-package com.genieacs.client.ui
+package com.tr069.client.ui
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -12,16 +12,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import com.genieacs.client.R
-import com.genieacs.client.data.model.DeviceDetail
-import com.genieacs.client.data.model.WlanInstance
-import com.genieacs.client.data.network.GenieAcsNbiService
-import com.genieacs.client.data.pref.AppPreferences
-import com.genieacs.client.databinding.ActivityDeviceDetailBinding
-import com.genieacs.client.databinding.ItemConnectedDeviceBinding
+import com.tr069.client.R
+import com.tr069.client.data.model.DeviceDetail
+import com.tr069.client.data.model.WlanInstance
+import com.tr069.client.data.network.GenieAcsNbiService
+import com.tr069.client.data.pref.AppPreferences
+import com.tr069.client.databinding.ActivityDeviceDetailBinding
+import com.tr069.client.databinding.ItemConnectedDeviceBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
-import com.genieacs.client.ui.dialog.AddWanBottomSheet
+import com.tr069.client.ui.dialog.AddWanBottomSheet
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 import java.util.Locale

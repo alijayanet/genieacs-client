@@ -44,7 +44,7 @@
                     android:id="@+id/tvOverviewTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Overview GenieACS"
+                    android:text="Overview TR-069"
                     android:textColor="#FFFFFF"
                     android:textSize="17sp"
                     android:textStyle="bold" />
@@ -260,7 +260,7 @@
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
 
-                            <com.genieacs.client.ui.view.DonutChartView
+                            <com.tr069.client.ui.view.DonutChartView
                                 android:id="@+id/chartOnline"
                                 android:layout_width="match_parent"
                                 android:layout_height="110dp"
@@ -304,7 +304,7 @@
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
 
-                            <com.genieacs.client.ui.view.DonutChartView
+                            <com.tr069.client.ui.view.DonutChartView
                                 android:id="@+id/chartPonPower"
                                 android:layout_width="match_parent"
                                 android:layout_height="110dp"
@@ -357,7 +357,7 @@
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
 
-                            <com.genieacs.client.ui.view.DonutChartView
+                            <com.tr069.client.ui.view.DonutChartView
                                 android:id="@+id/chartOntType"
                                 android:layout_width="match_parent"
                                 android:layout_height="110dp"
@@ -401,7 +401,7 @@
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
 
-                            <com.genieacs.client.ui.view.DonutChartView
+                            <com.tr069.client.ui.view.DonutChartView
                                 android:id="@+id/chartAccessType"
                                 android:layout_width="match_parent"
                                 android:layout_height="110dp"
@@ -454,7 +454,7 @@
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
 
-                            <com.genieacs.client.ui.view.DonutChartView
+                            <com.tr069.client.ui.view.DonutChartView
                                 android:id="@+id/chartOdpMap"
                                 android:layout_width="match_parent"
                                 android:layout_height="110dp"
@@ -498,7 +498,7 @@
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
 
-                            <com.genieacs.client.ui.view.DonutChartView
+                            <com.tr069.client.ui.view.DonutChartView
                                 android:id="@+id/chartTags"
                                 android:layout_width="match_parent"
                                 android:layout_height="110dp"

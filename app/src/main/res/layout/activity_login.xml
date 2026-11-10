@@ -35,14 +35,14 @@
         <ImageView
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:src="@drawable/ic_genieacs_logo"
+            android:src="@drawable/ic_tr069_logo"
             android:contentDescription="GenieACS Logo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="GenieACS"
+            android:text="TR-069 Client"
             android:textColor="@color/genie_text_primary"
             android:textSize="26sp"
             android:textStyle="bold" />

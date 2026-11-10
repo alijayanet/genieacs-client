@@ -1,11 +1,11 @@
-package com.genieacs.client
+package com.tr069.client
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import com.genieacs.client.data.pref.AppPreferences
+import com.tr069.client.data.pref.AppPreferences
 
-class GenieAcsApp : Application() {
+class Tr069App : Application() {
 
     override fun onCreate() {
         super.onCreate()

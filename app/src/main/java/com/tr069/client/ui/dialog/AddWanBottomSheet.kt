@@ -1,4 +1,4 @@
-package com.genieacs.client.ui.dialog
+package com.tr069.client.ui.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import com.genieacs.client.data.model.WanConfigParams
-import com.genieacs.client.data.model.WanItem
-import com.genieacs.client.data.model.WlanInstance
-import com.genieacs.client.data.network.GenieAcsNbiService
-import com.genieacs.client.data.pref.AppPreferences
-import com.genieacs.client.databinding.BottomSheetAddWanBinding
+import com.tr069.client.data.model.WanConfigParams
+import com.tr069.client.data.model.WanItem
+import com.tr069.client.data.model.WlanInstance
+import com.tr069.client.data.network.GenieAcsNbiService
+import com.tr069.client.data.pref.AppPreferences
+import com.tr069.client.databinding.BottomSheetAddWanBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 

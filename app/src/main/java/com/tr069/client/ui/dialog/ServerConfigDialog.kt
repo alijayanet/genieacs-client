@@ -1,4 +1,4 @@
-package com.genieacs.client.ui.dialog
+package com.tr069.client.ui.dialog
 
 import android.app.Dialog
 import android.content.Context
@@ -10,10 +10,10 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
-import com.genieacs.client.R
-import com.genieacs.client.data.network.GenieAcsNbiService
-import com.genieacs.client.data.pref.AppPreferences
-import com.genieacs.client.databinding.DialogServerConfigBinding
+import com.tr069.client.R
+import com.tr069.client.data.network.GenieAcsNbiService
+import com.tr069.client.data.pref.AppPreferences
+import com.tr069.client.databinding.DialogServerConfigBinding
 import kotlinx.coroutines.launch
 
 class ServerConfigDialog(
@@ -61,7 +61,7 @@ class ServerConfigDialog(
                 val newTheme = if (checkedId == R.id.btnThemeDark) AppPreferences.THEME_DARK else AppPreferences.THEME_LIGHT
                 if (prefs.themeMode != newTheme) {
                     prefs.themeMode = newTheme
-                    com.genieacs.client.GenieAcsApp.applyTheme(newTheme)
+                    com.tr069.client.Tr069App.applyTheme(newTheme)
                 }
             }
         }
@@ -82,7 +82,7 @@ class ServerConfigDialog(
                 }
                 if (prefs.language != newLang) {
                     prefs.language = newLang
-                    com.genieacs.client.GenieAcsApp.applyLanguage(newLang)
+                    com.tr069.client.Tr069App.applyLanguage(newLang)
                 }
             }
         }

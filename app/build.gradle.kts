@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.genieacs.client"
+    namespace = "com.tr069.client"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.genieacs.client"
+        applicationId = "com.tr069.client"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

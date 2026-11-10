@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">GenieACS</string>
-    <string name="app_subtitle">Mobile Management Client</string>
-    <string name="app_footer">GenieACS Mobile Client • Universal TR-069 NBI Connector</string>
+    <string name="app_name">TR-069 Client</string>
+    <string name="app_subtitle">TR-069 Mobile Management Client</string>
+    <string name="app_footer">TR-069 Mobile Client • Universal CPE Management</string>
     <string name="privacy_policy_terms">Privacy Policy &amp; Terms of Service</string>
     
     <!-- Navigation & Common -->
@@ -23,7 +23,7 @@
     <string name="stat_online">Online</string>
     <string name="stat_offline">Offline</string>
     <string name="empty_title">No Modems Registered</string>
-    <string name="empty_desc">Ensure your GenieACS server is running and NBI port 7557 is accessible from this network.</string>
+    <string name="empty_desc">Ensure your TR-069 / ACS server is running and NBI port 7557 is accessible from this network.</string>
     <string name="btn_connect_now">Connect Now</string>
     <string name="menu_bulk_admin">Bulk Admin Password</string>
     <string name="menu_network_map">Network Map</string>
@@ -33,8 +33,8 @@
     <string name="menu_switch_lang">Switch Language (ID/EN)</string>
     
     <!-- Login Screen -->
-    <string name="login_title">GenieACS Server Login</string>
-    <string name="login_desc">Enter your GenieACS server URL, username, and password to connect.</string>
+    <string name="login_title">TR-069 Server Login</string>
+    <string name="login_desc">Enter your TR-069 / ACS server URL, username, and password to connect.</string>
     <string name="server_url_nbi">Server NBI URL</string>
     <string name="preset_servers">Quick Server Presets:</string>
     <string name="nbi_credentials">NBI Authentication Credentials (Port 7557)</string>
@@ -42,12 +42,12 @@
     <string name="server_password">Server Password</string>
     <string name="gemini_api_key_label">Google Gemini API Key (Voice Assistant)</string>
     <string name="gemini_api_key_desc">Optional: Enter your Gemini AI key for intelligent voice assistant and modem diagnostics.</string>
-    <string name="btn_connect">Connect to GenieACS Server</string>
+    <string name="btn_connect">Connect to TR-069 Server</string>
     
     <!-- Server Config Dialog -->
     <string name="server_settings">NBI Server Settings</string>
-    <string name="server_settings_desc">Enter your GenieACS NBI server URL (port 7557) directly without extra backend modules.</string>
-    <string name="server_url_label">GenieACS Server URL (NBI Port 7557)</string>
+    <string name="server_settings_desc">Enter your ACS server URL (port 7557) directly without extra backend modules.</string>
+    <string name="server_url_label">ACS Server URL (Port 7557)</string>
     <string name="server_url_hint">http://192.168.8.89:7557</string>
     <string name="auth_optional_label">HTTP Authentication (Required)</string>
     <string name="username_hint">Server Username</string>
@@ -71,7 +71,7 @@
     <string name="label_hardware_version">Hardware Version</string>
     <string name="label_software_version">Software Version</string>
     <string name="label_last_inform">Last Inform Time</string>
-    <string name="label_tags">GenieACS Tags:</string>
+    <string name="label_tags">Device Tags:</string>
     <string name="btn_view_on_map">View / Pin on Map</string>
     
     <!-- Optical Info -->
@@ -106,7 +106,7 @@
     <string name="btn_bulk_apply">Apply to Selected Modems</string>
     
     <!-- Voice Assistant -->
-    <string name="voice_assistant_title">GenieACS Voice Assistant</string>
+    <string name="voice_assistant_title">TR-069 Voice Assistant</string>
     <string name="voice_assistant_hint">Tap microphone and speak...</string>
     
     <!-- Network Map -->
@@ -114,7 +114,7 @@
     <string name="map_loading">Loading network locations...</string>
 
     <!-- Overview & Charts -->
-    <string name="overview_title">GenieACS Overview</string>
+    <string name="overview_title">TR-069 Overview</string>
     <string name="overview_subtitle">ONU Data &amp; Statistics Summary</string>
     <string name="chart_online_status">Connection Status</string>
     <string name="chart_optical_power">Optical Quality (RX)</string>

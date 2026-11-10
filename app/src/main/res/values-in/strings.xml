@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">GenieACS</string>
-    <string name="app_subtitle">Klien Manajemen Seluler</string>
-    <string name="app_footer">GenieACS Mobile Client • Universal TR-069 NBI Connector</string>
+    <string name="app_name">TR-069 Client</string>
+    <string name="app_subtitle">Klien Manajemen Seluler TR-069</string>
+    <string name="app_footer">TR-069 Mobile Client • Manajemen Universal CPE</string>
     <string name="privacy_policy_terms">Kebijakan Privasi &amp; Ketentuan Layanan</string>
     
     <!-- Navigation & Common -->
@@ -23,7 +23,7 @@
     <string name="stat_online">Online</string>
     <string name="stat_offline">Offline</string>
     <string name="empty_title">Belum Ada Modem Terdaftar</string>
-    <string name="empty_desc">Pastikan server GenieACS Anda aktif dan port 7557 NBI dapat diakses dari jaringan ini.</string>
+    <string name="empty_desc">Pastikan server TR-069 / ACS Anda aktif dan port 7557 NBI dapat diakses dari jaringan ini.</string>
     <string name="btn_connect_now">Hubungkan Sekarang</string>
     <string name="menu_bulk_admin">Ubah Password Admin Massal</string>
     <string name="menu_network_map">Peta Jaringan</string>
@@ -33,8 +33,8 @@
     <string name="menu_switch_lang">Ganti Bahasa (ID/EN)</string>
     
     <!-- Login Screen -->
-    <string name="login_title">Login Server GenieACS</string>
-    <string name="login_desc">Masukkan URL server beserta Username &amp; Password server GenieACS Anda untuk masuk.</string>
+    <string name="login_title">Login Server TR-069</string>
+    <string name="login_desc">Masukkan URL server beserta Username &amp; Password server TR-069 Anda untuk masuk.</string>
     <string name="server_url_nbi">URL Server NBI</string>
     <string name="preset_servers">Pilihan Cepat Server:</string>
     <string name="nbi_credentials">Kredensial Autentikasi NBI (Port 7557)</string>
@@ -42,12 +42,12 @@
     <string name="server_password">Password Server</string>
     <string name="gemini_api_key_label">Google Gemini API Key (Asisten Suara)</string>
     <string name="gemini_api_key_desc">Opsional: Masukkan API key Gemini AI untuk asisten suara cerdas dan diagnosa modem otomatis.</string>
-    <string name="btn_connect">Hubungkan ke Server GenieACS</string>
+    <string name="btn_connect">Hubungkan ke Server TR-069</string>
     
     <!-- Server Config Dialog -->
     <string name="server_settings">Pengaturan Server NBI</string>
-    <string name="server_settings_desc">Masukkan URL server GenieACS NBI port 7557 langsung tanpa modul backend tambahan.</string>
-    <string name="server_url_label">URL Server GenieACS (Port NBI 7557)</string>
+    <string name="server_settings_desc">Masukkan URL server ACS port 7557 langsung tanpa modul backend tambahan.</string>
+    <string name="server_url_label">URL Server ACS (Port 7557)</string>
     <string name="server_url_hint">http://192.168.8.89:7557</string>
     <string name="auth_optional_label">Autentikasi HTTP (Wajib)</string>
     <string name="username_hint">Username Server</string>
@@ -71,7 +71,7 @@
     <string name="label_hardware_version">Versi Hardware</string>
     <string name="label_software_version">Versi Software</string>
     <string name="label_last_inform">Waktu Inform Terakhir</string>
-    <string name="label_tags">Tags GenieACS:</string>
+    <string name="label_tags">Tags Perangkat:</string>
     <string name="btn_view_on_map">Lihat / Pasang Titik di Peta</string>
     
     <!-- Optical Info -->
@@ -106,7 +106,7 @@
     <string name="btn_bulk_apply">Terapkan ke Modem Terpilih</string>
     
     <!-- Voice Assistant -->
-    <string name="voice_assistant_title">Asisten Suara GenieACS</string>
+    <string name="voice_assistant_title">Asisten Suara TR-069</string>
     <string name="voice_assistant_hint">Tekan tombol mikrofon dan bicaralah...</string>
     
     <!-- Network Map -->
@@ -114,7 +114,7 @@
     <string name="map_loading">Memuat titik jaringan...</string>
 
     <!-- Overview & Charts -->
-    <string name="overview_title">Overview GenieACS</string>
+    <string name="overview_title">Overview TR-069</string>
     <string name="overview_subtitle">Rangkuman Data &amp; Statistik ONU</string>
     <string name="chart_online_status">Status Koneksi</string>
     <string name="chart_optical_power">Kualitas Optik (RX)</string>

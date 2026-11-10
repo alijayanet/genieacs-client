@@ -1,4 +1,4 @@
-package com.genieacs.client.ui
+package com.tr069.client.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -7,10 +7,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.genieacs.client.R
-import com.genieacs.client.data.network.GenieAcsNbiService
-import com.genieacs.client.data.pref.AppPreferences
-import com.genieacs.client.databinding.ActivityLoginBinding
+import com.tr069.client.R
+import com.tr069.client.data.network.GenieAcsNbiService
+import com.tr069.client.data.pref.AppPreferences
+import com.tr069.client.databinding.ActivityLoginBinding
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
                 AppPreferences.THEME_DARK
             }
             prefs.themeMode = newTheme
-            com.genieacs.client.GenieAcsApp.applyTheme(newTheme)
+            com.tr069.client.Tr069App.applyTheme(newTheme)
             updateThemeToggleIcon()
         }
 

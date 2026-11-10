@@ -1,11 +1,11 @@
-package com.genieacs.client.data.network
+package com.tr069.client.data.network
 
-import com.genieacs.client.data.model.ConnectedClient
-import com.genieacs.client.data.model.DeviceDetail
-import com.genieacs.client.data.model.DeviceItem
-import com.genieacs.client.data.model.WlanInstance
-import com.genieacs.client.data.model.WanItem
-import com.genieacs.client.data.model.WanConfigParams
+import com.tr069.client.data.model.ConnectedClient
+import com.tr069.client.data.model.DeviceDetail
+import com.tr069.client.data.model.DeviceItem
+import com.tr069.client.data.model.WlanInstance
+import com.tr069.client.data.model.WanItem
+import com.tr069.client.data.model.WanConfigParams
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject

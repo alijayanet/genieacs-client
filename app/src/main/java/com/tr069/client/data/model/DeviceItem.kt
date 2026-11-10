@@ -1,4 +1,4 @@
-package com.genieacs.client.data.model
+package com.tr069.client.data.model
 
 import java.time.Instant
 import java.time.format.DateTimeFormatter

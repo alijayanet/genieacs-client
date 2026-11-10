@@ -1,4 +1,4 @@
-package com.genieacs.client.ui
+package com.tr069.client.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -22,10 +22,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import com.genieacs.client.data.model.DeviceItem
-import com.genieacs.client.data.network.GenieAcsNbiService
-import com.genieacs.client.data.pref.AppPreferences
-import com.genieacs.client.databinding.ActivityNetworkMapBinding
+import com.tr069.client.data.model.DeviceItem
+import com.tr069.client.data.network.GenieAcsNbiService
+import com.tr069.client.data.pref.AppPreferences
+import com.tr069.client.databinding.ActivityNetworkMapBinding
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

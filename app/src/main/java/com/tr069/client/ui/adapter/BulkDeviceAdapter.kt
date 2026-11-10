@@ -1,12 +1,12 @@
-package com.genieacs.client.ui.adapter
+package com.tr069.client.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.genieacs.client.R
-import com.genieacs.client.data.model.DeviceItem
-import com.genieacs.client.databinding.ItemBulkDeviceBinding
+import com.tr069.client.R
+import com.tr069.client.data.model.DeviceItem
+import com.tr069.client.databinding.ItemBulkDeviceBinding
 
 class BulkDeviceAdapter(
     private val allItems: List<DeviceItem>,

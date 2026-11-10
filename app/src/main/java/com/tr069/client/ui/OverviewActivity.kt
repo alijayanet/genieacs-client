@@ -1,4 +1,4 @@
-package com.genieacs.client.ui
+package com.tr069.client.ui
 
 import android.content.Intent
 import android.graphics.Color
@@ -12,12 +12,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import com.genieacs.client.R
-import com.genieacs.client.data.model.DeviceItem
-import com.genieacs.client.data.network.GenieAcsNbiService
-import com.genieacs.client.data.pref.AppPreferences
-import com.genieacs.client.databinding.ActivityOverviewBinding
-import com.genieacs.client.ui.view.DonutChartView
+import com.tr069.client.R
+import com.tr069.client.data.model.DeviceItem
+import com.tr069.client.data.network.GenieAcsNbiService
+import com.tr069.client.data.pref.AppPreferences
+import com.tr069.client.databinding.ActivityOverviewBinding
+import com.tr069.client.ui.view.DonutChartView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch

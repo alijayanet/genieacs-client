@@ -1,4 +1,4 @@
-package com.genieacs.client.ui.view
+package com.tr069.client.ui.view
 
 import android.content.Context
 import android.graphics.Canvas
@@ -8,7 +8,7 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
-import com.genieacs.client.R
+import com.tr069.client.R
 import kotlin.math.min
 
 class DonutChartView @JvmOverloads constructor(
