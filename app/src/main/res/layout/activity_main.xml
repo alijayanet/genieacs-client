@@ -32,36 +32,22 @@
 
                 <ImageView
                     android:id="@+id/ivGenieLogo"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:src="@drawable/ic_tr069_logo"
-                    android:contentDescription="GenieACS" />
+                    android:contentDescription="TR-069 Client" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tvServerStatus"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="12dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TR-069 Client"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/tvServerStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/status_not_connected"
-                        android:textColor="#8B949E"
-                        android:textSize="12sp"
-                        android:ellipsize="end"
-                        android:maxLines="1" />
-                </LinearLayout>
+                    android:layout_marginStart="10dp"
+                    android:text="@string/status_not_connected"
+                    android:textColor="#94A3B8"
+                    android:textSize="13sp"
+                    android:ellipsize="end"
+                    android:maxLines="1" />
 
                 <ImageButton
                     android:id="@+id/btnBulkAdmin"
