@@ -33,6 +33,11 @@ class GenieAcsNbiService(
     private val username: String = "",
     private val password: String = ""
 ) {
+    var customRxPowerKeys: List<String> = emptyList()
+    var customPppoeKeys: List<String> = emptyList()
+    var customSsidKeys: List<String> = emptyList()
+    var customCustNameKeys: List<String> = emptyList()
+    var customPonModeKeys: List<String> = emptyList()
 
     private val client = OkHttpClient.Builder()
         .connectTimeout(12, TimeUnit.SECONDS)
@@ -194,7 +199,7 @@ class GenieAcsNbiService(
     suspend fun getDevices(): Result<List<DeviceItem>> = withContext(Dispatchers.IO) {
         try {
             // Highly optimized targeted projection across ALL ONU vendors (ZTE, Huawei, Fiberhome, VSOL, XPON, etc.)
-            val fastProjectionFields = listOf(
+            val fastProjectionFields = mutableListOf(
                 "_id",
                 "_lastInform",
                 "_deviceId",
@@ -234,6 +239,12 @@ class GenieAcsNbiService(
                 "Device.Optical.Interface.1.RxPower",
                 "InternetGatewayDevice.WANDevice.1.WANCommonInterfaceConfig.WANAccessType"
             )
+            for (k in (customRxPowerKeys + customPppoeKeys + customSsidKeys + customCustNameKeys + customPonModeKeys)) {
+                if (k.isNotBlank()) {
+                    if (k.contains(".")) fastProjectionFields.add(k)
+                    else fastProjectionFields.add("VirtualParameters.$k")
+                }
+            }
             val proj = URLEncoder.encode(fastProjectionFields.joinToString(","), "UTF-8")
             val url = "${baseUrl.trimEnd('/')}/devices?projection=$proj"
             val request = newRequestBuilder(url).get().build()
@@ -277,6 +288,67 @@ class GenieAcsNbiService(
                 val detail = parseDeviceDetail(deviceId, obj)
                 Result.success(detail)
             }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun putVirtualParameter(name: String, script: String): Result<Boolean> = withContext(Dispatchers.IO) {
+        try {
+            val url = "${baseUrl.trimEnd('/')}/virtual_parameters/${URLEncoder.encode(name, "UTF-8")}"
+            val body = script.toRequestBody("text/plain".toMediaType())
+            val request = newRequestBuilder(url).put(body).build()
+
+            client.newCall(request).execute().use { response ->
+                if (response.isSuccessful || response.code in 200..204) {
+                    Result.success(true)
+                } else {
+                    Result.failure(Exception("HTTP ${response.code}: ${response.message}"))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getInstalledVirtualParameters(): Result<List<String>> = withContext(Dispatchers.IO) {
+        try {
+            val url = "${baseUrl.trimEnd('/')}/virtual_parameters"
+            val request = newRequestBuilder(url).get().build()
+
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) {
+                    return@withContext Result.failure(Exception("HTTP ${response.code}: ${response.message}"))
+                }
+                val body = response.body?.string() ?: return@withContext Result.success(emptyList())
+                val jsonArr = JsonParser.parseString(body).asJsonArray
+                val list = mutableListOf<String>()
+                for (el in jsonArr) {
+                    if (el.isJsonObject) {
+                        val id = el.asJsonObject.get("_id")?.asString
+                        if (!id.isNullOrBlank()) list.add(id)
+                    }
+                }
+                Result.success(list)
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun installStandardVirtualParameters(): Result<Pair<Int, Int>> = withContext(Dispatchers.IO) {
+        try {
+            var successCount = 0
+            val total = VirtualParamTemplates.STANDARD_TEMPLATES.size
+
+            for ((name, script) in VirtualParamTemplates.STANDARD_TEMPLATES) {
+                val res = putVirtualParameter(name, script)
+                if (res.isSuccess) {
+                    successCount++
+                }
+            }
+
+            Result.success(Pair(successCount, total))
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -1392,7 +1464,7 @@ class GenieAcsNbiService(
         // PPPoE Username: Intelligent matching across different GenieACS VirtualParameter naming conventions & TR-069
         val pppoeUser = findVpByTokens(
             vpObj = vp,
-            exactPriority = listOf(
+            exactPriority = customPppoeKeys + listOf(
                 "pppoeUsername", "pppoe_username", "pppUsername", "ppp_username",
                 "Username", "username", "getpppoeuser", "pppoeUser", "user_pppoe", "userpppoe", "wan_username", "PPPoE"
             ),
@@ -1412,7 +1484,7 @@ class GenieAcsNbiService(
         // Customer Name: Intelligent matching across different GenieACS naming conventions
         val customerName = findVpByTokens(
             vpObj = vp,
-            exactPriority = listOf(
+            exactPriority = customCustNameKeys + listOf(
                 "customerName", "CustomerName", "customer_name", "namaPelanggan", "nama_pelanggan",
                 "NamaPelanggan", "nama", "Nama", "customer", "Customer", "clientName", "client_name",
                 "ClientName", "pelanggan", "Pelanggan", "user_fullname", "fullname"
@@ -1427,7 +1499,7 @@ class GenieAcsNbiService(
         // WiFi SSID: Intelligent matching across 2.4G & 5G
         val ssid = findVpByTokens(
             vpObj = vp,
-            exactPriority = listOf("SSID", "ssid", "WlanSSID", "wlanSSID", "wlan_ssid", "wifi_ssid", "wifiName", "SSID1", "ssid1", "WLAN_SSID"),
+            exactPriority = customSsidKeys + listOf("SSID", "ssid", "WlanSSID", "wlanSSID", "wlan_ssid", "wifi_ssid", "wifiName", "SSID1", "ssid1", "WLAN_SSID"),
             tokens = listOf("ssid", "wifi", "wlan"),
             excludeTokens = listOf("pass", "pwd", "key", "enable", "hide", "beacon", "chan", "mode")
         ) ?: getNestedString(obj, "InternetGatewayDevice", "LANDevice", "1", "WLANConfiguration", "1", "SSID")
@@ -1443,7 +1515,7 @@ class GenieAcsNbiService(
         // Optical RX Power: Intelligent matching across all vendor implementations (Fiberhome, ZTE, Huawei, VSOL, XPON)
         val rxStr = findVpByTokens(
             vpObj = vp,
-            exactPriority = listOf(
+            exactPriority = customRxPowerKeys + listOf(
                 "RXPower", "rxPower", "rx_power", "redaman", "Redaman", "opticalPower", "optical_power",
                 "OpticalPower", "RxOpticalPower", "rxOpticalPower", "rx_optical_power", "pon_rx", "PonRx", "optical_rx"
             ),
@@ -1470,7 +1542,7 @@ class GenieAcsNbiService(
         // Access Type / PON Mode (GPON, EPON, Ethernet)
         val rawPonMode = findVpByTokens(
             vpObj = vp,
-            exactPriority = listOf("getponmode", "ponMode", "pon_mode", "pon_type", "AccessType"),
+            exactPriority = customPonModeKeys + listOf("getponmode", "ponMode", "pon_mode", "pon_type", "AccessType"),
             tokens = listOf("ponmode", "accesstype")
         ) ?: getNestedString(obj, "InternetGatewayDevice", "WANDevice", "1", "WANCommonInterfaceConfig", "WANAccessType")
 

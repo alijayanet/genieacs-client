@@ -59,6 +59,37 @@ class AppPreferences(context: Context) {
     val hasConfiguredServer: Boolean
         get() = serverUrl.isNotBlank()
 
+    // Custom VirtualParameter / TR-069 Keywords Mapping
+    var customVpRxPower: String
+        get() = prefs.getString("custom_vp_rx_power", "") ?: ""
+        set(value) = prefs.edit().putString("custom_vp_rx_power", value.trim()).apply()
+
+    var customVpPppoe: String
+        get() = prefs.getString("custom_vp_pppoe", "") ?: ""
+        set(value) = prefs.edit().putString("custom_vp_pppoe", value.trim()).apply()
+
+    var customVpSsid: String
+        get() = prefs.getString("custom_vp_ssid", "") ?: ""
+        set(value) = prefs.edit().putString("custom_vp_ssid", value.trim()).apply()
+
+    var customVpCustName: String
+        get() = prefs.getString("custom_vp_cust_name", "") ?: ""
+        set(value) = prefs.edit().putString("custom_vp_cust_name", value.trim()).apply()
+
+    var customVpPonMode: String
+        get() = prefs.getString("custom_vp_pon_mode", "") ?: ""
+        set(value) = prefs.edit().putString("custom_vp_pon_mode", value.trim()).apply()
+
+    fun resetCustomVpMapping() {
+        prefs.edit()
+            .remove("custom_vp_rx_power")
+            .remove("custom_vp_pppoe")
+            .remove("custom_vp_ssid")
+            .remove("custom_vp_cust_name")
+            .remove("custom_vp_pon_mode")
+            .apply()
+    }
+
     fun clearSession() {
         prefs.edit().putBoolean(KEY_IS_LOGGED_IN, false).apply()
     }

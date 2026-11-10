@@ -21,6 +21,7 @@ import com.tr069.client.ui.adapter.DeviceAdapter
 import com.tr069.client.ui.dialog.BulkAdminBottomSheet
 import com.tr069.client.ui.dialog.ServerConfigDialog
 import com.tr069.client.ui.dialog.VoiceAssistBottomSheet
+import com.tr069.client.ui.dialog.VirtualParamBottomSheet
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 
@@ -113,6 +114,10 @@ class MainActivity : AppCompatActivity() {
             toggleTheme()
         }
 
+        binding.btnVirtualParams.setOnClickListener {
+            showVirtualParamBottomSheet()
+        }
+
         binding.btnBulkAdmin.setOnClickListener {
             showBulkAdminDialog()
         }
@@ -167,6 +172,7 @@ class MainActivity : AppCompatActivity() {
         val currentThemeTitle = if (prefs.themeMode == AppPreferences.THEME_DARK) getString(R.string.theme_light) else getString(R.string.theme_dark)
         val options = arrayOf(
             "📊 Overview & Charts",
+            "⚡ Virtual Parameter & Mapping",
             "${getString(R.string.menu_switch_theme)}: $currentThemeTitle",
             getString(R.string.menu_switch_lang),
             getString(R.string.menu_bulk_admin),
@@ -179,15 +185,16 @@ class MainActivity : AppCompatActivity() {
             .setItems(options) { _, which ->
                 when (which) {
                     0 -> startActivity(Intent(this, OverviewActivity::class.java))
-                    1 -> toggleTheme()
-                    2 -> showLanguageDialog()
-                    3 -> showBulkAdminDialog()
-                    4 -> showServerDialog()
-                    5 -> {
+                    1 -> showVirtualParamBottomSheet()
+                    2 -> toggleTheme()
+                    3 -> showLanguageDialog()
+                    4 -> showBulkAdminDialog()
+                    5 -> showServerDialog()
+                    6 -> {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://genieacs-client.alijaya.com/privacy.html"))
                         startActivity(intent)
                     }
-                    6 -> {
+                    7 -> {
                         prefs.clearSession()
                         startActivity(Intent(this, LoginActivity::class.java))
                         finish()
@@ -293,6 +300,30 @@ class MainActivity : AppCompatActivity() {
     private fun updateServiceInstance() {
         binding.tvServerStatus.text = prefs.serverUrl
         nbiService = GenieAcsNbiService(prefs.serverUrl, prefs.username, prefs.password)
+        applyCustomVpKeys()
+    }
+
+    private fun applyCustomVpKeys() {
+        nbiService.customRxPowerKeys = parseCustomKeys(prefs.customVpRxPower)
+        nbiService.customPppoeKeys = parseCustomKeys(prefs.customVpPppoe)
+        nbiService.customSsidKeys = parseCustomKeys(prefs.customVpSsid)
+        nbiService.customCustNameKeys = parseCustomKeys(prefs.customVpCustName)
+        nbiService.customPonModeKeys = parseCustomKeys(prefs.customVpPonMode)
+    }
+
+    private fun parseCustomKeys(raw: String): List<String> {
+        if (raw.isBlank()) return emptyList()
+        return raw.split(",", ";")
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+    }
+
+    private fun showVirtualParamBottomSheet() {
+        val sheet = VirtualParamBottomSheet {
+            applyCustomVpKeys()
+            loadDevices(silent = false)
+        }
+        sheet.show(supportFragmentManager, "VirtualParamBottomSheet")
     }
 
     override fun onResume() {
