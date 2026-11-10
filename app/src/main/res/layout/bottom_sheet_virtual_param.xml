@@ -55,8 +55,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tanam skrip otomatis atau edit mapping TR-069"
-                android:textColor="@color/genie_text_secondary"
-                android:textSize="11sp" />
+                android:textColor="@color/genie_cyan"
+                android:textSize="11.5sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <ImageButton
@@ -65,7 +66,7 @@
             android:layout_height="36dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_close"
-            app:tint="@color/genie_text_secondary"
+            app:tint="@color/genie_text_primary"
             android:contentDescription="Tutup" />
     </LinearLayout>
 
@@ -115,23 +116,23 @@
                             android:id="@+id/tvServerVpStatusBadge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/bg_badge_tag"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="3dp"
+                            android:background="@drawable/bg_badge_pill"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
                             android:text="Memeriksa..."
-                            android:textColor="@color/genie_text_secondary"
-                            android:textSize="10.5sp"
+                            android:textColor="@color/genie_text_primary"
+                            android:textSize="11sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
+                        android:layout_marginTop="8dp"
                         android:text="Pasang paket script VirtualParameter resmi (RXPower, pppoeUsername, WlanPassword, WlanSSID, getponmode, MacAddress, userconnected, uptimeDevice, vlan) langsung ke database server GenieACS via NBI API."
-                        android:textColor="@color/genie_text_secondary"
-                        android:textSize="11.5sp"
-                        android:lineSpacingExtra="2dp" />
+                        android:textColor="@color/genie_text_primary"
+                        android:textSize="12sp"
+                        android:lineSpacingExtra="3dp" />
 
                     <ProgressBar
                         android:id="@+id/progressInstallVp"
@@ -144,11 +145,12 @@
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnInstallStandardVp"
                         android:layout_width="match_parent"
-                        android:layout_height="44dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="12dp"
                         android:text="🚀 Tanam / Pasang Parameter ke Server"
+                        android:textColor="#FFFFFF"
                         android:textAllCaps="false"
-                        android:textSize="12.5sp"
+                        android:textSize="13sp"
                         android:textStyle="bold"
                         app:backgroundTint="@color/genie_blue"
                         app:cornerRadius="8dp" />
@@ -183,11 +185,12 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="12dp"
                         android:text="Atur kata kunci VirtualParameter atau path TR-069 mentah kustom yang diprioritaskan saat memuat data ONU (pisahkan dengan koma):"
-                        android:textColor="@color/genie_text_secondary"
-                        android:textSize="11sp" />
+                        android:textColor="@color/genie_text_primary"
+                        android:textSize="12sp"
+                        android:lineSpacingExtra="2dp" />
 
                     <!-- 1. Optical Rx Power -->
                     <TextView
@@ -195,22 +198,22 @@
                         android:layout_height="wrap_content"
                         android:text="💡 Redaman Optik (RX Power)"
                         android:textColor="@color/genie_text_primary"
-                        android:textSize="11.5sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/etVpRxPower"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="42dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginBottom="10dp"
                         android:background="@drawable/bg_search"
                         android:hint="Default: RXPower, rxPower, redaman, opticalPower"
-                        android:paddingHorizontal="10dp"
+                        android:paddingHorizontal="12dp"
                         android:singleLine="true"
                         android:textColor="@color/genie_text_primary"
                         android:textColorHint="@color/genie_text_muted"
-                        android:textSize="12sp" />
+                        android:textSize="12.5sp" />
 
                     <!-- 2. PPPoE Username -->
                     <TextView
@@ -218,22 +221,22 @@
                         android:layout_height="wrap_content"
                         android:text="👤 PPPoE Username"
                         android:textColor="@color/genie_text_primary"
-                        android:textSize="11.5sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/etVpPppoe"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="42dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginBottom="10dp"
                         android:background="@drawable/bg_search"
                         android:hint="Default: pppoeUsername, pppUsername, Username"
-                        android:paddingHorizontal="10dp"
+                        android:paddingHorizontal="12dp"
                         android:singleLine="true"
                         android:textColor="@color/genie_text_primary"
                         android:textColorHint="@color/genie_text_muted"
-                        android:textSize="12sp" />
+                        android:textSize="12.5sp" />
 
                     <!-- 3. Wi-Fi SSID -->
                     <TextView
@@ -241,22 +244,22 @@
                         android:layout_height="wrap_content"
                         android:text="📶 Wi-Fi SSID"
                         android:textColor="@color/genie_text_primary"
-                        android:textSize="11.5sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/etVpSsid"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="42dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginBottom="10dp"
                         android:background="@drawable/bg_search"
                         android:hint="Default: SSID, WlanSSID, wifi_ssid, SSID1"
-                        android:paddingHorizontal="10dp"
+                        android:paddingHorizontal="12dp"
                         android:singleLine="true"
                         android:textColor="@color/genie_text_primary"
                         android:textColorHint="@color/genie_text_muted"
-                        android:textSize="12sp" />
+                        android:textSize="12.5sp" />
 
                     <!-- 4. Customer Name -->
                     <TextView
@@ -264,22 +267,22 @@
                         android:layout_height="wrap_content"
                         android:text="🏷️ Nama Pelanggan"
                         android:textColor="@color/genie_text_primary"
-                        android:textSize="11.5sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/etVpCustName"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="42dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginBottom="10dp"
                         android:background="@drawable/bg_search"
                         android:hint="Default: customerName, namaPelanggan, nama"
-                        android:paddingHorizontal="10dp"
+                        android:paddingHorizontal="12dp"
                         android:singleLine="true"
                         android:textColor="@color/genie_text_primary"
                         android:textColorHint="@color/genie_text_muted"
-                        android:textSize="12sp" />
+                        android:textSize="12.5sp" />
 
                     <!-- 5. PON Mode -->
                     <TextView
@@ -287,22 +290,22 @@
                         android:layout_height="wrap_content"
                         android:text="⚡ Mode PON (GPON/EPON)"
                         android:textColor="@color/genie_text_primary"
-                        android:textSize="11.5sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/etVpPonMode"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="42dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginBottom="12dp"
+                        android:layout_marginBottom="14dp"
                         android:background="@drawable/bg_search"
                         android:hint="Default: getponmode, ponMode, AccessType"
-                        android:paddingHorizontal="10dp"
+                        android:paddingHorizontal="12dp"
                         android:singleLine="true"
                         android:textColor="@color/genie_text_primary"
                         android:textColorHint="@color/genie_text_muted"
-                        android:textSize="12sp" />
+                        android:textSize="12.5sp" />
 
                     <!-- Action Buttons -->
                     <LinearLayout
@@ -314,23 +317,28 @@
                             android:id="@+id/btnResetMapping"
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                             android:layout_width="0dp"
-                            android:layout_height="44dp"
+                            android:layout_height="48dp"
                             android:layout_weight="1"
                             android:layout_marginEnd="6dp"
                             android:text="🔄 Reset Default"
+                            android:textColor="@color/genie_text_primary"
+                            app:strokeColor="@color/genie_blue"
+                            app:strokeWidth="1.5dp"
                             android:textAllCaps="false"
-                            android:textSize="12sp"
+                            android:textSize="12.5sp"
+                            android:textStyle="bold"
                             app:cornerRadius="8dp" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnSaveMapping"
                             android:layout_width="0dp"
-                            android:layout_height="44dp"
+                            android:layout_height="48dp"
                             android:layout_weight="1"
                             android:layout_marginStart="6dp"
                             android:text="💾 Simpan Mapping"
+                            android:textColor="#FFFFFF"
                             android:textAllCaps="false"
-                            android:textSize="12sp"
+                            android:textSize="12.5sp"
                             android:textStyle="bold"
                             app:backgroundTint="@color/genie_blue"
                             app:cornerRadius="8dp" />
@@ -351,23 +359,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:padding="14dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="ℹ️ Engine Fallback Bawaan APK: AKTIF"
                         android:textColor="@color/status_online"
-                        android:textSize="12sp"
+                        android:textSize="12.5sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="6dp"
                         android:text="APK secara otomatis mencari puluhan path TR-069 mentah (ZTE, Huawei, Fiberhome, VSOL, Nokia, TR-098 &amp; TR-181) apabila server belum memasang VirtualParameter."
-                        android:textColor="@color/genie_text_secondary"
-                        android:textSize="11sp" />
+                        android:textColor="@color/genie_text_primary"
+                        android:textSize="12sp"
+                        android:lineSpacingExtra="2dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
