@@ -20,7 +20,10 @@ data class DeviceItem(
     val odpName: String? = null,
     val odpLat: Double? = null,
     val odpLng: Double? = null,
-    val ponMode: String? = null
+    val ponMode: String? = null,
+    val serverId: String = "",
+    val serverName: String = "",
+    val serverUrl: String = ""
 ) {
     val isMapped: Boolean get() = lat != null && lng != null
 }

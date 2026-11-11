@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="18dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nama Label Server (Contoh: Pusat / POP Barat)"
+        android:textColor="@color/genie_text_primary"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etProfileName"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_search"
+        android:hint="Misal: Server Pusat"
+        android:paddingHorizontal="12dp"
+        android:singleLine="true"
+        android:textColor="@color/genie_text_primary"
+        android:textColorHint="@color/genie_text_muted"
+        android:textSize="13sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="URL Server ACS (NBI Port 7557)"
+        android:textColor="@color/genie_text_primary"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etProfileUrl"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_search"
+        android:hint="http://192.168.8.89:7557"
+        android:inputType="textUri"
+        android:paddingHorizontal="12dp"
+        android:singleLine="true"
+        android:textColor="@color/genie_text_primary"
+        android:textColorHint="@color/genie_text_muted"
+        android:textSize="13sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username (Opsional)"
+        android:textColor="@color/genie_text_primary"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etProfileUser"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_search"
+        android:hint="Username auth / kosongkan"
+        android:paddingHorizontal="12dp"
+        android:singleLine="true"
+        android:textColor="@color/genie_text_primary"
+        android:textColorHint="@color/genie_text_muted"
+        android:textSize="13sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password (Opsional)"
+        android:textColor="@color/genie_text_primary"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etProfilePass"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/bg_search"
+        android:hint="Password auth / kosongkan"
+        android:inputType="textPassword"
+        android:paddingHorizontal="12dp"
+        android:singleLine="true"
+        android:textColor="@color/genie_text_primary"
+        android:textColorHint="@color/genie_text_muted"
+        android:textSize="13sp" />
+</LinearLayout>

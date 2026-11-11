@@ -116,14 +116,34 @@ class NetworkMapActivity : AppCompatActivity() {
     }
 
     private fun loadDevices() {
+        val targets = prefs.getActiveTargetServers()
+        if (targets.isEmpty()) {
+            binding.tvMapStatus.text = "Belum ada server aktif"
+            return
+        }
+
         binding.progressBar.visibility = View.VISIBLE
-        binding.tvMapStatus.text = "Mengambil data dari server GenieACS..."
+        binding.tvMapStatus.text = if (targets.size > 1) {
+            "Mengambil data dari ${targets.size} server..."
+        } else {
+            "Mengambil data dari ${targets.first().name}..."
+        }
+
+        fun parseKeys(raw: String) = if (raw.isBlank()) emptyList() else raw.split(",", ";").map { it.trim() }.filter { it.isNotEmpty() }
 
         lifecycleScope.launch {
-            val result = nbiService.getDevices()
+            val multiRes = GenieAcsNbiService.fetchDevicesFromServers(
+                servers = targets,
+                customRxKeys = parseKeys(prefs.customVpRxPower),
+                customPppoeKeys = parseKeys(prefs.customVpPppoe),
+                customSsidKeys = parseKeys(prefs.customVpSsid),
+                customCustKeys = parseKeys(prefs.customVpCustName),
+                customPonKeys = parseKeys(prefs.customVpPonMode)
+            )
             binding.progressBar.visibility = View.GONE
 
-            result.onSuccess { list ->
+            val list = multiRes.devices
+            if (list.isNotEmpty() || multiRes.failedServers.isEmpty()) {
                 devicesList = list
                 val mappedCount = list.count { it.isMapped }
                 binding.tvMapStatus.text = "Total ONU: ${list.size} | Terpetakan: $mappedCount"
@@ -131,9 +151,9 @@ class NetworkMapActivity : AppCompatActivity() {
                 if (isMapLoaded) {
                     pushDevicesToMap()
                 }
-            }.onFailure { err ->
-                binding.tvMapStatus.text = "Gagal: ${err.localizedMessage}"
-                Toast.makeText(this@NetworkMapActivity, "Gagal memuat peta: ${err.localizedMessage}", Toast.LENGTH_LONG).show()
+            } else {
+                binding.tvMapStatus.text = "Gagal terhubung ke server"
+                Toast.makeText(this@NetworkMapActivity, "Gagal memuat peta dari server", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -247,6 +267,7 @@ class NetworkMapActivity : AppCompatActivity() {
                 val intent = Intent(this@NetworkMapActivity, DeviceDetailActivity::class.java).apply {
                     putExtra(DeviceDetailActivity.EXTRA_DEVICE_ID, deviceId)
                     putExtra(DeviceDetailActivity.EXTRA_DEVICE_MODEL, dev?.productClass ?: "Modem")
+                    putExtra(DeviceDetailActivity.EXTRA_SERVER_ID, dev?.serverId ?: "")
                 }
                 startActivity(intent)
             }
@@ -261,11 +282,18 @@ class NetworkMapActivity : AppCompatActivity() {
                 val cleanOdpLat = if (odpLat != 0.0) odpLat else null
                 val cleanOdpLng = if (odpLng != 0.0) odpLng else null
 
+                val targetSrv = if (!dev?.serverId.isNullOrBlank()) prefs.getServerById(dev!!.serverId) else null
+                val targetService = if (targetSrv != null) {
+                    GenieAcsNbiService(targetSrv.url, targetSrv.username, targetSrv.password)
+                } else {
+                    nbiService
+                }
+
                 binding.progressBar.visibility = View.VISIBLE
-                binding.tvMapStatus.text = "Menyimpan titik lokasi ke GenieACS..."
+                binding.tvMapStatus.text = "Menyimpan titik lokasi ke server..."
 
                 lifecycleScope.launch {
-                    val res = nbiService.saveDeviceLocation(
+                    val res = targetService.saveDeviceLocation(
                         deviceId = deviceId,
                         currentTags = currentTags,
                         lat = lat,

@@ -16,6 +16,8 @@ class DeviceAdapter(
     private val onTagClick: ((String) -> Unit)? = null
 ) : ListAdapter<DeviceItem, DeviceAdapter.DeviceViewHolder>(DiffCallback) {
 
+    var showServerBadge: Boolean = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviceViewHolder {
         val binding = ItemDeviceBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -46,6 +48,14 @@ class DeviceAdapter(
 
             // Serial Number
             binding.tvSerial.text = "SN: ${item.serialNumber}"
+
+            // Server Origin Badge
+            if (showServerBadge && item.serverName.isNotBlank()) {
+                binding.tvServerOriginBadge.text = "🖥️ ${item.serverName}"
+                binding.tvServerOriginBadge.visibility = android.view.View.VISIBLE
+            } else {
+                binding.tvServerOriginBadge.visibility = android.view.View.GONE
+            }
 
             // Status Badge (Online / Offline)
             if (item.isOnline) {
@@ -132,7 +142,7 @@ class DeviceAdapter(
 
     companion object DiffCallback : DiffUtil.ItemCallback<DeviceItem>() {
         override fun areItemsTheSame(oldItem: DeviceItem, newItem: DeviceItem): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.id == newItem.id && oldItem.serverId == newItem.serverId
         }
 
         override fun areContentsTheSame(oldItem: DeviceItem, newItem: DeviceItem): Boolean {

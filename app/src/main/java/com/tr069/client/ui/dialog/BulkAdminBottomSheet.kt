@@ -153,7 +153,13 @@ class BulkAdminBottomSheet(
                 binding.tvBulkProgressText.text = "Mengirim ($current/$total): $devLabel"
                 binding.pbBulkProgress.progress = current
 
-                val res = nbiService.setAdminAccount(dev.id, newUser, newPass, dev.manufacturer)
+                val targetSrv = if (dev.serverId.isNotBlank()) prefs.getServerById(dev.serverId) else null
+                val devService = if (targetSrv != null) {
+                    GenieAcsNbiService(targetSrv.url, targetSrv.username, targetSrv.password)
+                } else {
+                    nbiService
+                }
+                val res = devService.setAdminAccount(dev.id, newUser, newPass, dev.manufacturer)
                 if (res.isSuccess) {
                     successCount++
                 } else {

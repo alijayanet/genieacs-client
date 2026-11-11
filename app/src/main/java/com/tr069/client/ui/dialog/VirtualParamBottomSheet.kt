@@ -39,9 +39,19 @@ class VirtualParamBottomSheet(
         super.onViewCreated(view, savedInstanceState)
 
         prefs = AppPreferences(requireContext())
-        nbiService = GenieAcsNbiService(prefs.serverUrl, prefs.username, prefs.password)
+        val targets = prefs.getActiveTargetServers()
+        val firstSrv = targets.firstOrNull()
+        nbiService = if (firstSrv != null) {
+            GenieAcsNbiService(firstSrv.url, firstSrv.username, firstSrv.password)
+        } else {
+            GenieAcsNbiService(prefs.serverUrl, prefs.username, prefs.password)
+        }
 
-        binding.tvVpServerSubtitle.text = "Server: ${prefs.serverUrl}"
+        binding.tvVpServerSubtitle.text = if (targets.size > 1) {
+            "Target: 🌐 ${targets.size} Server Aktif"
+        } else {
+            "Server: ${firstSrv?.name ?: prefs.serverUrl}"
+        }
         binding.btnCloseVp.setOnClickListener { dismiss() }
 
         loadExistingMapping()
@@ -98,9 +108,11 @@ class VirtualParamBottomSheet(
     }
 
     private fun confirmAndInstallStandardVp() {
+        val targets = prefs.getActiveTargetServers()
+        val targetDesc = if (targets.size > 1) "${targets.size} server aktif (${targets.joinToString { it.name }})" else (targets.firstOrNull()?.url ?: prefs.serverUrl)
         AlertDialog.Builder(requireContext())
             .setTitle("Tanam Virtual Parameter")
-            .setMessage("Aplikasi akan memasang 9 skrip VirtualParameter resmi (RXPower, pppoeUsername, WlanPassword, WlanSSID, getponmode, MacAddress, userconnected, uptimeDevice, vlan) langsung ke server GenieACS Anda (${prefs.serverUrl}).\n\nLanjutkan?")
+            .setMessage("Aplikasi akan memasang 9 skrip VirtualParameter resmi (RXPower, pppoeUsername, WlanPassword, WlanSSID, getponmode, MacAddress, userconnected, uptimeDevice, vlan) langsung ke:\n\n$targetDesc\n\nLanjutkan?")
             .setPositiveButton("Ya, Tanam Sekarang") { _, _ ->
                 executeInstallVp()
             }
@@ -109,26 +121,36 @@ class VirtualParamBottomSheet(
     }
 
     private fun executeInstallVp() {
+        val targets = prefs.getActiveTargetServers()
         binding.btnInstallStandardVp.isEnabled = false
         binding.progressInstallVp.visibility = View.VISIBLE
 
         lifecycleScope.launch {
-            val res = nbiService.installStandardVirtualParameters()
+            var totalInstalled = 0
+            var serversOk = 0
+            for (srv in targets) {
+                val srvService = GenieAcsNbiService(srv.url, srv.username, srv.password)
+                val res = srvService.installStandardVirtualParameters()
+                res.onSuccess { (ok, _) ->
+                    totalInstalled += ok
+                    if (ok > 0) serversOk++
+                }
+            }
             binding.progressInstallVp.visibility = View.GONE
             binding.btnInstallStandardVp.isEnabled = true
 
-            res.onSuccess { (successCount, total) ->
+            if (serversOk > 0) {
                 Toast.makeText(
                     requireContext(),
-                    "Sukses menanam $successCount dari $total VirtualParameter ke server!",
+                    "Sukses menanam $totalInstalled VirtualParameter ke $serversOk server!",
                     Toast.LENGTH_LONG
                 ).show()
                 checkServerVpStatus()
                 onMappingChanged()
-            }.onFailure { err ->
+            } else {
                 Toast.makeText(
                     requireContext(),
-                    "Gagal menanam parameter: ${err.localizedMessage}",
+                    "Gagal menanam parameter ke server target.",
                     Toast.LENGTH_LONG
                 ).show()
             }

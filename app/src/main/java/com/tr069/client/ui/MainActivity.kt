@@ -21,6 +21,7 @@ import com.tr069.client.ui.adapter.DeviceAdapter
 import com.tr069.client.ui.dialog.BulkAdminBottomSheet
 import com.tr069.client.ui.dialog.ServerConfigDialog
 import com.tr069.client.ui.dialog.VoiceAssistBottomSheet
+import com.tr069.client.ui.dialog.MultiServerBottomSheet
 import com.tr069.client.ui.dialog.VirtualParamBottomSheet
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
@@ -107,7 +108,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        binding.tvServerStatus.text = prefs.serverUrl
+        updateServerHeaderLabel()
+        binding.tvServerStatus.setOnClickListener {
+            showServerPickerDialog()
+        }
+        binding.ivGenieLogo.setOnClickListener {
+            showServerPickerDialog()
+        }
 
         updateThemeToggleIcon()
         binding.btnThemeToggle.setOnClickListener {
@@ -171,6 +178,7 @@ class MainActivity : AppCompatActivity() {
     private fun showServerMenu() {
         val currentThemeTitle = if (prefs.themeMode == AppPreferences.THEME_DARK) getString(R.string.theme_light) else getString(R.string.theme_dark)
         val options = arrayOf(
+            "🖥️ Kelola Multi-Server (Tambah/Pilih)",
             "📊 Overview & Charts",
             "⚡ Virtual Parameter & Mapping",
             "${getString(R.string.menu_switch_theme)}: $currentThemeTitle",
@@ -181,20 +189,21 @@ class MainActivity : AppCompatActivity() {
             getString(R.string.menu_logout)
         )
         AlertDialog.Builder(this)
-            .setTitle(prefs.serverUrl)
+            .setTitle("Menu & Pengaturan")
             .setItems(options) { _, which ->
                 when (which) {
-                    0 -> startActivity(Intent(this, OverviewActivity::class.java))
-                    1 -> showVirtualParamBottomSheet()
-                    2 -> toggleTheme()
-                    3 -> showLanguageDialog()
-                    4 -> showBulkAdminDialog()
-                    5 -> showServerDialog()
-                    6 -> {
+                    0 -> showMultiServerDialog()
+                    1 -> startActivity(Intent(this, OverviewActivity::class.java))
+                    2 -> showVirtualParamBottomSheet()
+                    3 -> toggleTheme()
+                    4 -> showLanguageDialog()
+                    5 -> showBulkAdminDialog()
+                    6 -> showServerDialog()
+                    7 -> {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://genieacs-client.alijaya.com/privacy.html"))
                         startActivity(intent)
                     }
-                    7 -> {
+                    8 -> {
                         prefs.clearSession()
                         startActivity(Intent(this, LoginActivity::class.java))
                         finish()
@@ -248,6 +257,7 @@ class MainActivity : AppCompatActivity() {
                     putExtra(DeviceDetailActivity.EXTRA_DEVICE_ID, device.id)
                     val modelName = if (device.manufacturer != "Unknown") "${device.manufacturer} ${device.productClass}" else device.productClass
                     putExtra(DeviceDetailActivity.EXTRA_DEVICE_MODEL, modelName)
+                    putExtra(DeviceDetailActivity.EXTRA_SERVER_ID, device.serverId)
                 }
                 startActivity(intent)
             },
@@ -255,7 +265,13 @@ class MainActivity : AppCompatActivity() {
                 button.isEnabled = false
                 button.text = "⏳..."
                 lifecycleScope.launch {
-                    val res = nbiService.summonDevice(device.id)
+                    val targetSrv = if (device.serverId.isNotBlank()) prefs.getServerById(device.serverId) else null
+                    val srvService = if (targetSrv != null) {
+                        GenieAcsNbiService(targetSrv.url, targetSrv.username, targetSrv.password)
+                    } else {
+                        nbiService
+                    }
+                    val res = srvService.summonDevice(device.id)
                     res.onSuccess {
                         Toast.makeText(this@MainActivity, "⚡ Mengirim Summon ke ${device.serialNumber}...", Toast.LENGTH_SHORT).show()
                         delay(2500)
@@ -298,9 +314,77 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateServiceInstance() {
-        binding.tvServerStatus.text = prefs.serverUrl
-        nbiService = GenieAcsNbiService(prefs.serverUrl, prefs.username, prefs.password)
+        updateServerHeaderLabel()
+        val firstTarget = prefs.getActiveTargetServers().firstOrNull()
+        nbiService = if (firstTarget != null) {
+            GenieAcsNbiService(firstTarget.url, firstTarget.username, firstTarget.password)
+        } else {
+            GenieAcsNbiService(prefs.serverUrl, prefs.username, prefs.password)
+        }
         applyCustomVpKeys()
+    }
+
+    private fun updateServerHeaderLabel() {
+        val enabledServers = prefs.getEnabledServerProfiles()
+        val selectedId = prefs.selectedServerId
+        if (enabledServers.isEmpty()) {
+            binding.tvServerStatus.text = "Belum ada server aktif ▾"
+            adapter.showServerBadge = false
+        } else if (enabledServers.size == 1) {
+            val single = enabledServers.first()
+            binding.tvServerStatus.text = "🖥️ ${single.name} ▾"
+            adapter.showServerBadge = false
+        } else if (selectedId == AppPreferences.SERVER_ALL) {
+            binding.tvServerStatus.text = "🌐 Semua Server (${enabledServers.size}) ▾"
+            adapter.showServerBadge = true
+        } else {
+            val chosen = enabledServers.firstOrNull { it.id == selectedId }
+            binding.tvServerStatus.text = if (chosen != null) "🖥️ ${chosen.name} ▾" else "🌐 Semua Server (${enabledServers.size}) ▾"
+            adapter.showServerBadge = false
+        }
+    }
+
+    private fun showServerPickerDialog() {
+        val enabledServers = prefs.getEnabledServerProfiles()
+        val items = mutableListOf<String>()
+        val ids = mutableListOf<String>()
+
+        if (enabledServers.size > 1) {
+            val isAll = prefs.selectedServerId == AppPreferences.SERVER_ALL
+            val mark = if (isAll) " ✓" else ""
+            items.add("🌐 Semua Server (${enabledServers.size} Aktif)$mark")
+            ids.add(AppPreferences.SERVER_ALL)
+        }
+        for (srv in enabledServers) {
+            val isSelected = (prefs.selectedServerId == srv.id) || (enabledServers.size == 1)
+            val mark = if (isSelected) " ✓" else ""
+            items.add("🖥️ ${srv.name} (${prefs.extractCleanHostName(srv.url)})$mark")
+            ids.add(srv.id)
+        }
+        items.add("⚙️ Kelola / Tambah Multi-Server...")
+        ids.add("MANAGE")
+
+        AlertDialog.Builder(this)
+            .setTitle("Pilih Tampilan Server GenieACS")
+            .setItems(items.toTypedArray()) { _, which ->
+                val picked = ids[which]
+                if (picked == "MANAGE") {
+                    showMultiServerDialog()
+                } else {
+                    prefs.selectedServerId = picked
+                    updateServiceInstance()
+                    loadDevices(silent = false)
+                }
+            }
+            .show()
+    }
+
+    private fun showMultiServerDialog() {
+        val sheet = MultiServerBottomSheet {
+            updateServiceInstance()
+            loadDevices(silent = false)
+        }
+        sheet.show(supportFragmentManager, "MultiServerBottomSheet")
     }
 
     private fun applyCustomVpKeys() {
@@ -351,6 +435,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadDevices(silent: Boolean = false) {
+        val targets = prefs.getActiveTargetServers()
+        if (targets.isEmpty()) {
+            binding.swipeRefresh.isRefreshing = false
+            binding.progressBar.visibility = View.GONE
+            allDevices = emptyList()
+            updateStats(emptyList())
+            applyFilterAndSearch()
+            binding.layoutEmpty.visibility = View.VISIBLE
+            binding.tvEmptyMessage.text = "Belum ada server aktif.\nKetuk header server di atas untuk menambah atau mengaktifkan server."
+            return
+        }
+
         if (!silent) {
             binding.swipeRefresh.isRefreshing = true
             binding.progressBar.visibility = if (allDevices.isEmpty()) View.VISIBLE else View.GONE
@@ -358,24 +454,39 @@ class MainActivity : AppCompatActivity() {
         binding.layoutEmpty.visibility = View.GONE
 
         lifecycleScope.launch {
-            val res = nbiService.getDevices()
+            val multiRes = GenieAcsNbiService.fetchDevicesFromServers(
+                servers = targets,
+                customRxKeys = parseCustomKeys(prefs.customVpRxPower),
+                customPppoeKeys = parseCustomKeys(prefs.customVpPppoe),
+                customSsidKeys = parseCustomKeys(prefs.customVpSsid),
+                customCustKeys = parseCustomKeys(prefs.customVpCustName),
+                customPonKeys = parseCustomKeys(prefs.customVpPonMode)
+            )
             binding.swipeRefresh.isRefreshing = false
             binding.progressBar.visibility = View.GONE
 
-            res.onSuccess { list ->
+            val list = multiRes.devices
+            val failed = multiRes.failedServers
+
+            if (list.isNotEmpty() || failed.isEmpty()) {
                 allDevices = list
                 updateStats(list)
                 applyFilterAndSearch()
                 try {
                     prefs.cachedDevicesJson = com.google.gson.Gson().toJson(list)
                 } catch (_: Exception) {}
-            }.onFailure { err ->
-                if (!silent) {
-                    Toast.makeText(this@MainActivity, "Koneksi gagal: ${err.localizedMessage}", Toast.LENGTH_LONG).show()
-                }
-                if (allDevices.isEmpty()) {
-                    binding.layoutEmpty.visibility = View.VISIBLE
-                    binding.tvEmptyMessage.text = "Gagal terhubung ke ${prefs.serverUrl}\n\nPastikan port NBI (7557) aktif dan dapat diakses dari jaringan ini."
+            }
+
+            if (failed.isNotEmpty() && !silent) {
+                val errSummary = failed.joinToString("\n") { "• ${it.first}: ${it.second}" }
+                if (list.isEmpty()) {
+                    Toast.makeText(this@MainActivity, "Koneksi gagal ke semua server!", Toast.LENGTH_LONG).show()
+                    if (allDevices.isEmpty()) {
+                        binding.layoutEmpty.visibility = View.VISIBLE
+                        binding.tvEmptyMessage.text = "Gagal terhubung ke server:\n\n$errSummary"
+                    }
+                } else {
+                    Toast.makeText(this@MainActivity, "Sebagian server bermasalah (${failed.size}): ${failed.first().first}", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -429,6 +540,7 @@ class MainActivity : AppCompatActivity() {
                     dev.ssid.lowercase().contains(q) ||
                     dev.id.lowercase().contains(q) ||
                     (dev.odpName != null && dev.odpName.lowercase().contains(q)) ||
+                    dev.serverName.lowercase().contains(q) ||
                     dev.tags.any { it.lowercase().contains(q) }
                 }
             }

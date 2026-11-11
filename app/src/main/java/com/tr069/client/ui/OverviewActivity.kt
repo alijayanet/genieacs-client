@@ -53,7 +53,12 @@ class OverviewActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        binding.tvServerSubtitle.text = prefs.serverUrl
+        val targets = prefs.getActiveTargetServers()
+        binding.tvServerSubtitle.text = if (targets.size > 1) {
+            "🌐 Semua Server (${targets.size} Aktif)"
+        } else {
+            targets.firstOrNull()?.let { "🖥️ ${it.name} (${it.url})" } ?: prefs.serverUrl
+        }
         binding.btnBack.setOnClickListener {
             finish()
         }
@@ -77,24 +82,37 @@ class OverviewActivity : AppCompatActivity() {
     }
 
     private fun loadLiveDevices(silent: Boolean) {
+        val targets = prefs.getActiveTargetServers()
+        if (targets.isEmpty()) {
+            binding.swipeRefresh.isRefreshing = false
+            return
+        }
         if (!silent) {
             binding.swipeRefresh.isRefreshing = true
         }
 
+        fun parseKeys(raw: String) = if (raw.isBlank()) emptyList() else raw.split(",", ";").map { it.trim() }.filter { it.isNotEmpty() }
+
         lifecycleScope.launch {
-            val res = nbiService.getDevices()
+            val multiRes = GenieAcsNbiService.fetchDevicesFromServers(
+                servers = targets,
+                customRxKeys = parseKeys(prefs.customVpRxPower),
+                customPppoeKeys = parseKeys(prefs.customVpPppoe),
+                customSsidKeys = parseKeys(prefs.customVpSsid),
+                customCustKeys = parseKeys(prefs.customVpCustName),
+                customPonKeys = parseKeys(prefs.customVpPonMode)
+            )
             binding.swipeRefresh.isRefreshing = false
 
-            res.onSuccess { list ->
+            val list = multiRes.devices
+            if (list.isNotEmpty() || multiRes.failedServers.isEmpty()) {
                 allDevices = list
                 renderAllCharts(list)
                 try {
                     prefs.cachedDevicesJson = Gson().toJson(list)
                 } catch (_: Exception) {}
-            }.onFailure { err ->
-                if (!silent) {
-                    Toast.makeText(this@OverviewActivity, "Gagal memuat overview: ${err.localizedMessage}", Toast.LENGTH_SHORT).show()
-                }
+            } else if (!silent) {
+                Toast.makeText(this@OverviewActivity, "Gagal memuat overview dari server", Toast.LENGTH_SHORT).show()
             }
         }
     }

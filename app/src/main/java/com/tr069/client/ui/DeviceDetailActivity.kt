@@ -49,13 +49,19 @@ class DeviceDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         prefs = AppPreferences(this)
-        nbiService = GenieAcsNbiService(prefs.serverUrl, prefs.username, prefs.password)
+        val serverId = intent.getStringExtra(EXTRA_SERVER_ID) ?: ""
+        val targetServer = if (serverId.isNotBlank()) prefs.getServerById(serverId) else null
+        nbiService = if (targetServer != null) {
+            GenieAcsNbiService(targetServer.url, targetServer.username, targetServer.password)
+        } else {
+            GenieAcsNbiService(prefs.serverUrl, prefs.username, prefs.password)
+        }
 
         deviceId = intent.getStringExtra(EXTRA_DEVICE_ID) ?: ""
         val initialModel = intent.getStringExtra(EXTRA_DEVICE_MODEL) ?: "Modem"
 
         binding.tvDetailTitle.text = initialModel
-        binding.tvDetailSubtitle.text = deviceId
+        binding.tvDetailSubtitle.text = if (targetServer != null) "🖥️ ${targetServer.name} • $deviceId" else deviceId
 
         binding.toolbar.setNavigationOnClickListener {
             finish()
@@ -596,5 +602,6 @@ class DeviceDetailActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_DEVICE_ID = "extra_device_id"
         const val EXTRA_DEVICE_MODEL = "extra_device_model"
+        const val EXTRA_SERVER_ID = "extra_server_id"
     }
 }

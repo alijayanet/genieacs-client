@@ -56,15 +56,36 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Serial Number -->
-        <TextView
-            android:id="@+id/tvSerial"
-            android:layout_width="wrap_content"
+        <!-- Serial Number & Server Origin -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="SN: ZTEGCB97B6A8"
-            android:textColor="@color/genie_text_muted"
-            android:textSize="12sp" />
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvSerial"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SN: ZTEGCB97B6A8"
+                android:textColor="@color/genie_text_muted"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvServerOriginBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_badge_pill"
+                android:paddingHorizontal="7dp"
+                android:paddingVertical="2dp"
+                android:text="🖥️ Pusat"
+                android:textColor="@color/genie_cyan"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"

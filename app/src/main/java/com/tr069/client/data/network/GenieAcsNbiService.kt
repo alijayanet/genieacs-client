@@ -3,6 +3,7 @@ package com.tr069.client.data.network
 import com.tr069.client.data.model.ConnectedClient
 import com.tr069.client.data.model.DeviceDetail
 import com.tr069.client.data.model.DeviceItem
+import com.tr069.client.data.model.ServerProfile
 import com.tr069.client.data.model.WlanInstance
 import com.tr069.client.data.model.WanItem
 import com.tr069.client.data.model.WanConfigParams
@@ -11,6 +12,9 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import okhttp3.Credentials
 import okhttp3.FormBody
@@ -38,6 +42,11 @@ class GenieAcsNbiService(
     var customSsidKeys: List<String> = emptyList()
     var customCustNameKeys: List<String> = emptyList()
     var customPonModeKeys: List<String> = emptyList()
+
+    data class MultiServerResult(
+        val devices: List<DeviceItem>,
+        val failedServers: List<Pair<String, String>>
+    )
 
     private val client = OkHttpClient.Builder()
         .connectTimeout(12, TimeUnit.SECONDS)
@@ -194,9 +203,48 @@ class GenieAcsNbiService(
             }
             return sb.toString()
         }
+
+        suspend fun fetchDevicesFromServers(
+            servers: List<ServerProfile>,
+            customRxKeys: List<String> = emptyList(),
+            customPppoeKeys: List<String> = emptyList(),
+            customSsidKeys: List<String> = emptyList(),
+            customCustKeys: List<String> = emptyList(),
+            customPonKeys: List<String> = emptyList()
+        ): MultiServerResult = coroutineScope {
+            if (servers.isEmpty()) return@coroutineScope MultiServerResult(emptyList(), emptyList())
+
+            val deferreds = servers.map { server ->
+                async(Dispatchers.IO) {
+                    val service = GenieAcsNbiService(server.url, server.username, server.password).apply {
+                        this.customRxPowerKeys = customRxKeys
+                        this.customPppoeKeys = customPppoeKeys
+                        this.customSsidKeys = customSsidKeys
+                        this.customCustNameKeys = customCustKeys
+                        this.customPonModeKeys = customPonKeys
+                    }
+                    val res = service.getDevices(server)
+                    server to res
+                }
+            }
+
+            val allDevices = mutableListOf<DeviceItem>()
+            val failedServers = mutableListOf<Pair<String, String>>()
+
+            val results = deferreds.awaitAll()
+            for ((server, result) in results) {
+                result.onSuccess { list ->
+                    allDevices.addAll(list)
+                }.onFailure { err ->
+                    failedServers.add(server.name to (err.localizedMessage ?: "Gagal terhubung"))
+                }
+            }
+
+            MultiServerResult(allDevices, failedServers)
+        }
     }
 
-    suspend fun getDevices(): Result<List<DeviceItem>> = withContext(Dispatchers.IO) {
+    suspend fun getDevices(serverProfile: ServerProfile? = null): Result<List<DeviceItem>> = withContext(Dispatchers.IO) {
         try {
             // Highly optimized targeted projection across ALL ONU vendors (ZTE, Huawei, Fiberhome, VSOL, XPON, etc.)
             val fastProjectionFields = mutableListOf(
@@ -260,7 +308,7 @@ class GenieAcsNbiService(
                 for (el in jsonArr) {
                     if (!el.isJsonObject) continue
                     val obj = el.asJsonObject
-                    val item = parseDeviceItem(obj)
+                    val item = parseDeviceItem(obj, serverProfile)
                     list.add(item)
                 }
                 Result.success(list)
@@ -1445,7 +1493,7 @@ class GenieAcsNbiService(
         return null
     }
 
-    private fun parseDeviceItem(obj: JsonObject): DeviceItem {
+    private fun parseDeviceItem(obj: JsonObject, serverProfile: ServerProfile? = null): DeviceItem {
         val id = obj.get("_id")?.asString ?: ""
 
         val deviceIdObj = obj.getAsJsonObject("_deviceId")
@@ -1573,7 +1621,10 @@ class GenieAcsNbiService(
             odpName = geo.odpName,
             odpLat = geo.odpLat,
             odpLng = geo.odpLng,
-            ponMode = ponMode
+            ponMode = ponMode,
+            serverId = serverProfile?.id ?: "",
+            serverName = serverProfile?.name ?: "",
+            serverUrl = serverProfile?.url ?: baseUrl
         )
     }
 

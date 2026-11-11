@@ -328,7 +328,7 @@ class VoiceAssistBottomSheet(
         if (targetDevice != null && (text.contains("summon") || (text.contains("update") && text.contains("modem")) || text.contains("tarik"))) {
             binding.tvVoiceStatus.text = "Mengirim perintah summon ke modem ${targetDevice.pppoeUsername}..."
             lifecycleScope.launch {
-                val res = nbiService.summonDevice(targetDevice.id)
+                val res = getServiceForDevice(targetDevice).summonDevice(targetDevice.id)
                 res.onSuccess {
                     val answer = "Perintah summon berhasil dikirim ke modem ${targetDevice.pppoeUsername}. Modem sedang mengirimkan data live terbaru."
                     showResultCard("Summon Live", answer)
@@ -346,7 +346,7 @@ class VoiceAssistBottomSheet(
         if (targetDevice != null && (text.contains("sandi") || text.contains("password")) && !text.contains("ganti") && !text.contains("ubah")) {
             binding.tvVoiceStatus.text = "Mengambil data WiFi dari modem..."
             lifecycleScope.launch {
-                val res = nbiService.getDeviceDetail(targetDevice.id)
+                val res = getServiceForDevice(targetDevice).getDeviceDetail(targetDevice.id)
                 res.onSuccess { detail ->
                     val pass = detail.password24
                     val ssid = detail.ssid24
@@ -505,8 +505,20 @@ class VoiceAssistBottomSheet(
         binding.btnCardCommit.visibility = if (showCommitBtn) View.VISIBLE else View.GONE
     }
 
+    private fun getServiceForDevice(dev: DeviceItem?): GenieAcsNbiService {
+        val srvId = dev?.serverId ?: ""
+        val srv = if (srvId.isNotBlank()) prefs.getServerById(srvId) else null
+        return if (srv != null) GenieAcsNbiService(srv.url, srv.username, srv.password) else nbiService
+    }
+
+    private fun getServiceForDeviceId(devId: String): GenieAcsNbiService {
+        val dev = allDevices.find { it.id == devId }
+        return getServiceForDevice(dev)
+    }
+
     private fun executePendingAction() {
         val devId = pendingDeviceId ?: return
+        val devService = getServiceForDeviceId(devId)
         binding.btnCardCommit.isEnabled = false
 
         lifecycleScope.launch {
@@ -518,7 +530,7 @@ class VoiceAssistBottomSheet(
                         binding.btnCardCommit.isEnabled = true
                         return@launch
                     }
-                    val res = nbiService.commitWifi(devId, "", newPass)
+                    val res = devService.commitWifi(devId, "", newPass)
                     res.onSuccess {
                         val successMsg = "Sandi WiFi berhasil diperbarui ke modem!"
                         showResultCard("Sukses", successMsg)
@@ -535,7 +547,7 @@ class VoiceAssistBottomSheet(
                         binding.btnCardCommit.isEnabled = true
                         return@launch
                     }
-                    val res = nbiService.commitWifi(devId, newSsid, "")
+                    val res = devService.commitWifi(devId, newSsid, "")
                     res.onSuccess {
                         val successMsg = "Nama WiFi (SSID) berhasil diubah menjadi $newSsid!"
                         showResultCard("Sukses", successMsg)
@@ -546,7 +558,7 @@ class VoiceAssistBottomSheet(
                     }
                 }
                 "REBOOT" -> {
-                    val res = nbiService.rebootDevice(devId)
+                    val res = devService.rebootDevice(devId)
                     res.onSuccess {
                         val successMsg = "Perintah restart berhasil dikirim ke modem!"
                         showResultCard("Sukses", successMsg)
